@@ -10,7 +10,7 @@ const config = merge(base, {
       maxSize: 0,
       minChunks: 1,
       maxAsyncRequests: 5,
-      maxInitialRequests: 3,
+      maxInitialRequests: 6,
       automaticNameDelimiter: '~',
       name: true,
       cacheGroups: {
@@ -27,8 +27,20 @@ const config = merge(base, {
           priority: -10
         },
         c: {
+          test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+          name: 'bootstrap',
+          chunks: 'all',
+          priority: -10
+        },
+        d: {
           test: /[\\/]node_modules[\\/]bootstrap-table[\\/]/,
           name: 'bootstrap-table',
+          chunks: 'all',
+          priority: -10
+        },
+        e: {
+          test: /[\\/]node_modules[\\/]admin-lte[\\/]/,
+          name: 'admin-lte',
           chunks: 'all',
           priority: -10
         },

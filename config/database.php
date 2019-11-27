@@ -1,27 +1,20 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
+
+use think\facade\Env;
 
 return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => Env::get('db.hostname', '127.0.0.1'),
     // 数据库名
-    'database'        => '',
+    'database'        => Env::get('db.database', ''),
     // 用户名
-    'username'        => 'root',
+    'username'        => Env::get('db.username', 'root'),
     // 密码
-    'password'        => '',
+    'password'        => Env::get('db.password', ''),
     // 端口
-    'hostport'        => '',
+    'hostport'        => Env::get('db.hostport', ''),
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -29,7 +22,7 @@ return [
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀
-    'prefix'          => '',
+    'prefix'          => Env::get('db.prefix', ''),
     // 数据库调试模式
     'debug'           => true,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
