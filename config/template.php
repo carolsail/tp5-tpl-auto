@@ -32,4 +32,10 @@ return [
     'taglib_begin' => '{',
     // 标签库标签结束标记
     'taglib_end'   => '}',
+    // 模板变量
+    'tpl_replace_string'=>[
+        '__PUBLIC__' => request()->root(),
+        '__STATIC__' => request()->root() . '/static',
+        '__DIST__' => request()->root() . '/static/dist',
+    ]
 ];

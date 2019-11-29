@@ -7,7 +7,7 @@ class Index extends Frontend
 {
     public function index()
     {
-        return view();
+    	return 'index page';
     }
 
     public function hello($name = 'ThinkPHP5')
