@@ -1,44 +1,24 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+// 得到package.json中的参数 --env.admin 转换成 一个对象 {admin: true}
+const { env } = require('minimist')(process.argv.slice(2));
 
-const output = '../public/static/dist'
+// 判断如果是admin那就执行 webpack.admin.js 构建后台项目，构建之后return就不会往下执行了
+if (env && env.admin) {
+  require(`${__dirname}/webpack.admin.js`)
+  return
+}
 
-mix.autoload({
-  jquery: ['$', 'jQuery', 'jquery', 'window.jQuery'],
+// 前台项目的构建规则
+if (mix.inProduction()) {
+  mix.version()
+}
+
+mix.webpackConfig({
+  output: {
+    publicPath: '/frontend/', // 设置默认打包目录
+    chunkFilename: `js/[name].${mix.inProduction() ? '[chunkhash].' : ''}js`, // 路由懒加载的时候打包出来的js文件
+    // libraryTarget: "var",
+    // library: "I"
+  }
 });
-
-mix.js('assets/js/admin-lte.js', `${output}/js`)
-  .sass('assets/sass/admin-lte.scss', `${output}/css`);
-
-mix.js('assets/js/backend/test.js', `${output}/js`)
-  .webpackConfig({
-    output: {
-      libraryTarget: "var",
-      library: "I"
-    }
-  });
-
-mix.extract([
-  'admin-lte',
-  'axios',
-  'bootstrap-sass',
-  'fastclick',
-  'jquery',
-  'jquery-slimscroll',
-  'lodash',
-  'vue',
-], `${output}/js/vendor.js`);
-
-mix.version();
-
-mix.setPublicPath(output);

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {include file="common/meta" /}
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+  <div class="wrapper">
+    <header class="main-header">
+      {include file='common/header' /}
+    </header>
+    
+    <aside class="main-sidebar">
+      {include file='common/menu' /}
+    </aside>
+  
+    <div class="content-wrapper">
+      <section class="content-header">
+        <h1>
+          Dashboard
+          <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">Dashboard</li>
+        </ol>
+      </section>
+      <section class="content">
+        {__CONTENT__}
+      </section>
+    </div>
+
+    <footer class="main-footer hidden">
+      {include file='common/footer' /}
+    </footer>
+  
+    <aside class="control-sidebar control-sidebar-dark">
+        {include file='common/control' /}
+    </aside>
+    <div class="control-sidebar-bg"></div>
+  </div>
+  
+  {include file="common/script" /}
+</body>
+</html>

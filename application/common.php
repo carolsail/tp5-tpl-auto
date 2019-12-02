@@ -21,15 +21,15 @@ if (! function_exists('mix')) {
         }
 
         if ($manifestDirectory && ! starts_with($manifestDirectory, '/')) {
-            $manifestDirectory = "/{$manifestDirectory}";
+            $manifestDirectory = "/static/dist/{$manifestDirectory}";
         }
-
+ 
         if (file_exists(public_path($manifestDirectory.'/hot'))) {
             return "//localhost:8080{$path}";
         }
 
-        $manifestPath = public_path($manifestDirectory.'/static/dist/mix-manifest.json');
-
+        $manifestPath = public_path($manifestDirectory.'/mix-manifest.json');
+        
         if (! isset($manifests[$manifestPath])) {
             if (! file_exists($manifestPath)) {
                 throw new Exception('The Mix manifest does not exist.');
@@ -37,7 +37,7 @@ if (! function_exists('mix')) {
 
             $manifests[$manifestPath] = json_decode(file_get_contents($manifestPath), true);
         }
-
+        
         $manifest = $manifests[$manifestPath];
         if (! isset($manifest[$path])) {
             throw new Exception(
@@ -45,7 +45,8 @@ if (! function_exists('mix')) {
                 'webpack.mix.js output paths and try again.'
             );
         }
-        return $manifestDirectory.$manifest[$path];
+        
+        return request()->root().$manifestDirectory.$manifest[$path];
     }
 }
 

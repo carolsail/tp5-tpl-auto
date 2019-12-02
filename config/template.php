@@ -34,8 +34,6 @@ return [
     'taglib_end'   => '}',
     // 模板变量
     'tpl_replace_string'=>[
-        '__PUBLIC__' => request()->root(),
-        '__STATIC__' => request()->root() . '/static',
-        '__DIST__' => request()->root() . '/static/dist',
+        '__PUBLIC__' => request()->root()
     ]
 ];

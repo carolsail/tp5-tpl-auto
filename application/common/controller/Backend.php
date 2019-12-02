@@ -7,7 +7,12 @@ use think\facade\Hook;
 
 class Backend extends Controller
 {
-	
+	/**
+     * 布局模板
+     * @var string
+     */
+    protected $layout = 'default';
+
 	public function initialize()
     {
     	//移除HTML标签
@@ -20,7 +25,12 @@ class Backend extends Controller
     		'module_name' => $module_name,
     		'controller_name' => $controller_name,
     		'action_name' => $action_name
-    	];
+        ];
+        
+        // 如果有使用模板布局
+        if ($this->layout) {
+            $this->view->engine->layout('layout/' . $this->layout);
+        }
 
     	// 配置信息后
         Hook::listen("config_init", $config);
