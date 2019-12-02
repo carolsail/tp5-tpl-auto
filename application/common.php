@@ -1,5 +1,7 @@
 <?php
 
+use think\facade\Env;
+
 // 应用公共文件
 
 if (! function_exists('mix')) {
@@ -24,12 +26,12 @@ if (! function_exists('mix')) {
             $manifestDirectory = "/static/dist/{$manifestDirectory}";
         }
  
-        if (file_exists(public_path($manifestDirectory.'/hot'))) {
+        if (file_exists(public_folder($manifestDirectory.'/hot'))) {
             return "//localhost:8080{$path}";
         }
 
-        $manifestPath = public_path($manifestDirectory.'/mix-manifest.json');
-        
+        $manifestPath = public_folder($manifestDirectory.'/mix-manifest.json');
+
         if (! isset($manifests[$manifestPath])) {
             if (! file_exists($manifestPath)) {
                 throw new Exception('The Mix manifest does not exist.');
@@ -46,7 +48,7 @@ if (! function_exists('mix')) {
             );
         }
         
-        return request()->root().$manifestDirectory.$manifest[$path];
+        return public_path($manifestDirectory.$manifest[$path]);
     }
 }
 
@@ -70,19 +72,35 @@ if (! function_exists('starts_with')) {
     }
 }
 
-if (! function_exists('public_path')) {
+if (! function_exists('public_folder')) {
     /**
      * Get the path to the public folder.
      *
      * @param  string  $path
      * @return string
      */
-    function public_path($path = '')
+    function public_folder($path = '')
     {
         if ($path) {
-            $path = '/' . ltrim($path, '/');
-            $path = '.' . DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+            $path = Env::get('root_path') . 'public/' . ltrim($path, '/');
+            // $path = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+        }else {
+            $path = Env::get('root_path') . 'public/';
         }
         return $path;
+    }
+}
+
+if (! function_exists('public_path')) {
+    /** 
+     * public路径, 模板中静态资源引用
+     * @param  string  $path
+     * @return string
+     */
+    function public_path($path = '')
+    {
+        //去index.php
+        $path = '/' . ltrim($path, '/');
+        return str_replace('/index.php', '', request()->root()) . $path;
     }
 }

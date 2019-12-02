@@ -4,6 +4,7 @@ namespace app\common\controller;
 
 use think\Controller;
 use think\facade\Hook;
+use think\Loader;
 
 class Backend extends Controller
 {
@@ -18,13 +19,14 @@ class Backend extends Controller
     	//移除HTML标签
         $this->request->filter('strip_tags');
         $module_name = $this->request->module();
-        $controller_name = strtolower($this->request->controller());
+        $controller_name = Loader::parseName($this->request->controller());
         $action_name = strtolower($this->request->action());
 
     	$config = [
     		'module_name' => $module_name,
     		'controller_name' => $controller_name,
-    		'action_name' => $action_name
+            'action_name' => $action_name,
+            'base_url' => rtrim(url("/", '', false), '/')
         ];
         
         // 如果有使用模板布局

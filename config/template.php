@@ -31,9 +31,5 @@ return [
     // 标签库标签开始标记
     'taglib_begin' => '{',
     // 标签库标签结束标记
-    'taglib_end'   => '}',
-    // 模板变量
-    'tpl_replace_string'=>[
-        '__PUBLIC__' => request()->root()
-    ]
+    'taglib_end'   => '}'
 ];
