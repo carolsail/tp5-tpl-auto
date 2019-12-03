@@ -6,7 +6,7 @@ var Form = {
     events: {
         validator: function (form, success, error, submit) {
             if (!form.is("form"))
-                return;
+                return
 
             var submitBtn = $("[type=submit]", form)
             var resetBtn = $("[type=reset]", form)
@@ -18,7 +18,6 @@ var Form = {
                     submitBtn.attr('disabled', true)
                     resetBtn.attr('disabled', true)
                     var submitResult =  Form.api.submit($(this), function (data, ret) {
-                        console.log(111111,data, ret)
                         submitBtn.removeClass("disabled");
                         if (false === $(this).triggerHandler("success.form", [data, ret])) {
                             return false;
@@ -28,6 +27,7 @@ var Form = {
                                 return false;
                             }
                         }
+                        console.log(data, ret)
                         //提示及关闭当前窗口
                         var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : __('Operation completed');
                         parent.Toastr.success(msg);
@@ -36,7 +36,6 @@ var Form = {
                         parent.Layer.close(index);
                         return false;
                     }, function (data, ret) {
-                        console.log(222222,data, ret)
                         if (false === $(this).triggerHandler("error.form", [data, ret])) {
                             return false;
                         }
@@ -47,7 +46,6 @@ var Form = {
                             }
                         }
                     }, submit)
-                    console.log(submitResult,33333)
                     //如果提交失败则释放锁定
                     if (!submitResult) {
                         submitBtn.removeAttr("disabled")
@@ -370,7 +368,7 @@ var Form = {
         // }
     },
     api: {
-        submit: function (form, success, error, submit) {
+        submit(form, success, error, submit) {
             if (form.length === 0) {
                 Toastr.error("表单未初始化完成,无法提交")
                 return false

@@ -37,26 +37,29 @@ function onAjaxResponse(response) {
 
 // 发送Ajax请求
 export function ajax(options, success, error) {
-  options = typeof options === 'string' ? {url: options} : options;
-  var index = Layer.load()
+  options = typeof options === 'string' ? {url: options} : options
+  var index
+  if (typeof options.loading === 'undefined' || options.loading) {
+      index = Layer.load(options.loading || 0)
+  }
   options = $.extend({
     type: "POST",
     dataType: "json",
     success(ret) {
-      Layer.close(index)
+      index && Layer.close(index)
       ret = onAjaxResponse(ret)
       if (ret.code === 1) {
         onAjaxSuccess(ret, success)
       } else {
-        onAjaxError(ret)
+        onAjaxError(ret, error)
       }
     },
     error(xhr) {
-      Layer.close(index)
+      index && Layer.close(index)
       var ret = {code: xhr.status, msg: xhr.statusText, data: null}
       onAjaxError(ret, error)
     }
   }, options)
 
-  $.ajax(options)
+  return $.ajax(options)
 }
