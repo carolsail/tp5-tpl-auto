@@ -1,5 +1,8 @@
 <script src="{:mix('/js/manifest.js', 'backend')}" charset="utf-8"></script>
 <script src="{:mix('/js/vendor.js', 'backend')}" charset="utf-8"></script>
 <script src="{:mix('/js/admin-lte.js', 'backend')}" charset="utf-8"></script>
+
+{if mix('/js/'.$config['controller_name'].'.js', 'backend')}
 <script src="{:mix('/js/'.$config['controller_name'].'.js', 'backend')}" charset="utf-8"></script>
 <script type="text/javascript">I['{$config.action_name}'] != undefined && I['{$config.action_name}']()</script>
+{/if}

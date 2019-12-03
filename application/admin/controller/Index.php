@@ -6,7 +6,8 @@ use app\common\controller\Backend;
 
 class Index extends Backend
 {
-	public function index(){
-		return  'admin index page';
-	}
+    public function index()
+    {
+        return view();
+    }
 }

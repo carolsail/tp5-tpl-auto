@@ -42,10 +42,11 @@ if (! function_exists('mix')) {
         
         $manifest = $manifests[$manifestPath];
         if (! isset($manifest[$path])) {
-            throw new Exception(
-                "Unable to locate Mix file: {$path}. Please check your ".
-                'webpack.mix.js output paths and try again.'
-            );
+            // throw new Exception(
+            //     "Unable to locate Mix file: {$path}. Please check your ".
+            //     'webpack.mix.js output paths and try again.'
+            // );
+            return false;
         }
         
         return public_path($manifestDirectory.$manifest[$path]);
@@ -83,8 +84,8 @@ if (! function_exists('public_folder')) {
     {
         if ($path) {
             $path = Env::get('root_path') . 'public/' . ltrim($path, '/');
-            // $path = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
-        }else {
+        // $path = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+        } else {
             $path = Env::get('root_path') . 'public/';
         }
         return $path;
@@ -92,7 +93,7 @@ if (! function_exists('public_folder')) {
 }
 
 if (! function_exists('public_path')) {
-    /** 
+    /**
      * public路径, 模板中静态资源引用
      * @param  string  $path
      * @return string

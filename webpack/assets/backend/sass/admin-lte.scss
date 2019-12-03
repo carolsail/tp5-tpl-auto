@@ -16,3 +16,11 @@
 // AdminLTE
 @import "~admin-lte/dist/css/AdminLTE";
 @import "~admin-lte/dist/css/skins/_all-skins";
+
+// 扩展
+@import "~layerui/dist/theme/default/layer.css";
+@import '~toastr/toastr.scss';
+@import '~bootstrap-table/dist/bootstrap-table.min.css';
+@import '~parsleyjs/src/parsley.css';
+@import '~select2/dist/css/select2.css';
+@import '~bootstrap-daterangepicker/daterangepicker.scss';
