@@ -1,0 +1,44 @@
+<form action="{:url('/admin/test/form')}" method='POST' data-parsley-validate="true" novalidate>
+  <div class="box box-info">
+    <div class="box-header">
+      <h3 class="box-title">Form Demo</h3>
+      <div class="pull-right box-tools">
+        <button type="button" class="btn btn-info btn-sm" data-widget="collapse">
+          <i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="box-body text-black">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>名稱 <span class="text-danger">*</span></label>
+            <div class="controls">
+                <input type="text" name="row[name]" class="form-control" placeholder="名稱" data-parsley-required="true">
+            </div>
+          </div>
+        
+          <div class="form-group">
+            <label>電郵 <span class="text-danger">*</span></label>
+            <div class="controls">
+                <input type="email" name="row[email]" class="form-control" placeholder="電郵" data-parsley-email="true">
+            </div>
+          </div>
+        
+          <div class="form-group">
+            <label>電話</label>
+            <div class="controls">
+                <input type="text" name="row[mobile]" placeholder="電話" class="form-control" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-footer">
+      <button type="submit" class="btn btn-primary" disabled>submit</button>
+      <button type="reset" class="btn btn-default">reset</button>
+    </div>
+  </div>
+</form>

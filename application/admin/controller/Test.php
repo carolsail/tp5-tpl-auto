@@ -16,6 +16,9 @@ class Test extends Backend
 
     public function form()
     {
+        if ($this->request->isPost()) {
+            $this->error('error');
+        }
         return view();
     }
 }
