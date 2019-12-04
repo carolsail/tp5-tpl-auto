@@ -17,8 +17,17 @@ class Test extends Backend
     public function form()
     {
         if ($this->request->isPost()) {
-            $this->success('error');
+            $this->success('');
         }
+        return view();
+    }
+
+    public function formModal()
+    {
+        if ($this->request->isPost()) {
+            $this->success('');
+        }
+        $this->view->engine->layout(false);
         return view();
     }
 }

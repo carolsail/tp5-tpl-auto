@@ -1,15 +1,14 @@
-<form action="{:url('/admin/test/form')}" method='POST' data-parsley-validate="true" novalidate>
+<form role="form" action="{:url('/admin/test/form')}" method='POST' data-parsley-validate="true" novalidate>
   <div class="box box-info">
     <div class="box-header">
-      <h3 class="box-title">Form Demo</h3>
+      <h3 class="box-title">Form Page</h3>
       <div class="pull-right box-tools">
         <button type="button" class="btn btn-info btn-sm" data-widget="collapse">
           <i class="fa fa-minus"></i>
         </button>
       </div>
     </div>
-    
-    <div class="box-body text-black">
+    <div class="box-body">
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
@@ -35,10 +34,24 @@
         </div>
       </div>
     </div>
-
     <div class="box-footer">
       <button type="submit" class="btn btn-primary" disabled>submit</button>
       <button type="reset" class="btn btn-default">reset</button>
     </div>
   </div>
 </form>
+
+
+<div class="box box-info">
+    <div class="box-header">
+      <h3 class="box-title">Form Modal</h3>
+      <div class="pull-right box-tools">
+        <button type="button" class="btn btn-info btn-sm" data-widget="collapse">
+          <i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    <div class="box-body">
+        <button type="button" class="btn btn-default modal-open">open form modal</button>
+    </div>
+</div>

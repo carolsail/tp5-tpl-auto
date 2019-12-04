@@ -1,5 +1,6 @@
-import { ajax } from './ajax'
-var Form = {
+import Http from './http'
+
+const Form = {
     config: {
         fieldlisttpl: '<dd class="form-inline"><input type="text" name="<%=name%>[<%=index%>][key]" class="form-control" value="<%=row.key%>" size="10" /> <input type="text" name="<%=name%>[<%=index%>][value]" class="form-control" value="<%=row.value%>" /> <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span> <span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span></dd>'
     },
@@ -7,39 +8,49 @@ var Form = {
         validator: function (form, success, error, submit) {
             if (!form.is("form"))
                 return
-
+            // 表单parsley验证初始化    
+            form.parsley()
             var submitBtn = $("[type=submit]", form)
             var resetBtn = $("[type=reset]", form)
 
-            //绑定表单事件
+            // 绑定表单事件
             form.on('submit', function(e){
                 e.preventDefault()
-                if ($(this).parsley().isValid()) {
+                var that = $(this)
+                if (that.parsley().isValid()) {
                     submitBtn.attr('disabled', true)
                     resetBtn.attr('disabled', true)
                     var submitResult =  Form.api.submit($(this), function (data, ret) {
-                        submitBtn.removeClass("disabled");
                         if (false === $(this).triggerHandler("success.form", [data, ret])) {
-                            return false;
+                            return false
                         }
                         if (typeof success === 'function') {
                             if (false === success.call($(this), data, ret)) {
-                                return false;
+                                return false
                             }
                         }
-                        console.log(data, ret)
-                        //提示及关闭当前窗口
-                        var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : __('Operation completed');
-                        parent.Toastr.success(msg);
-                        parent.$(".btn-refresh").trigger("click");
-                        var index = parent.Layer.getFrameIndex(window.name);
-                        parent.Layer.close(index);
-                        return false;
+                        // 提示信息
+                        var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : 'Operation completed'
+                        // $(".btn-refresh").trigger("click")
+
+                        // 关闭modal或重定向：情况根据表单是否为modal形式而定
+                        if (that.closest('.modal').length) {
+                          Toastr.success(msg)
+                          submitBtn.removeAttr("disabled")
+                          resetBtn.removeAttr("disabled")
+                          that.closest('.modal').modal('hide')
+                        } else {
+                          Layer.msg(msg, {icon: 6, time: 1000}, function(){
+                            location.href = ret.url
+                          })
+                        }
+                        return false
                     }, function (data, ret) {
                         if (false === $(this).triggerHandler("error.form", [data, ret])) {
-                            return false;
+                            return false
                         }
-                        submitBtn.removeAttr("disabled");
+                        submitBtn.removeAttr("disabled")
+                        resetBtn.removeAttr("disabled")
                         if (typeof error === 'function') {
                             if (false === error.call($(this), data, ret)) {
                                 return false
@@ -396,7 +407,7 @@ var Form = {
                 })
             }
             //调用Ajax请求方法
-            ajax({
+            Http.ajax({
                 type: type,
                 url: url,
                 data: form.serialize() + (Object.keys(params).length > 0 ? '&' + $.param(params) : ''),
@@ -408,7 +419,7 @@ var Form = {
                     }
                 }
             }, function (data, ret) {
-                $('.form-group', form).removeClass('has-feedback has-success has-error')
+                // $('.form-group', form).removeClass('parsley-success parsley-error')
                 if (data && typeof data === 'object') {
                     //刷新客户端token
                     if (typeof data.token !== 'undefined') {

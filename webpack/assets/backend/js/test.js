@@ -1,6 +1,7 @@
-import { fixurl } from '../../common/js/util'
-import { ajax as http } from '../../common/js/ajax'
+import { fixurl, serializeObj } from '../../common/js/util'
+import Http from '../../common/js/http'
 import Form from '../../common/js/form'
+import Modal from '../../common/js/modal'
 
 export function index(){
 	//console.log(Config)
@@ -26,10 +27,14 @@ export function ajax() {
 			url: fixurl('test/ajax'),
 			data: {type: $(this).data('type')}
 		}
-		http(options)
+		Http.ajax(options)
 	})
 }
 
 export function form() {
-	Form.api.bindevent($('form'))
+	Form.api.bindevent($("form[role=form]"))
+
+	$('.modal-open').click(function(){
+		Modal.open('test/formModal', 'modal title')
+	})
 }
