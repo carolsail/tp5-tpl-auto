@@ -31,14 +31,13 @@ const Form = {
                         }
                         // 提示信息
                         var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : 'Operation completed'
-                        // $(".btn-refresh").trigger("click")
-
                         // 关闭modal或重定向：情况根据表单是否为modal形式而定
-                        if (that.closest('.modal').length) {
-                          Toastr.success(msg)
-                          submitBtn.removeAttr("disabled")
-                          resetBtn.removeAttr("disabled")
-                          that.closest('.modal').modal('hide')
+                        if (that.closest('#modal-layer').find('.modal').length) {
+                            Toastr.success(msg)
+                            submitBtn.removeAttr("disabled")
+                            resetBtn.removeAttr("disabled")
+                            that.closest('#modal-layer').find('.modal').modal('hide')
+                            // $(".btn-refresh").trigger("click")
                         } else {
                           Layer.msg(msg, {icon: 6, time: 1000}, function(){
                             location.href = ret.url

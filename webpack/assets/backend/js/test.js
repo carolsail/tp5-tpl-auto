@@ -33,8 +33,16 @@ export function ajax() {
 
 export function form() {
 	Form.api.bindevent($("form[role=form]"))
+}
 
+export function modal() {
 	$('.modal-open').click(function(){
-		Modal.open('test/formModal', 'modal title')
+		const options = {
+			// callback(form, data, ret){
+			// 	console.log(serializeObj(form))
+			// }
+			refresh: false
+		}
+		Modal.open('test/modal', options)
 	})
 }

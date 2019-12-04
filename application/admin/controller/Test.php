@@ -22,12 +22,18 @@ class Test extends Backend
         return view();
     }
 
-    public function formModal()
+    public function modal()
     {
-        if ($this->request->isPost()) {
-            $this->success('');
+        if($this->request->isAjax()){
+            if($this->request->isGet()) {
+                $this->view->engine->layout(false);
+                return view('test/modal_form');
+            }
+
+            if ($this->request->isPost()) {
+                $this->success('');
+            }
         }
-        $this->view->engine->layout(false);
         return view();
     }
 }
