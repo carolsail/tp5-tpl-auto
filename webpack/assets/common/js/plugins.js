@@ -1,15 +1,24 @@
-//https://bootstrap-datepicker.readthedocs.io/en/latest/
-function datepicker(element){
-  $(element).datepicker({
-      todayHighlight: !0,
-      autoclose: !0,
-      format: 'yyyy-mm-dd'
-  })
+/**
+ * https://bootstrap-datepicker.readthedocs.io/en/latest/
+ * @param {*} element 
+ * @param {*} options 
+ */
+function datepicker(element, options){
+  options = $.extend({
+    todayHighlight: !0,
+    autoclose: !0,
+    format: 'yyyy-mm-dd'
+  }, options)
+  $(element).datepicker(options)
 }
 
-//https://sensortower.github.io/daterangepicker/docs [moment.js]
-function daterange(element){
-  var options = {
+/**
+ * https://sensortower.github.io/daterangepicker/docs [moment.js]
+ * @param {*} element 
+ * @param {*} options 
+ */
+function daterangepicker(element, options){
+  var options = $.extend({
       timePicker: false,
       autoUpdateInput: false,
       timePickerSeconds: true,
@@ -29,7 +38,7 @@ function daterange(element){
         'This Month': [moment().startOf('month'), moment().endOf('month')],
         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
-  }
+  }, options)
 
   var origincallback = function (start, end) {
       $(this.element).val(start.format(this.locale.format) + " - " + end.format(this.locale.format));
@@ -106,11 +115,13 @@ function select2Ajax(options){
   })
 }
 
-//https://select2.org/
-function select2(element){
-  var options = {
-      width: 'resolve'
-  }
+/**
+ * https://select2.org/
+ * @param {*} element 
+ * @param {*} options 
+ */
+function select2(element, options){
+  options = $.extend({ width: 'resolve' }, options)
   $(element).select2(options).closest("form").on("reset",function(ev){
       //解决表单reset清空问题
       var targetJQForm = $(ev.target)
@@ -150,4 +161,4 @@ function dragsort(element){
   })
 }
 
-export {datepicker, daterange, select2Ajax, select2, kindeditor, dragsort}
+export {datepicker, daterangepicker, select2Ajax, select2, kindeditor, dragsort}

@@ -38,11 +38,26 @@ export function form() {
 export function modal() {
 	$('.modal-open').click(function(){
 		const options = {
-			// callback(form, data, ret){
-			// 	console.log(serializeObj(form))
-			// }
 			refresh: false
 		}
 		Modal.open('test/modal', options)
+	})
+
+	$(document).on('click', '.btn-modal-twice', function(){
+		var that = $(this)
+		that.attr('disabled', true)
+		var ops = {
+			hide(){
+				console.log('hide')
+				that.removeAttr('disabled')
+			},
+			show(){
+				console.log('show')
+			},
+			callback(form){
+				serializeObj(form)
+			}
+		}
+		Modal.open('test/modal', ops)
 	})
 }

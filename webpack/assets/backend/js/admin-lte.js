@@ -18,6 +18,7 @@ try {
 
   // 扩展
   require('layerui');
+  require('moment');
   require('toastr');
   require('bootstrap-table');
   require('art-template/lib/template-web');

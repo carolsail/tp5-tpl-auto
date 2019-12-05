@@ -37,7 +37,8 @@ mix.autoload({
   toastr: ['toastr', 'Toastr'],
   layerui: ['layer', 'Layer'],
   'art-template': ['template', 'Template'],
-  plupload: ['plupload']
+  plupload: ['plupload'],
+  moment: ['moment']
 });
 
 mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台js
@@ -50,7 +51,8 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'jquery', 
 'jquery-slimscroll', 
 'lodash', 
-'layerui', 
+'layerui',
+'moment', 
 'toastr', 
 'bootstrap-table', 
 'art-template',

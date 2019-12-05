@@ -19,18 +19,58 @@
           </div>
         
           <div class="form-group">
-            <label>電郵 <span class="text-danger">*</span></label>
+            <label>電郵-郵箱嚴重</label>
             <div class="controls">
                 <input type="email" name="row[email]" class="form-control" placeholder="電郵" data-parsley-email="true">
             </div>
           </div>
         
           <div class="form-group">
-            <label>電話</label>
+            <label>電話-電話驗證</label>
             <div class="controls">
                 <input type="text" name="row[mobile]" placeholder="電話" class="form-control" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$">
             </div>
           </div>
+
+          <div class="form-group">
+            <label>價格-正浮點數驗證</label>
+            <div class="controls">
+                <input type="text" name="row[price]" class="form-control" placeholder="價格" data-parsley-type="number" data-parsley-min="0" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>庫存-正整數驗證</label>
+            <div class="controls">
+              <input type="number" name="row[stock]" class="form-control" placeholder="庫存" value="" data-parsley-pattern="\d+"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>select2</label>
+            <div class="controls">
+              <select class='select2 hidden' style='width:100%;'>
+                <option value=''>請選擇</option>
+                <option value=''>sail</option>
+                <option value=''>test</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>datepicker</label>
+            <div class="controls">
+              <input type="text" class="form-control datepicker">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>daterangepicker</label>
+            <div class="controls">
+              <input type="text" class="form-control datetimerange">
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

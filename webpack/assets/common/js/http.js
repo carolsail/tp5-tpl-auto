@@ -33,7 +33,14 @@ const Http = {
     }
     return ret
   },
-  // 发送Ajax请求
+  /**
+   * 
+   * @param {object | string} options 
+   * @param {function} success 
+   * @param {function} error 
+   * 如果dataType:json時候,會判斷響應中是否code為1,進而調用成功響應,否反調用失敗響應
+   * dataType為其他的時候直接返回
+   */
   ajax(options, success, error) {
     options = typeof options === 'string' ? {url: options} : options
     var index

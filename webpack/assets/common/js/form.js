@@ -1,4 +1,5 @@
 import Http from './http'
+import {select2, datepicker, daterangepicker} from './plugins'
 
 const Form = {
     config: {
@@ -32,11 +33,11 @@ const Form = {
                         // 提示信息
                         var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : 'Operation completed'
                         // 关闭modal或重定向：情况根据表单是否为modal形式而定
-                        if (that.closest('#modal-layer').find('.modal').length) {
+                        if (that.closest('.modal-item').find('.modal').length) {
                             Toastr.success(msg)
                             submitBtn.removeAttr("disabled")
                             resetBtn.removeAttr("disabled")
-                            that.closest('#modal-layer').find('.modal').modal('hide')
+                            that.closest('.modal-item').find('.modal').modal('hide')
                             // $(".btn-refresh").trigger("click")
                         } else {
                           Layer.msg(msg, {icon: 6, time: 1000}, function(){
@@ -67,19 +68,21 @@ const Form = {
             submitBtn.removeAttr('disabled')
             resetBtn.removeAttr('disabled')
         },
-        // selectpicker: function (form) {
-        //     //绑定select元素事件
-        //     if ($(".selectpicker", form).size() > 0) {
-        //         require(['bootstrap-select', 'bootstrap-select-lang'], function () {
-        //             $('.selectpicker', form).selectpicker();
-        //             $(form).on("reset", function () {
-        //                 setTimeout(function () {
-        //                     $('.selectpicker').selectpicker('refresh').trigger("change");
-        //                 }, 1);
-        //             });
-        //         });
-        //     }
-        // },
+        select2: function(form) {
+            if($(".select2", form).length) {
+                select2($(".select2", form))
+            }
+        },
+        datepicker: function(form) {
+            if($(".datepicker", form).length) {
+                datepicker($(".datepicker", form))
+            }
+        },
+        daterangepicker: function(form) {
+            if($(".datetimerange", form).length) {
+                daterangepicker($(".datetimerange", form))
+            }
+        }
         // selectpage: function (form) {
         //     //绑定selectpage元素事件
         //     if ($(".selectpage", form).size() > 0) {
@@ -151,48 +154,6 @@ const Form = {
         //             };
         //             $('.datetimepicker', form).parent().css('position', 'relative');
         //             $('.datetimepicker', form).datetimepicker(options);
-        //         });
-        //     }
-        // },
-        // daterangepicker: function (form) {
-        //     //绑定日期时间元素事件
-        //     if ($(".datetimerange", form).size() > 0) {
-        //         require(['bootstrap-daterangepicker'], function () {
-        //             var ranges = {};
-        //             ranges[__('Today')] = [Moment().startOf('day'), Moment().endOf('day')];
-        //             ranges[__('Yesterday')] = [Moment().subtract(1, 'days').startOf('day'), Moment().subtract(1, 'days').endOf('day')];
-        //             ranges[__('Last 7 Days')] = [Moment().subtract(6, 'days').startOf('day'), Moment().endOf('day')];
-        //             ranges[__('Last 30 Days')] = [Moment().subtract(29, 'days').startOf('day'), Moment().endOf('day')];
-        //             ranges[__('This Month')] = [Moment().startOf('month'), Moment().endOf('month')];
-        //             ranges[__('Last Month')] = [Moment().subtract(1, 'month').startOf('month'), Moment().subtract(1, 'month').endOf('month')];
-        //             var options = {
-        //                 timePicker: false,
-        //                 autoUpdateInput: false,
-        //                 timePickerSeconds: true,
-        //                 timePicker24Hour: true,
-        //                 autoApply: true,
-        //                 locale: {
-        //                     format: 'YYYY-MM-DD HH:mm:ss',
-        //                     customRangeLabel: __("Custom Range"),
-        //                     applyLabel: __("Apply"),
-        //                     cancelLabel: __("Clear"),
-        //                 },
-        //                 ranges: ranges,
-        //             };
-        //             var origincallback = function (start, end) {
-        //                 $(this.element).val(start.format(this.locale.format) + " - " + end.format(this.locale.format));
-        //                 $(this.element).trigger('blur');
-        //             };
-        //             $(".datetimerange", form).each(function () {
-        //                 var callback = typeof $(this).data('callback') == 'function' ? $(this).data('callback') : origincallback;
-        //                 $(this).on('apply.daterangepicker', function (ev, picker) {
-        //                     callback.call(picker, picker.startDate, picker.endDate);
-        //                 });
-        //                 $(this).on('cancel.daterangepicker', function (ev, picker) {
-        //                     $(this).val('').trigger('blur');
-        //                 });
-        //                 $(this).daterangepicker($.extend({}, options, $(this).data()), callback);
-        //             });
         //         });
         //     }
         // },
@@ -448,15 +409,17 @@ const Form = {
         },
         bindevent: function (form, success, error, submit) {
 
-            form = typeof form === 'object' ? form : $(form);
+            form = typeof form === 'object' ? form : $(form)
 
-            var events = Form.events;
+            var events = Form.events
 
-            events.validator(form, success, error, submit);
+            events.validator(form, success, error, submit)
 
-            // events.selectpicker(form);
+            events.select2(form)
 
-            // events.daterangepicker(form);
+            events.datepicker(form)
+
+            events.daterangepicker(form)
 
             // events.selectpage(form);
 
