@@ -1,15 +1,23 @@
-// 格式化地址
-function fixurl(url, module=true){
-	var fixurl = ''
-	if(url.substring(0,4)=='http'){
-		fixurl = url
-	}else{
-		if(url.substring(0,1)=='/'){
-			url = url.substr(1);
+//修复URL
+function fixurl(url) {
+		if (url.substr(0, 1) !== "/") {
+				var r = new RegExp('^(?:[a-z]+:)?//', 'i');
+				if (!r.test(url)) {
+						url = Config.module_url + "/" + url;
+				}
 		}
-		fixurl = module ? Config.base_url + "/" + Config.module_name + '/' + url : Config.base_url + "/" + url
-	}
-	return fixurl
+		return url
+}
+
+// 获取修复后可访问的cdn链接
+function cdnurl(url, domain) {
+		var rule = new RegExp("^((?:[a-z]+:)?\\/\\/|data:image\\/)", "i");
+		var url = rule.test(url) ? url : Config.upload.cdnurl + url
+		if (domain && !rule.test(url)) {
+				domain = typeof domain === 'string' ? domain : location.origin
+				url = domain + url
+		}
+		return url
 }
 
 // dom转对象数组
@@ -62,4 +70,4 @@ function query(name, url) {
 	return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-export {fixurl, serializeObj, downloadFile, trim, query}
+export {fixurl, cdnurl, serializeObj, downloadFile, trim, query}

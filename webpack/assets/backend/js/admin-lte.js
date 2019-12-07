@@ -26,6 +26,7 @@ try {
   require('plupload');
   require('select2');
   require('bootstrap-daterangepicker');
+  require('dragsort');
 
 } catch (e) {}
 

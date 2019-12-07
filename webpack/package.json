@@ -29,6 +29,7 @@
   "dependencies": {
     "art-template": "^4.13.2",
     "bootstrap-table": "^1.15.5",
+    "dragsort": "^1.0.6",
     "layerui": "^3.1.1",
     "parsleyjs": "^2.9.1",
     "plupload": "^2.3.6",

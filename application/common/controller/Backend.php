@@ -21,12 +21,14 @@ class Backend extends Controller
         $module_name = $this->request->module();
         $controller_name = Loader::parseName($this->request->controller());
         $action_name = strtolower($this->request->action());
+        $upload = config('upload.');
 
     	$config = [
     		'module_name' => $module_name,
     		'controller_name' => $controller_name,
             'action_name' => $action_name,
-            'base_url' => rtrim(url("/", '', false), '/')
+            'module_url' => rtrim(url("/{$module_name}", '', false), '/'),
+            'upload' => $upload,
         ];
         
         // 如果有使用模板布局

@@ -1,4 +1,5 @@
 import Http from './http'
+import Upload from './upload'
 import {select2, datepicker, daterangepicker} from './plugins'
 
 const Form = {
@@ -82,33 +83,12 @@ const Form = {
             if($(".datetimerange", form).length) {
                 daterangepicker($(".datetimerange", form))
             }
-        }
-        // selectpage: function (form) {
-        //     //绑定selectpage元素事件
-        //     if ($(".selectpage", form).size() > 0) {
-        //         require(['selectpage'], function () {
-        //             $('.selectpage', form).selectPage({
-        //                 eAjaxSuccess: function (data) {
-        //                     data.list = typeof data.rows !== 'undefined' ? data.rows : (typeof data.list !== 'undefined' ? data.list : []);
-        //                     data.totalRow = typeof data.total !== 'undefined' ? data.total : (typeof data.totalRow !== 'undefined' ? data.totalRow : data.list.length);
-        //                     return data;
-        //                 }
-        //             });
-        //         });
-        //         //给隐藏的元素添加上validate验证触发事件
-        //         $(document).on("change", ".sp_hidden", function () {
-        //             $(this).trigger("validate");
-        //         });
-        //         $(document).on("change", ".sp_input", function () {
-        //             $(this).closest(".sp_container").find(".sp_hidden").trigger("change");
-        //         });
-        //         $(form).on("reset", function () {
-        //             setTimeout(function () {
-        //                 $('.selectpage', form).selectPageClear();
-        //             }, 1);
-        //         });
-        //     }
-        // },
+        },
+        plupload: function (form) {
+            if ($(".plupload", form).length) {
+                Upload.api.plupload($(".plupload", form))
+            }
+        },
         // cxselect: function (form) {
         //     //绑定cxselect元素事件
         //     if ($("[data-toggle='cxselect']", form).size() > 0) {
@@ -117,18 +97,6 @@ const Form = {
         //             $.cxSelect.defaults.jsonValue = 'value';
         //             $.cxSelect.defaults.jsonSpace = 'data';
         //             $("[data-toggle='cxselect']", form).cxSelect();
-        //         });
-        //     }
-        // },
-        // citypicker: function (form) {
-        //     //绑定城市远程插件
-        //     if ($("[data-toggle='city-picker']", form).size() > 0) {
-        //         require(['citypicker'], function () {
-        //             $(form).on("reset", function () {
-        //                 setTimeout(function () {
-        //                     $("[data-toggle='city-picker']").citypicker('refresh');
-        //                 }, 1);
-        //             });
         //         });
         //     }
         // },
@@ -155,12 +123,6 @@ const Form = {
         //             $('.datetimepicker', form).parent().css('position', 'relative');
         //             $('.datetimepicker', form).datetimepicker(options);
         //         });
-        //     }
-        // },
-        // plupload: function (form) {
-        //     //绑定plupload上传元素事件
-        //     if ($(".plupload", form).size() > 0) {
-        //         Upload.api.plupload($(".plupload", form));
         //     }
         // },
         // faselect: function (form) {
@@ -421,6 +383,8 @@ const Form = {
 
             events.daterangepicker(form)
 
+            events.plupload(form)
+
             // events.selectpage(form);
 
             // events.cxselect(form);
@@ -429,7 +393,6 @@ const Form = {
 
             // events.datetimepicker(form);
 
-            // events.plupload(form);
 
             // events.faselect(form);
 

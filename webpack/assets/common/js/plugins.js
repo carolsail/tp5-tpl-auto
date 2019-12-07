@@ -58,64 +58,6 @@ function daterangepicker(element, options){
 }
 
 /**
-* selector
-* url
-* data: fn
-* selection: fn
-* result: fn
-*/
-function select2Ajax(options){
-  $(options.selector).select2({
-      ajax: {
-          url: options.url,
-          dataType: 'json',
-          delay: 250,
-          data: function (params){
-              if(typeof options.data === 'function'){
-                  return options['data'](params)
-              }
-              return { q: params.term }
-          },
-          processResults: function (data, params) {
-              if(typeof options.process === 'function'){
-                  return options['process'](data, params)
-              }
-              return { results: data }
-          },
-          cache: true
-      },
-      minimumInputLength: options.inputLength,
-      escapeMarkup: function (markup) { return markup },
-      templateResult: function(repo){
-          if (repo.loading) {
-              return repo.text;
-          }  
-          if(typeof options.result === 'function'){
-              return options['result'](repo)
-          }
-          return repo.title
-      },
-      templateSelection: function(repo){
-          if(typeof options.selection === 'function'){
-              return options['selection'](repo)
-          }
-          return repo.title || repo.text
-      }
-  }).on('select2:select', function(e){
-      //填充數據回調
-      if(typeof options.selected === 'function'){
-          return options['selected'](e)
-      }
-  }).closest("form").on("reset",function(ev){
-      //解决表单reset清空问题
-      var targetJQForm = $(ev.target)
-      setTimeout((function(){
-          this.find("select").trigger("change")
-      }).bind(targetJQForm),0)
-  })
-}
-
-/**
  * https://select2.org/
  * @param {*} element 
  * @param {*} options 
@@ -131,7 +73,74 @@ function select2(element, options){
   })
 }
 
-//http://kindeditor.net/doc.php
+/**
+ * https://select2.org/
+ * @param {*} options 
+ * @param options.selector string 元素選擇器
+ * @param options.url string 請求服務器
+ * @param options.inputLength string 限制字符數才進行服務器請求
+ * @param options.data function 重新組合請求服務器的參數
+ * @param options.process function
+ * @param options.result function
+ * @param options.selection function
+ * @param options.selected function
+ *  
+ */
+function select2Ajax(options){
+    $(options.selector).select2({
+        ajax: {
+            url: options.url,
+            dataType: 'json',
+            delay: 250,
+            data: function (params){
+                if(typeof options.data === 'function'){
+                    return options['data'](params)
+                }
+                return { q: params.term }
+            },
+            processResults: function (data, params) {
+                if(typeof options.process === 'function'){
+                    return options['process'](data, params)
+                }
+                return { results: data }
+            },
+            cache: true
+        },
+        minimumInputLength: options.inputLength || 0,
+        escapeMarkup: function (markup) { return markup },
+        templateResult: function(repo){
+            if (repo.loading) {
+                return repo.text;
+            }  
+            if(typeof options.result === 'function'){
+                return options['result'](repo)
+            }
+            return repo.title
+        },
+        templateSelection: function(repo){
+            if(typeof options.selection === 'function'){
+                return options['selection'](repo)
+            }
+            return repo.title || repo.text
+        }
+    }).on('select2:select', function(e){
+        //填充數據回調
+        if(typeof options.selected === 'function'){
+            return options['selected'](e)
+        }
+    }).closest("form").on("reset",function(ev){
+        //解决表单reset清空问题
+        var targetJQForm = $(ev.target)
+        setTimeout((function(){
+            this.find("select").trigger("change")
+        }).bind(targetJQForm),0)
+    })
+  }
+
+/**
+ * http://kindeditor.net/doc.php
+ * @param {*} element 
+ */
 function kindeditor(element){
   var options = {
       uploadJson: fixurl('ajax/kindeditor_upload'),
@@ -142,6 +151,7 @@ function kindeditor(element){
   }
   KindEditor.create(element, options)  
 }
+
 
 function dragsort(element){
   $(element).dragsort({
