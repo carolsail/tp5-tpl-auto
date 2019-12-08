@@ -60,6 +60,9 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'plupload', 
 'select2', 
 'bootstrap-daterangepicker', 
-'dragsort']) // 提取依赖库
+'eonasdan-bootstrap-datetimepicker', 
+'dragsort', 
+'cxselect', 
+'summernote']) // 提取依赖库
 .setResourceRoot('../') // 设置资源目录
 .setPublicPath(`${output}/backend`); // 设置 mix-manifest.json 目录

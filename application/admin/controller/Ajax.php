@@ -7,7 +7,7 @@ use think\facade\Env;
 
 class Ajax extends Backend {
 
-      /**
+    /**
      * 上传文件
      */
     public function upload()
@@ -80,25 +80,25 @@ class Ajax extends Backend {
         //
         $splInfo = $file->validate(['size' => $size])->move(Env::get('root_path') . '/public' . $uploadDir, $fileName);
         if ($splInfo) {
-            // $params = array(
-            //     'admin_id'    => (int)$this->auth->id,
-            //     'user_id'     => 0,
-            //     'filesize'    => $fileInfo['size'],
-            //     'imagewidth'  => $imagewidth,
-            //     'imageheight' => $imageheight,
-            //     'imagetype'   => $suffix,
-            //     'imageframes' => 0,
-            //     'mimetype'    => $fileInfo['type'],
-            //     'url'         => $uploadDir . $splInfo->getSaveName(),
-            //     'uploadtime'  => time(),
-            //     'storage'     => 'local',
-            //     'sha1'        => $sha1,
-            //     'extparam'    => json_encode($extparam),
-            // );
-            // $attachment = model("attachment");
-            // $attachment->data(array_filter($params));
-            // $attachment->save();
-            // \think\Hook::listen("upload_after", $attachment);
+            $params = array(
+                // 'admin_id'    => (int)$this->auth->id,
+                'user_id'     => 0,
+                'filesize'    => $fileInfo['size'],
+                'image_width'  => $imagewidth,
+                'image_height' => $imageheight,
+                'image_type'   => $suffix,
+                'image_frames' => 0,
+                'mimetype'    => $fileInfo['type'],
+                'url'         => $uploadDir . $splInfo->getSaveName(),
+                'upload_time'  => time(),
+                'storage'     => 'local',
+                'sha1'        => $sha1,
+                'extparam'    => json_encode($extparam),
+            );
+            $attachment = model("attachment");
+            $attachment->data(array_filter($params));
+            $attachment->save();
+            \think\facade\Hook::listen("upload_after", $attachment);
             // $this->success(__('Upload successful'), null, [
             //     'url' => $uploadDir . $splInfo->getSaveName()
             // ]);
@@ -109,5 +109,36 @@ class Ajax extends Backend {
             // 上传失败获取错误信息
             $this->error($file->getError());
         }
+    }
+
+    /**
+     * 读取省市区数据,联动列表
+     */
+    public function area()
+    {
+        $params = $this->request->get("row/a");
+        if (!empty($params)) {
+            $province = isset($params['province']) ? $params['province'] : '';
+            $city = isset($params['city']) ? $params['city'] : null;
+        } else {
+            $province = $this->request->get('province');
+            $city = $this->request->get('city');
+        }
+        $where = ['pid' => 0, 'level' => 1];
+        $provincelist = null;
+        if ($province !== '') {
+            if ($province) {
+                $where['pid'] = $province;
+                $where['level'] = 2;
+            }
+            if ($city !== '') {
+                if ($city) {
+                    $where['pid'] = $city;
+                    $where['level'] = 3;
+                }
+                $provincelist = Db::name('area')->where($where)->field('id as value,name')->select();
+            }
+        }
+        $this->success('', null, $provincelist);
     }
 }

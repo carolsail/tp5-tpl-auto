@@ -1,3 +1,5 @@
+import {fixurl} from './util'
+
 /**
  * https://bootstrap-datepicker.readthedocs.io/en/latest/
  * @param {*} element 
@@ -55,6 +57,32 @@ function daterangepicker(element, options){
       });
       $(this).daterangepicker($.extend({}, options, $(this).data()), callback);
   })
+}
+
+/**
+ * http://eonasdan.github.io/bootstrap-datetimepicker/
+ * @param {*} element 
+ * @param {*} options 
+ */
+function datetimepicker(element, options){
+    options = $.extend({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        icons: {
+            time: 'fa fa-clock-o',
+            date: 'fa fa-calendar',
+            up: 'fa fa-chevron-up',
+            down: 'fa fa-chevron-down',
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-history',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        },
+        showTodayButton: true,
+        showClose: true
+    }, options)
+    $(element).parent().css('position', 'relative')
+    $(element).datetimepicker(options)
 }
 
 /**
@@ -137,22 +165,6 @@ function select2Ajax(options){
     })
   }
 
-/**
- * http://kindeditor.net/doc.php
- * @param {*} element 
- */
-function kindeditor(element){
-  var options = {
-      uploadJson: fixurl('ajax/kindeditor_upload'),
-      items : [
-          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-          'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-          'insertunorderedlist', '|', 'emoticons', 'image', 'link']
-  }
-  KindEditor.create(element, options)  
-}
-
-
 function dragsort(element){
   $(element).dragsort({
       dragSelector: "li",
@@ -171,4 +183,4 @@ function dragsort(element){
   })
 }
 
-export {datepicker, daterangepicker, select2Ajax, select2, kindeditor, dragsort}
+export {datepicker, daterangepicker, datetimepicker, select2Ajax, select2, kindeditor, dragsort}

@@ -11,7 +11,7 @@ class Frontend extends Controller
 	public function initialize()
     {
     	//移除HTML标签
-        $this->request->filter('strip_tags');
+        $this->request->filter('trim,strip_tags,htmlspecialchars');
         $module_name = $this->request->module();
         $controller_name = strtolower($this->request->controller());
         $action_name = strtolower($this->request->action());

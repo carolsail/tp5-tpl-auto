@@ -24,3 +24,27 @@
 @import '~parsleyjs/src/parsley.css';
 @import '~select2/dist/css/select2.css';
 @import '~bootstrap-daterangepicker/daterangepicker.scss';
+@import '~eonasdan-bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build.scss';
+@import '~summernote/dist/summernote.css';
+
+/* plupload預覽 */
+.plupload-preview {
+  padding: 0 10px;
+  margin-bottom: 0;
+}
+.plupload-preview li {
+  margin-top: 15px;
+}
+.plupload-preview .thumbnail {
+  margin-bottom: 10px;
+}
+.plupload-preview a {
+  display: block;
+}
+.plupload-preview a:first-child {
+  height: 90px;
+}
+.plupload-preview a img {
+  height: 80px;
+  object-fit: cover;
+}

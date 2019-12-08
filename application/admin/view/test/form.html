@@ -72,23 +72,60 @@
           </div>
 
           <div class="form-group">
+              <label>datetimepicker</label>
+              <div class="controls">
+                <input type="text" class="form-control datetimepicker">
+              </div>
+          </div>
+
+          <div class="form-group">
             <label>plupload</label>
             <div class="controls">
                 <input id="c-image" class="form-control" name="row[img]" type="hidden" value="">
                 <button 
-                    type="button" 
-                    id="plupload-image" 
-                    class="btn btn-danger btn-sm plupload" 
-                    data-input-id="c-image" 
-                    data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" 
-                    data-multiple="true" data-preview-id="p-image"><i class="fa fa-upload"></i> 選擇圖片</button>
+                  type="button" 
+                  id="plupload-image" 
+                  class="btn btn-danger btn-sm plupload" 
+                  data-input-id="c-image" 
+                  data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" 
+                  data-multiple="true" 
+                  data-preview-id="p-image"><i class="fa fa-upload"></i> 上傳圖片</button>
+                <button 
+                  type="button" 
+                  id="fachoose-image" 
+                  class="btn btn-primary btn-sm fachoose" 
+                  data-input-id="c-image" 
+                  data-mimetype="image/*" 
+                  data-multiple="false"><i class="fa fa-list"></i> 選擇圖片</button>
                 <span class="msg-box n-right"></span>
-                <div class="m-t-10">
+                <div class="m-t-5">
                     <ul class="row list-inline plupload-preview" id="p-image"></ul>
                 </div>
             </div>
           </div>
+          
+          <div class="form-group">
+            <label>cxselect</label>
+            <div class="form-inline" data-toggle="cxselect" data-selects="province,city,area">
+              <select class="province form-control" name="row[province]" data-url="{:url('/admin/ajax/area')}">
+                <option value="1964" selected="">广东省</option>
+              </select>
+              <select class="city form-control" name="row[city]" data-url="{:url('/admin/ajax/area')}">
+                <option value="1988" selected="">深圳市</option>
+              </select>
+              <select class="area form-control" name="row[area]" data-url="{:url('/admin/ajax/area')}">
+                <option value="1991" selected="">南山区</option>
+              </select>
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label>summernote</label>
+            <div class="controls">
+                <textarea name="row[note]" class="summernote"></textarea>
+            </div>
+          </div>
+ 
         </div>
       </div>
     </div>

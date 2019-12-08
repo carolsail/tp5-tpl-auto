@@ -26,8 +26,10 @@ try {
   require('plupload');
   require('select2');
   require('bootstrap-daterangepicker');
+  require('eonasdan-bootstrap-datetimepicker');
   require('dragsort');
-
+  require('cxselect');
+  require('summernote');
 } catch (e) {}
 
 $(document).ready(function() {

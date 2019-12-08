@@ -16,8 +16,6 @@ class Backend extends Controller
 
 	public function initialize()
     {
-    	//移除HTML标签
-        $this->request->filter('strip_tags');
         $module_name = $this->request->module();
         $controller_name = Loader::parseName($this->request->controller());
         $action_name = strtolower($this->request->action());

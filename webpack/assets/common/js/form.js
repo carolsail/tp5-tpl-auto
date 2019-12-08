@@ -1,6 +1,6 @@
 import Http from './http'
 import Upload from './upload'
-import {select2, datepicker, daterangepicker} from './plugins'
+import {select2, datepicker, daterangepicker, datetimepicker} from './plugins'
 
 const Form = {
     config: {
@@ -84,90 +84,68 @@ const Form = {
                 daterangepicker($(".datetimerange", form))
             }
         },
+        datetimepicker: function (form) {
+            if ($(".datetimepicker", form).length) {
+                datetimepicker($(".datetimepicker", form))
+            }
+        },
+        cxselect: function (form) {
+            //多级联动
+            if ($("[data-toggle='cxselect']", form).length) {
+                $.cxSelect.defaults.jsonName = 'name';
+                $.cxSelect.defaults.jsonValue = 'value';
+                $.cxSelect.defaults.jsonSpace = 'data';
+                $("[data-toggle='cxselect']", form).cxSelect();
+            }
+        },
         plupload: function (form) {
             if ($(".plupload", form).length) {
                 Upload.api.plupload($(".plupload", form))
             }
         },
-        // cxselect: function (form) {
-        //     //绑定cxselect元素事件
-        //     if ($("[data-toggle='cxselect']", form).size() > 0) {
-        //         require(['cxselect'], function () {
-        //             $.cxSelect.defaults.jsonName = 'name';
-        //             $.cxSelect.defaults.jsonValue = 'value';
-        //             $.cxSelect.defaults.jsonSpace = 'data';
-        //             $("[data-toggle='cxselect']", form).cxSelect();
-        //         });
-        //     }
-        // },
-        // datetimepicker: function (form) {
-        //     //绑定日期时间元素事件
-        //     if ($(".datetimepicker", form).size() > 0) {
-        //         require(['bootstrap-datetimepicker'], function () {
-        //             var options = {
-        //                 format: 'YYYY-MM-DD HH:mm:ss',
-        //                 icons: {
-        //                     time: 'fa fa-clock-o',
-        //                     date: 'fa fa-calendar',
-        //                     up: 'fa fa-chevron-up',
-        //                     down: 'fa fa-chevron-down',
-        //                     previous: 'fa fa-chevron-left',
-        //                     next: 'fa fa-chevron-right',
-        //                     today: 'fa fa-history',
-        //                     clear: 'fa fa-trash',
-        //                     close: 'fa fa-remove'
-        //                 },
-        //                 showTodayButton: true,
-        //                 showClose: true
-        //             };
-        //             $('.datetimepicker', form).parent().css('position', 'relative');
-        //             $('.datetimepicker', form).datetimepicker(options);
-        //         });
-        //     }
-        // },
-        // faselect: function (form) {
-        //     //绑定fachoose选择附件事件
-        //     if ($(".fachoose", form).size() > 0) {
-        //         $(".fachoose", form).on('click', function () {
-        //             var that = this;
-        //             var multiple = $(this).data("multiple") ? $(this).data("multiple") : false;
-        //             var mimetype = $(this).data("mimetype") ? $(this).data("mimetype") : '';
-        //             var admin_id = $(this).data("admin-id") ? $(this).data("admin-id") : '';
-        //             var user_id = $(this).data("user-id") ? $(this).data("user-id") : '';
-        //             parent.Fast.api.open("general/attachment/select?element_id=" + $(this).attr("id") + "&multiple=" + multiple + "&mimetype=" + mimetype + "&admin_id=" + admin_id + "&user_id=" + user_id, __('Choose'), {
-        //                 callback: function (data) {
-        //                     var button = $("#" + $(that).attr("id"));
-        //                     var maxcount = $(button).data("maxcount");
-        //                     var input_id = $(button).data("input-id") ? $(button).data("input-id") : "";
-        //                     maxcount = typeof maxcount !== "undefined" ? maxcount : 0;
-        //                     if (input_id && data.multiple) {
-        //                         var urlArr = [];
-        //                         var inputObj = $("#" + input_id);
-        //                         var value = $.trim(inputObj.val());
-        //                         if (value !== "") {
-        //                             urlArr.push(inputObj.val());
-        //                         }
-        //                         urlArr.push(data.url)
-        //                         var result = urlArr.join(",");
-        //                         if (maxcount > 0) {
-        //                             var nums = value === '' ? 0 : value.split(/\,/).length;
-        //                             var files = data.url !== "" ? data.url.split(/\,/) : [];
-        //                             var remains = maxcount - nums;
-        //                             if (files.length > remains) {
-        //                                 Toastr.error(__('You can choose up to %d file%s', remains));
-        //                                 return false;
-        //                             }
-        //                         }
-        //                         inputObj.val(result).trigger("change").trigger("validate");
-        //                     } else {
-        //                         $("#" + input_id).val(data.url).trigger("change").trigger("validate");
-        //                     }
-        //                 }
-        //             });
-        //             return false;
-        //         });
-        //     }
-        // },
+        faselect: function (form) {
+            // 绑定fachoose选择附件事件
+            if ($(".fachoose", form).length) {
+                $(".fachoose", form).on('click', function () {
+                    var that = this;
+                    var multiple = $(this).data("multiple") ? $(this).data("multiple") : false;
+                    var mimetype = $(this).data("mimetype") ? $(this).data("mimetype") : '';
+                    var admin_id = $(this).data("admin-id") ? $(this).data("admin-id") : '';
+                    var user_id = $(this).data("user-id") ? $(this).data("user-id") : '';
+                    parent.Fast.api.open("general/attachment/select?element_id=" + $(this).attr("id") + "&multiple=" + multiple + "&mimetype=" + mimetype + "&admin_id=" + admin_id + "&user_id=" + user_id, __('Choose'), {
+                        callback: function (data) {
+                            var button = $("#" + $(that).attr("id"));
+                            var maxcount = $(button).data("maxcount");
+                            var input_id = $(button).data("input-id") ? $(button).data("input-id") : "";
+                            maxcount = typeof maxcount !== "undefined" ? maxcount : 0;
+                            if (input_id && data.multiple) {
+                                var urlArr = [];
+                                var inputObj = $("#" + input_id);
+                                var value = $.trim(inputObj.val());
+                                if (value !== "") {
+                                    urlArr.push(inputObj.val());
+                                }
+                                urlArr.push(data.url)
+                                var result = urlArr.join(",");
+                                if (maxcount > 0) {
+                                    var nums = value === '' ? 0 : value.split(/\,/).length;
+                                    var files = data.url !== "" ? data.url.split(/\,/) : [];
+                                    var remains = maxcount - nums;
+                                    if (files.length > remains) {
+                                        Toastr.error(__('You can choose up to %d file%s', remains));
+                                        return false;
+                                    }
+                                }
+                                inputObj.val(result).trigger("change").trigger("validate");
+                            } else {
+                                $("#" + input_id).val(data.url).trigger("change").trigger("validate");
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        },
         // fieldlist: function (form) {
         //     //绑定fieldlist
         //     if ($(".fieldlist", form).size() > 0) {
@@ -383,18 +361,21 @@ const Form = {
 
             events.daterangepicker(form)
 
+            events.datetimepicker(form)
+
             events.plupload(form)
+
+            events.faselect(form)
+
+            events.cxselect(form)
 
             // events.selectpage(form);
 
-            // events.cxselect(form);
 
             // events.citypicker(form);
 
-            // events.datetimepicker(form);
 
 
-            // events.faselect(form);
 
             // events.fieldlist(form);
 

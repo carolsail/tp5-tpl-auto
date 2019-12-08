@@ -17,7 +17,9 @@ class Test extends Backend
     public function form()
     {
         if ($this->request->isPost()) {
-            $this->success('');
+            $params = $this->request->post("row/a");
+            print_r($params);
+            $this->success();
         }
         return view();
     }
