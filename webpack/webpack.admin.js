@@ -38,7 +38,7 @@ mix.autoload({
   layerui: ['layer', 'Layer'],
   'art-template': ['template', 'Template'],
   plupload: ['plupload'],
-  moment: ['moment']
+  moment: ['moment', 'Moment']
 });
 
 mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台js

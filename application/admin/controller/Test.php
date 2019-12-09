@@ -38,4 +38,9 @@ class Test extends Backend
         }
         return view();
     }
+
+    public function table()
+    {
+        return view();
+    }
 }

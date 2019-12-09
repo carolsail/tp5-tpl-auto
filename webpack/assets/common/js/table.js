@@ -1,5 +1,6 @@
 import './table-search'
 import './table-template'
+import {lang} from './util'
 
 var Table = {
     list: {},
@@ -35,10 +36,10 @@ var Table = {
         pk: 'id',
         sortName: 'id',
         sortOrder: 'desc',
-        paginationFirstText: __("First"),
-        paginationPreText: __("Previous"),
-        paginationNextText: __("Next"),
-        paginationLastText: __("Last"),
+        paginationFirstText: lang("First"),
+        paginationPreText: lang("Previous"),
+        paginationNextText: lang("Next"),
+        paginationLastText: lang("Last"),
         cardView: false, //卡片视图
         checkOnInit: true, //是否在初始化时判断
         escape: true, //是否对内容进行转义
@@ -78,21 +79,21 @@ var Table = {
         edit: {
             name: 'edit',
             icon: 'fa fa-pencil',
-            title: __('Edit'),
+            title: lang('Edit'),
             extend: 'data-toggle="tooltip"',
             classname: 'btn btn-xs btn-success btn-editone'
         },
         del: {
             name: 'del',
             icon: 'fa fa-trash',
-            title: __('Del'),
+            title: lang('Del'),
             extend: 'data-toggle="tooltip"',
             classname: 'btn btn-xs btn-danger btn-delone'
         },
         dragsort: {
             name: 'dragsort',
             icon: 'fa fa-arrows',
-            title: __('Drag to sort'),
+            title: lang('Drag to sort'),
             extend: 'data-toggle="tooltip"',
             classname: 'btn btn-xs btn-primary btn-dragsort'
         }
@@ -113,19 +114,19 @@ var Table = {
             // 写入bootstrap-table locale配置
             $.extend($.fn.bootstrapTable.locales[Table.defaults.locale], {
                 formatCommonSearch: function () {
-                    return __('Common search');
+                    return lang('Common search');
                 },
                 formatCommonSubmitButton: function () {
-                    return __('Submit');
+                    return lang('Submit');
                 },
                 formatCommonResetButton: function () {
-                    return __('Reset');
+                    return lang('Reset');
                 },
                 formatCommonCloseButton: function () {
-                    return __('Close');
+                    return lang('Close');
                 },
                 formatCommonChoose: function () {
-                    return __('Choose');
+                    return lang('Choose');
                 }
             }, locales);
             if (typeof defaults.exportTypes != 'undefined') {
@@ -140,12 +141,12 @@ var Table = {
             var options = table.bootstrapTable('getOptions');
             //Bootstrap操作区
             var toolbar = $(options.toolbar, parenttable);
-            //当刷新表格时
+            //当加载数据失败时
             table.on('load-error.bs.table', function (status, res, e) {
                 if (e.status === 0) {
                     return;
                 }
-                Toastr.error(__('Unknown data format'));
+                Toastr.error(lang('Unknown data format'));
             });
             //当加载数据成功时
             table.on('load-success.bs.table', function (e, data) {
@@ -167,32 +168,32 @@ var Table = {
             table.on('post-body.bs.table', function (e, settings, json, xhr) {
                 $(Table.config.refreshbtn, toolbar).find(".fa").removeClass("fa-spin");
                 $(Table.config.disabledbtn, toolbar).toggleClass('disabled', true);
-                if ($(Table.config.firsttd, table).find("input[type='checkbox'][data-index]").size() > 0) {
+                if ($(Table.config.firsttd, table).find("input[type='checkbox'][data-index]").length) {
                     // 挺拽选择,需要重新绑定事件
-                    require(['drag', 'drop'], function () {
-                        $(Table.config.firsttd, table).drag("start", function (ev, dd) {
-                            return $('<div class="selection" />').css('opacity', .65).appendTo(document.body);
-                        }).drag(function (ev, dd) {
-                            $(dd.proxy).css({
-                                top: Math.min(ev.pageY, dd.startY),
-                                left: Math.min(ev.pageX, dd.startX),
-                                height: Math.abs(ev.pageY - dd.startY),
-                                width: Math.abs(ev.pageX - dd.startX)
-                            });
-                        }).drag("end", function (ev, dd) {
-                            $(dd.proxy).remove();
-                        });
-                        $(Table.config.firsttd, table).drop("start", function () {
-                            Table.api.toggleattr(this);
-                        }).drop(function () {
-                            Table.api.toggleattr(this);
-                        }).drop("end", function () {
-                            Table.api.toggleattr(this);
-                        });
-                        $.drop({
-                            multi: true
-                        });
-                    });
+                    // require(['drag', 'drop'], function () {
+                    //     $(Table.config.firsttd, table).drag("start", function (ev, dd) {
+                    //         return $('<div class="selection" />').css('opacity', .65).appendTo(document.body);
+                    //     }).drag(function (ev, dd) {
+                    //         $(dd.proxy).css({
+                    //             top: Math.min(ev.pageY, dd.startY),
+                    //             left: Math.min(ev.pageX, dd.startX),
+                    //             height: Math.abs(ev.pageY - dd.startY),
+                    //             width: Math.abs(ev.pageX - dd.startX)
+                    //         });
+                    //     }).drag("end", function (ev, dd) {
+                    //         $(dd.proxy).remove();
+                    //     });
+                    //     $(Table.config.firsttd, table).drop("start", function () {
+                    //         Table.api.toggleattr(this);
+                    //     }).drop(function () {
+                    //         Table.api.toggleattr(this);
+                    //     }).drop("end", function () {
+                    //         Table.api.toggleattr(this);
+                    //     });
+                    //     $.drop({
+                    //         multi: true
+                    //     });
+                    // });
                 }
             });
             // 处理选中筛选框后按钮的状态统一变更
@@ -219,20 +220,20 @@ var Table = {
                 if (url.indexOf("{ids}") !== -1) {
                     url = Table.api.replaceurl(url, {ids: ids.length > 0 ? ids.join(",") : 0}, table);
                 }
-                Fast.api.open(url, __('Add'), $(this).data() || {});
+                Fast.api.open(url, lang('Add'), $(this).data() || {});
             });
             // 导入按钮事件
-            if ($(Table.config.importbtn, toolbar).size() > 0) {
-                require(['upload'], function (Upload) {
-                    Upload.api.plupload($(Table.config.importbtn, toolbar), function (data, ret) {
-                        Fast.api.ajax({
-                            url: options.extend.import_url,
-                            data: {file: data.url},
-                        }, function (data, ret) {
-                            table.bootstrapTable('refresh');
-                        });
-                    });
-                });
+            if ($(Table.config.importbtn, toolbar).length) {
+                // require(['upload'], function (Upload) {
+                //     Upload.api.plupload($(Table.config.importbtn, toolbar), function (data, ret) {
+                //         Fast.api.ajax({
+                //             url: options.extend.import_url,
+                //             data: {file: data.url},
+                //         }, function (data, ret) {
+                //             table.bootstrapTable('refresh');
+                //         });
+                //     });
+                // });
             }
             // 批量编辑按钮事件
             $(toolbar).on('click', Table.config.editbtn, function () {
@@ -242,13 +243,13 @@ var Table = {
                     var url = options.extend.edit_url;
                     row = $.extend({}, row ? row : {}, {ids: row[options.pk]});
                     var url = Table.api.replaceurl(url, row, table);
-                    Fast.api.open(url, __('Edit'), $(that).data() || {});
+                    Fast.api.open(url, lang('Edit'), $(that).data() || {});
                 });
             });
             //清空回收站
             $(document).on('click', Table.config.destroyallbtn, function () {
                 var that = this;
-                Layer.confirm(__('Are you sure you want to truncate?'), function () {
+                Layer.confirm(lang('Are you sure you want to truncate?'), function () {
                     var url = $(that).data("url") ? $(that).data("url") : $(that).attr("href");
                     Fast.api.ajax(url, function () {
                         Layer.closeAll();
@@ -278,8 +279,8 @@ var Table = {
                 var that = this;
                 var ids = Table.api.selectedids(table);
                 Layer.confirm(
-                    __('Are you sure you want to delete the %s selected item?', ids.length),
-                    {icon: 3, title: __('Warning'), offset: 0, shadeClose: true},
+                    lang('Are you sure you want to delete the %s selected item?', ids.length),
+                    {icon: 3, title: lang('Warning'), offset: 0, shadeClose: true},
                     function (index) {
                         Table.api.multi("del", ids, table, that);
                         Layer.close(index);
@@ -287,55 +288,55 @@ var Table = {
                 );
             });
             // 拖拽排序
-            require(['dragsort'], function () {
-                //绑定拖动排序
-                $("tbody", table).dragsort({
-                    itemSelector: 'tr:visible',
-                    dragSelector: "a.btn-dragsort",
-                    dragEnd: function (a, b) {
-                        var element = $("a.btn-dragsort", this);
-                        var data = table.bootstrapTable('getData');
-                        var current = data[parseInt($(this).data("index"))];
-                        var options = table.bootstrapTable('getOptions');
-                        //改变的值和改变的ID集合
-                        var ids = $.map($("tbody tr:visible", table), function (tr) {
-                            return data[parseInt($(tr).data("index"))][options.pk];
-                        });
-                        var changeid = current[options.pk];
-                        var pid = typeof current.pid != 'undefined' ? current.pid : '';
-                        var params = {
-                            url: table.bootstrapTable('getOptions').extend.dragsort_url,
-                            data: {
-                                ids: ids.join(','),
-                                changeid: changeid,
-                                pid: pid,
-                                field: Table.config.dragsortfield,
-                                orderway: options.sortOrder,
-                                table: options.extend.table,
-                                pk: options.pk
-                            }
-                        };
-                        Fast.api.ajax(params, function (data, ret) {
-                            var success = $(element).data("success") || $.noop;
-                            if (typeof success === 'function') {
-                                if (false === success.call(element, data, ret)) {
-                                    return false;
-                                }
-                            }
-                            table.bootstrapTable('refresh');
-                        }, function (data, ret) {
-                            var error = $(element).data("error") || $.noop;
-                            if (typeof error === 'function') {
-                                if (false === error.call(element, data, ret)) {
-                                    return false;
-                                }
-                            }
-                            table.bootstrapTable('refresh');
-                        });
-                    },
-                    placeHolderTemplate: ""
-                });
-            });
+            // require(['dragsort'], function () {
+            //     //绑定拖动排序
+            //     $("tbody", table).dragsort({
+            //         itemSelector: 'tr:visible',
+            //         dragSelector: "a.btn-dragsort",
+            //         dragEnd: function (a, b) {
+            //             var element = $("a.btn-dragsort", this);
+            //             var data = table.bootstrapTable('getData');
+            //             var current = data[parseInt($(this).data("index"))];
+            //             var options = table.bootstrapTable('getOptions');
+            //             //改变的值和改变的ID集合
+            //             var ids = $.map($("tbody tr:visible", table), function (tr) {
+            //                 return data[parseInt($(tr).data("index"))][options.pk];
+            //             });
+            //             var changeid = current[options.pk];
+            //             var pid = typeof current.pid != 'undefined' ? current.pid : '';
+            //             var params = {
+            //                 url: table.bootstrapTable('getOptions').extend.dragsort_url,
+            //                 data: {
+            //                     ids: ids.join(','),
+            //                     changeid: changeid,
+            //                     pid: pid,
+            //                     field: Table.config.dragsortfield,
+            //                     orderway: options.sortOrder,
+            //                     table: options.extend.table,
+            //                     pk: options.pk
+            //                 }
+            //             };
+            //             Fast.api.ajax(params, function (data, ret) {
+            //                 var success = $(element).data("success") || $.noop;
+            //                 if (typeof success === 'function') {
+            //                     if (false === success.call(element, data, ret)) {
+            //                         return false;
+            //                     }
+            //                 }
+            //                 table.bootstrapTable('refresh');
+            //             }, function (data, ret) {
+            //                 var error = $(element).data("error") || $.noop;
+            //                 if (typeof error === 'function') {
+            //                     if (false === error.call(element, data, ret)) {
+            //                         return false;
+            //                     }
+            //                 }
+            //                 table.bootstrapTable('refresh');
+            //             });
+            //         },
+            //         placeHolderTemplate: ""
+            //     });
+            // });
             $(table).on("click", "input[data-id][name='checkbox']", function (e) {
                 var ids = $(this).data("id");
                 var row = Table.api.getrowbyid(table, ids);
@@ -351,15 +352,15 @@ var Table = {
                 var row = Table.api.getrowbyid(table, ids);
                 row.ids = ids;
                 var url = Table.api.replaceurl(options.extend.edit_url, row, table);
-                Fast.api.open(url, __('Edit'), $(this).data() || {});
+                Fast.api.open(url, lang('Edit'), $(this).data() || {});
             });
             $(table).on("click", "[data-id].btn-del", function (e) {
                 e.preventDefault();
                 var id = $(this).data("id");
                 var that = this;
                 Layer.confirm(
-                    __('Are you sure you want to delete this item?'),
-                    {icon: 3, title: __('Warning'), shadeClose: true},
+                    lang('Are you sure you want to delete this item?'),
+                    {icon: 3, title: lang('Warning'), shadeClose: true},
                     function (index) {
                         Table.api.multi("del", id, table, that);
                         Layer.close(index);
@@ -407,7 +408,7 @@ var Table = {
                     var ids = row[options.pk];
                     row = $.extend({}, row ? row : {}, {ids: ids});
                     var url = options.extend.edit_url;
-                    Fast.api.open(Table.api.replaceurl(url, row, table), __('Edit'), $(this).data() || {});
+                    Fast.api.open(Table.api.replaceurl(url, row, table), lang('Edit'), $(this).data() || {});
                 },
                 'click .btn-delone': function (e, value, row, index) {
                     e.stopPropagation();
@@ -422,8 +423,8 @@ var Table = {
                         top = left = undefined;
                     }
                     Layer.confirm(
-                        __('Are you sure you want to delete this item?'),
-                        {icon: 3, title: __('Warning'), offset: [top, left], shadeClose: true},
+                        lang('Are you sure you want to delete this item?'),
+                        {icon: 3, title: lang('Warning'), offset: [top, left], shadeClose: true},
                         function (index) {
                             var table = $(that).closest('table');
                             var options = table.bootstrapTable('getOptions');
@@ -507,11 +508,11 @@ var Table = {
                     color = index > -1 && typeof colorArr[index] !== 'undefined' ? colorArr[index] : 'primary';
                 }
                 if (!display) {
-                    display = __(value.charAt(0).toUpperCase() + value.slice(1));
+                    display = lang(value.charAt(0).toUpperCase() + value.slice(1));
                 }
                 var html = '<span class="text-' + color + '">' + (icon ? '<i class="' + icon + '"></i> ' : '') + display + '</span>';
                 if (this.operate != false) {
-                    html = '<a href="javascript:;" class="searchit" data-toggle="tooltip" title="' + __('Click to search %s', display) + '" data-field="' + this.field + '" data-value="' + value + '">' + html + '</a>';
+                    html = '<a href="javascript:;" class="searchit" data-toggle="tooltip" title="' + lang('Click to search %s', display) + '" data-field="' + this.field + '" data-value="' + value + '">' + html + '</a>';
                 }
                 return html;
             },
@@ -524,7 +525,7 @@ var Table = {
                 if (typeof this.disable !== "undefined") {
                     disable = typeof this.disable === "function" ? this.disable.call(this, value, row, index) : this.disable;
                 }
-                return "<a href='javascript:;' data-toggle='tooltip' title='" + __('Click to toggle') + "' class='btn-change " + (disable ? 'btn disabled' : '') + "' data-id='"
+                return "<a href='javascript:;' data-toggle='tooltip' title='" + lang('Click to toggle') + "' class='btn-change " + (disable ? 'btn disabled' : '') + "' data-id='"
                     + row.id + "' " + (url ? "data-url='" + url + "'" : "") + " data-params='" + this.field + "=" + (value == yes ? no : yes) + "'><i class='fa fa-toggle-on " + (value == yes ? 'text-' + color : 'fa-flip-horizontal text-gray') + " fa-2x'></i></a>";
             },
             url: function (value, row, index) {
@@ -536,16 +537,16 @@ var Table = {
                     value = row[this.customField];
                     field = this.customField;
                 }
-                return '<a href="javascript:;" class="searchit" data-toggle="tooltip" title="' + __('Click to search %s', value) + '" data-field="' + field + '" data-value="' + value + '">' + value + '</a>';
+                return '<a href="javascript:;" class="searchit" data-toggle="tooltip" title="' + lang('Click to search %s', value) + '" data-field="' + field + '" data-value="' + value + '">' + value + '</a>';
             },
             addtabs: function (value, row, index) {
                 var url = Table.api.replaceurl(this.url, row, this.table);
-                var title = this.atitle ? this.atitle : __("Search %s", value);
+                var title = this.atitle ? this.atitle : lang("Search %s", value);
                 return '<a href="' + Fast.api.fixurl(url) + '" class="addtabsit" data-value="' + value + '" title="' + title + '">' + value + '</a>';
             },
             dialog: function (value, row, index) {
                 var url = Table.api.replaceurl(this.url, row, this.table);
-                var title = this.atitle ? this.atitle : __("View %s", value);
+                var title = this.atitle ? this.atitle : lang("View %s", value);
                 return '<a href="' + Fast.api.fixurl(url) + '" class="dialogit" data-value="' + value + '" title="' + title + '">' + value + '</a>';
             },
             flag: function (value, row, index) {
@@ -571,10 +572,10 @@ var Table = {
                     if (value == '')
                         return true;
                     color = value && typeof colorArr[value] !== 'undefined' ? colorArr[value] : 'primary';
-                    display = typeof that.searchList !== 'undefined' && typeof that.searchList[value] !== 'undefined' ? that.searchList[value] : __(value.charAt(0).toUpperCase() + value.slice(1));
+                    display = typeof that.searchList !== 'undefined' && typeof that.searchList[value] !== 'undefined' ? that.searchList[value] : lang(value.charAt(0).toUpperCase() + value.slice(1));
                     label = '<span class="label label-' + color + '">' + display + '</span>';
                     if (that.operate) {
-                        html.push('<a href="javascript:;" class="searchit" data-toggle="tooltip" title="' + __('Click to search %s', display) + '" data-field="' + field + '" data-value="' + value + '">' + label + '</a>');
+                        html.push('<a href="javascript:;" class="searchit" data-toggle="tooltip" title="' + lang('Click to search %s', display) + '" data-field="' + field + '" data-value="' + value + '">' + label + '</a>');
                     } else {
                         html.push(label);
                     }
@@ -587,9 +588,9 @@ var Table = {
             datetime: function (value, row, index) {
                 var datetimeFormat = typeof this.datetimeFormat === 'undefined' ? 'YYYY-MM-DD HH:mm:ss' : this.datetimeFormat;
                 if (isNaN(value)) {
-                    return value ? Moment(value).format(datetimeFormat) : __('None');
+                    return value ? Moment(value).format(datetimeFormat) : lang('None');
                 } else {
-                    return value ? Moment(parseInt(value) * 1000).format(datetimeFormat) : __('None');
+                    return value ? Moment(parseInt(value) * 1000).format(datetimeFormat) : lang('None');
                 }
             },
             operate: function (value, row, index) {

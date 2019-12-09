@@ -60,7 +60,6 @@
       if (typeof that.options.templateFormatter === 'function') {
           $content = that.options.templateFormatter.call(that, item, i, data);
       } else {
-          var Template = require('template');
           $content = Template(that.options.templateFormatter, {item: item, i: i, data: data});
       }
       return $content;

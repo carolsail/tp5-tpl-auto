@@ -1,5 +1,3 @@
-import {fixurl} from './util'
-
 /**
  * https://bootstrap-datepicker.readthedocs.io/en/latest/
  * @param {*} element 

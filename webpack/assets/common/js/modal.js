@@ -24,7 +24,7 @@ const Modal = {
       if(item.length){
         var modal = item.find('.modal')
         var form = item.find('form')
-        modal.modal()
+        modal.modal({backdrop: false})
         modal.off('shown.bs.modal').on('shown.bs.modal', function (e) {
           if(options.show && typeof options.show === 'function'){
             options['show'](e);

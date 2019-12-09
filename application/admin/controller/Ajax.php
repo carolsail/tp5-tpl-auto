@@ -102,11 +102,8 @@ class Ajax extends Backend
             $attachment->data(array_filter($params));
             $attachment->save();
             \think\facade\Hook::listen("upload_after", $attachment);
-            // $this->success(__('Upload successful'), null, [
-            //     'url' => $uploadDir . $splInfo->getSaveName()
-            // ]);
-            $this->success('Upload successful', null, [
-              'url' => $uploadDir . $splInfo->getSaveName()
+            $this->success(__('Upload successful'), null, [
+                'url' => $uploadDir . $splInfo->getSaveName()
             ]);
         } else {
             // 上传失败获取错误信息
