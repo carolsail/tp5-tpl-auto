@@ -30,6 +30,7 @@ try {
   require('dragsort');
   require('cxselect');
   require('summernote');
+  
 } catch (e) {}
 
 $(document).ready(function() {
@@ -37,9 +38,4 @@ $(document).ready(function() {
     checkboxClass: 'icheckbox_square-blue',
     radioClass: 'iradio_square-blue'
   });
-
-  $('.js-datepicker').datepicker({
-    autoclose: true,
-    todayHighlight: true
-  })
 });

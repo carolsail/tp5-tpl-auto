@@ -71,6 +71,22 @@ const Http = {
       }
     }, options)
     return $.ajax(options)
+  },
+  /** 
+   * 采用promise
+   */
+  ajaxPromise(url){
+    return new Promise((resolve, reject)=>{
+      $.ajax({
+        url: url,
+        success(response) {
+          resolve(response)
+        },
+        error(err) {
+          reject(err)
+        }
+      })
+    })
   }
 }
 

@@ -5,6 +5,8 @@ namespace app\common\controller;
 use think\Controller;
 use think\facade\Hook;
 use think\Loader;
+use think\facade\Env;
+use think\facade\Lang;
 
 class Backend extends Controller
 {
@@ -34,9 +36,23 @@ class Backend extends Controller
             $this->view->engine->layout('layout/' . $this->layout);
         }
 
+        // 加载当前控制器语言包
+        $this->loadlang($controller_name);
+        // 将语言包传递到前台config
+        $config['lang'] = Lang::get();
+
     	// 配置信息后
         Hook::listen("config_init", $config);
         $this->assign('config', $config);
+    }
+
+    /**
+     * 加载语言文件
+     * @param string $name
+     */
+    protected function loadlang($name)
+    {
+        Lang::load(Env::get('app_path') . $this->request->module() . '/lang/' . $this->request->langset() . '/' . str_replace('.', '/', $name) . '.php');
     }
 
 }

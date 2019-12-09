@@ -1,4 +1,4 @@
-import {fixurl, cdnurl} from './util'
+import {fixurl, cdnurl, lang} from './util'
 
 const Upload = {
     list: {},
@@ -28,7 +28,7 @@ const Upload = {
             maxcount = typeof maxcount !== "undefined" ? maxcount : 0;
             if (maxcount > 0 && input_id) {
                 var inputObj = $("#" + input_id);
-                if (inputObj.size() > 0) {
+                if (inputObj.length) {
                     var value = $.trim(inputObj.val());
                     var nums = value === '' ? 0 : value.split(/\,/).length;
                     var remains = maxcount - nums;
@@ -36,7 +36,7 @@ const Upload = {
                         for (var i = 0; i < files.length; i++) {
                             up.removeFile(files[i]);
                         }
-                        Toastr.error('You can upload up to '+remains+'file');
+                        Toastr.error(lang('You can upload up to %d file%s', remains));
                         return false;
                     }
                 }
@@ -195,7 +195,7 @@ const Upload = {
                 if (mimetype && mimetype !== "*" && mimetype.indexOf("/") === -1) {
                     var tempArr = mimetype.split(',');
                     for (var i = 0; i < tempArr.length; i++) {
-                        mimetypeArr.push({title: 'Files', extensions: tempArr[i]});
+                        mimetypeArr.push({title: lang('Files'), extensions: tempArr[i]});
                     }
                     mimetype = mimetypeArr;
                 }
@@ -219,7 +219,7 @@ const Upload = {
                         BeforeUpload: Upload.events.onBeforeUpload,
                         UploadProgress: function (up, file) {
                             var button = up.settings.button;
-                            $(button).prop("disabled", true).html("<i class='fa fa-upload'></i> 上傳進度" + file.percent + "%");
+                            $(button).prop("disabled", true).html("<i class='fa fa-upload'></i> " + lang('Upload') + file.percent + "%");
                             Upload.events.onUploadProgress(up, file);
                         },
                         FileUploaded: function (up, file, info) {
@@ -374,7 +374,7 @@ const Upload = {
         },
         // AJAX异步上传
         send: function (file, onUploadSuccess, onUploadError, onUploadComplete) {
-            var index = layer.msg('正在上傳', {offset: 't', time: 0});
+            var index = layer.msg(lang('Uploading'), {offset: 't', time: 0});
             var id = plupload.guid();
             var _onPostInit = Upload.events.onPostInit;
             Upload.events.onPostInit = function () {

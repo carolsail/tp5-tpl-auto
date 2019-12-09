@@ -3,7 +3,6 @@ import Http from '../../common/js/http'
 import Form from '../../common/js/form'
 import Modal from '../../common/js/modal'
 
-
 export function index(){
 	//console.log(Config)
 	//console.log(Template.render($("#tpl-state").html(), {type: 2}))
@@ -34,35 +33,6 @@ export function ajax() {
 
 export function form() {
 	Form.api.bindevent($("form[role=form]"))
-	$('.summernote').summernote({
-		height: 200,
-	  callbacks: {
-			onImageUpload: function(files) {
-					for(let i=0; i < files.length; i++) {
-							$.upload(files[i]);
-					}
-			}
-		}
-	})
-	$.upload = function (file) {
-		let out = new FormData();
-		out.append('file', file, file.name);
-
-		$.ajax({
-				method: 'POST',
-				url: 'upload.php',
-				contentType: false,
-				cache: false,
-				processData: false,
-				data: out,
-				success: function (img) {
-						$('#summernote').summernote('insertImage', img);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-						console.error(textStatus + " " + errorThrown);
-				}
-		});
-};
 }
 
 export function modal() {

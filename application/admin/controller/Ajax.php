@@ -1,11 +1,14 @@
 <?php
 
 namespace app\admin\controller;
+
 use app\common\controller\Backend;
 use libs\Random;
 use think\facade\Env;
+use think\Db;
 
-class Ajax extends Backend {
+class Ajax extends Backend
+{
 
     /**
      * 上传文件

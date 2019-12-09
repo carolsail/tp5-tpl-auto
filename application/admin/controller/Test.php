@@ -26,8 +26,8 @@ class Test extends Backend
 
     public function modal()
     {
-        if($this->request->isAjax()){
-            if($this->request->isGet()) {
+        if ($this->request->isAjax()) {
+            if ($this->request->isGet()) {
                 $this->view->engine->layout(false);
                 return view('test/modal_form');
             }

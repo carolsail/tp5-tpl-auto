@@ -1,5 +1,6 @@
 import Http from './http'
 import Upload from './upload'
+import {cdnurl} from './util'
 import {select2, datepicker, daterangepicker, datetimepicker} from './plugins'
 
 const Form = {
@@ -96,6 +97,99 @@ const Form = {
                 $.cxSelect.defaults.jsonValue = 'value';
                 $.cxSelect.defaults.jsonSpace = 'data';
                 $("[data-toggle='cxselect']", form).cxSelect();
+            }
+        },
+        summernote: function(form) {
+            if ($(".summernote,.editor", form).length) {
+                var imageButton = function (context) {
+                    var ui = $.summernote.ui;
+                    var button = ui.button({
+                        contents: '<i class="fa fa-file-image-o"/>',
+                        tooltip: 'Choose',
+                        click: function () {
+                            // parent.Fast.api.open("general/attachment/select?element_id=&multiple=true&mimetype=image/*", __('Choose'), {
+                            //     callback: function (data) {
+                            //         var urlArr = data.url.split(/\,/);
+                            //         $.each(urlArr, function () {
+                            //             var url = Fast.api.cdnurl(this);
+                            //             context.invoke('editor.insertImage', url);
+                            //         });
+                            //     }
+                            // });
+                            return false;
+                        }
+                    });
+                    return button.render();
+                };
+                var attachmentButton = function (context) {
+                    var ui = $.summernote.ui;
+                    var button = ui.button({
+                        contents: '<i class="fa fa-file"/>',
+                        tooltip: 'Choose',
+                        click: function () {
+                            // parent.Fast.api.open("general/attachment/select?element_id=&multiple=true&mimetype=*", __('Choose'), {
+                            //     callback: function (data) {
+                            //         var urlArr = data.url.split(/\,/);
+                            //         $.each(urlArr, function () {
+                            //             var url = Fast.api.cdnurl(this);
+                            //             var node = $("<a href='" + url + "'>" + url + "</a>");
+                            //             context.invoke('insertNode', node[0]);
+                            //         });
+                            //     }
+                            // });
+                            return false;
+                        }
+                    });
+                    return button.render();
+                };
+                $(".summernote,.editor", form).summernote({
+                    height: 250,
+                    lang: 'zh-CN',
+                    fontNames: [
+                        'Arial', 'Arial Black', 'Serif', 'Sans', 'Courier',
+                        'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande',
+                        "Open Sans", "Hiragino Sans GB", "Microsoft YaHei",
+                        '微软雅黑', '宋体', '黑体', '仿宋', '楷体', '幼圆',
+                    ],
+                    fontNamesIgnoreCheck: [
+                        "Open Sans", "Microsoft YaHei",
+                        '微软雅黑', '宋体', '黑体', '仿宋', '楷体', '幼圆'
+                    ],
+                    toolbar: [
+                        ['style', ['style', 'undo', 'redo']],
+                        ['font', ['bold', 'underline', 'strikethrough', 'clear']],
+                        ['fontname', ['color', 'fontname', 'fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph', 'height']],
+                        ['table', ['table', 'hr']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['select', ['image', 'attachment']],
+                        ['view', ['fullscreen', 'codeview', 'help']],
+                    ],
+                    buttons: {
+                        image: imageButton,
+                        attachment: attachmentButton,
+                    },
+                    dialogsInBody: true,
+                    followingToolbar: false,
+                    callbacks: {
+                        onChange: function (contents) {
+                            $(this).val(contents);
+                            $(this).trigger('change');
+                        },
+                        onInit: function () {
+                        },
+                        onImageUpload: function (files) {
+                            var that = this;
+                            //依次上传图片
+                            for (var i = 0; i < files.length; i++) {
+                                Upload.api.send(files[i], function (data) {
+                                    var url = cdnurl(data.url);
+                                    $(that).summernote("insertImage", url, 'filename');
+                                });
+                            }
+                        }
+                    }
+                });
             }
         },
         plupload: function (form) {
@@ -369,13 +463,7 @@ const Form = {
 
             events.cxselect(form)
 
-            // events.selectpage(form);
-
-
-            // events.citypicker(form);
-
-
-
+            events.summernote(form)
 
             // events.fieldlist(form);
 

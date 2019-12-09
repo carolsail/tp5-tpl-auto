@@ -20,6 +20,56 @@ function cdnurl(url, domain) {
 		return url
 }
 
+// 加载语言
+function lang() {
+	var Lang = Config.lang
+	var args = arguments,
+			string = args[0],
+			i = 1;
+	string = string.toLowerCase();
+
+	if (typeof Lang[string] != 'undefined') {
+			if (typeof Lang[string] == 'object')
+					return Lang[string];
+			string = Lang[string];
+	} else if (string.indexOf('.') !== -1 && false) {
+			var arr = string.split('.');
+			var current = Lang[arr[0]];
+			for (var i = 1; i < arr.length; i++) {
+					current = typeof current[arr[i]] != 'undefined' ? current[arr[i]] : '';
+					if (typeof current != 'object')
+							break;
+			}
+			if (typeof current == 'object')
+					return current;
+			string = current;
+	} else {
+			string = args[0];
+	}
+	//console.log(string)
+	return string.replace(/%((%)|s|d)/g, function (m) {
+			// m is the matched format, e.g. %s, %d
+			var val = null;
+			if (m[2]) {
+					val = m[2];
+			} else {
+					val = args[i];
+					// A switch statement so that the formatter can be extended. Default is %s
+					switch (m) {
+							case '%d':
+									val = parseFloat(val);
+									if (isNaN(val)) {
+											val = 0;
+									}
+									break;
+					}
+					i++;
+			}
+			//console.log(Lang)
+			return val;
+	});
+}
+
 // dom转对象数组
 function serializeObj(e){
 	let o = {};
@@ -70,4 +120,4 @@ function query(name, url) {
 	return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-export {fixurl, cdnurl, serializeObj, downloadFile, trim, query}
+export {fixurl, cdnurl, lang, serializeObj, downloadFile, trim, query}
