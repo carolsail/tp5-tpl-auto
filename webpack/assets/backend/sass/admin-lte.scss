@@ -30,26 +30,39 @@
 .plupload-preview {
   padding: 0 10px;
   margin-bottom: 0;
-}
-.plupload-preview li {
-  margin-top: 15px;
-}
-.plupload-preview .thumbnail {
-  margin-bottom: 10px;
-}
-.plupload-preview a {
-  display: block;
-}
-.plupload-preview a:first-child {
-  height: 90px;
-}
-.plupload-preview a img {
-  height: 80px;
-  object-fit: cover;
+  li {
+    margin-top: 15px;
+  }
+  .thumbnail {
+    margin-bottom: 10px;
+  }
+  a {
+    display: block;
+    img {
+      height: 80px;
+      object-fit: cover;
+    }
+    &:first-child {
+      height: 90px;
+    }
+  }
 }
 
 /* nice-validator */
 .msg-box .n-msg {
   color: #dd4b39;
   font-size: 10px;
+}
+
+/* login page */
+.login-page {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  .login-avatar{
+    margin-bottom: 10px;
+    img {
+      max-width: 100px;
+    }
+  }
 }

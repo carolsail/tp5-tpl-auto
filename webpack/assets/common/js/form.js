@@ -134,6 +134,14 @@ const Form = {
                 datetimepicker($(".datetimepicker", form))
             }
         },
+        icheck: function(form) {
+            if ($('.icheck', form).length) {
+                $('.icheck', form).iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue'
+                })
+            }
+        },
         cxselect: function (form) {
             //多级联动
             if ($("[data-toggle='cxselect']", form).length) {
@@ -502,6 +510,8 @@ const Form = {
             events.daterangepicker(form)
 
             events.datetimepicker(form)
+
+            events.icheck(form)
 
             events.plupload(form)
 

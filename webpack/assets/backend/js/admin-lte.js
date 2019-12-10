@@ -23,6 +23,7 @@ try {
   require('bootstrap-table');
   require('art-template/lib/template-web');
   require('nice-validator');
+  require('nice-validator/dist/local/en');
   require('plupload');
   require('select2');
   require('bootstrap-daterangepicker');
@@ -32,10 +33,3 @@ try {
   require('summernote');
   
 } catch (e) {}
-
-$(document).ready(function() {
-  $('.icheck').iCheck({
-    checkboxClass: 'icheckbox_square-blue',
-    radioClass: 'iradio_square-blue'
-  });
-});

@@ -113,6 +113,7 @@ class Backend extends Controller
         $upload = config('upload.');
 
         $config = [
+            'site' => config('site.'),
             'module_name' => $module_name,
             'controller_name' => $controller_name,
             'action_name' => $action_name,

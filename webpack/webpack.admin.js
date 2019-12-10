@@ -43,12 +43,14 @@ mix.autoload({
 mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台js
 .sass('assets/backend/sass/admin-lte.scss', `${output}/backend/css`) // 打包后台css
 .js('assets/backend/js/test.js', `${output}/backend/js`)
+.js('assets/backend/js/index.js', `${output}/backend/js`)
 .extract([
 'admin-lte', 
 'bootstrap-sass', 
 'fastclick', 
 'jquery', 
 'jquery-slimscroll', 
+'icheck',
 'lodash', 
 'layerui',
 'moment', 
