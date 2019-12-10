@@ -22,7 +22,7 @@ try {
   require('toastr');
   require('bootstrap-table');
   require('art-template/lib/template-web');
-  require('parsleyjs');
+  require('nice-validator');
   require('plupload');
   require('select2');
   require('bootstrap-daterangepicker');
@@ -34,7 +34,7 @@ try {
 } catch (e) {}
 
 $(document).ready(function() {
-  $('.i-checks').iCheck({
+  $('.icheck').iCheck({
     checkboxClass: 'icheckbox_square-blue',
     radioClass: 'iradio_square-blue'
   });

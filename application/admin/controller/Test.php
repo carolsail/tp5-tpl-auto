@@ -43,4 +43,10 @@ class Test extends Backend
     {
         return view();
     }
+
+    public function select2ajax()
+    {
+        $this->model = model('Category');
+        return parent::select2ajax();
+    }
 }

@@ -33,7 +33,7 @@
     "dragsort": "^1.0.6",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "layerui": "^3.1.1",
-    "parsleyjs": "^2.9.1",
+    "nice-validator": "^1.1.4",
     "plupload": "^2.3.6",
     "select2": "^4.0.12",
     "summernote": "^0.8.12",

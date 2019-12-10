@@ -1,4 +1,4 @@
-<form role="form" action="{:url('/admin/test/form')}" method='POST' data-parsley-validate="true" novalidate>
+<form role="form" action="{:url('/admin/test/form')}" method='POST' data-validator-option="{timely:2, focusCleanup:true}">
   <div class="box box-info">
     <div class="box-header">
       <h3 class="box-title">Form Demo</h3>
@@ -14,46 +14,60 @@
           <div class="form-group">
             <label>名稱 <span class="text-danger">*</span></label>
             <div class="controls">
-                <input type="text" name="row[name]" class="form-control" placeholder="名稱" data-parsley-required="true">
+                <input type="text" name="row[name]" class="form-control" placeholder="名稱" data-rule="required">
             </div>
           </div>
         
           <div class="form-group">
             <label>電郵-郵箱嚴重</label>
             <div class="controls">
-                <input type="email" name="row[email]" class="form-control" placeholder="電郵" data-parsley-email="true">
+                <input type="text" name="row[email]" class="form-control" placeholder="電郵" data-rule="email" data-rule-email="[/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, 'email err']">
             </div>
           </div>
         
           <div class="form-group">
             <label>電話-電話驗證</label>
             <div class="controls">
-                <input type="text" name="row[mobile]" placeholder="電話" class="form-control" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$">
+                <input type="text" name="row[mobile]" placeholder="電話" class="form-control" data-rule="mobile" data-rule-mobile="[/^[\d\+\-\.\(\)\/\s]*$/, 'mobile err']">
             </div>
           </div>
 
           <div class="form-group">
             <label>價格-正浮點數驗證</label>
             <div class="controls">
-                <input type="text" name="row[price]" class="form-control" placeholder="價格" data-parsley-type="number" data-parsley-min="0" />
+                <input type="text" name="row[price]" class="form-control" placeholder="價格" data-rule="price" data-rule-price="[/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/, 'price err']" />
             </div>
           </div>
 
           <div class="form-group">
             <label>庫存-正整數驗證</label>
             <div class="controls">
-              <input type="number" name="row[stock]" class="form-control" placeholder="庫存" value="" data-parsley-pattern="\d+"/>
+              <input type="text" name="row[stock]" class="form-control" placeholder="庫存" data-rule="stock" data-rule-stock="[/^\d+$/, 'stock err']"/>
             </div>
           </div>
 
           <div class="form-group">
             <label>select2</label>
             <div class="controls">
-              <select class='select2 hidden' style='width:100%;'>
+              <select name="row[select2]" class='select2 hidden' style='width:100%;' multiple>
                 <option value=''>請選擇</option>
                 <option value=''>sail</option>
                 <option value=''>test</option>
               </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>select2ajax</label>
+            <div class="controls">
+              <select 
+                name="row[select2ajax]"
+                class="select2ajax hidden" 
+                data-url="{:url('/admin/test/select2ajax')}" 
+                data-result="name" 
+                data-selection="name" 
+                data-where="id|name"
+                style="width:100%;"></select>
             </div>
           </div>
 

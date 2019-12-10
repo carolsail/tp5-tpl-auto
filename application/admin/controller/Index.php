@@ -10,4 +10,10 @@ class Index extends Backend
     {
         return view();
     }
+
+    public function login()
+    {
+        $this->view->engine->layout('layout/blank');
+        return view();
+    }
 }

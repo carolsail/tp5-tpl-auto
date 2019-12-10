@@ -101,58 +101,71 @@ function select2(element, options){
 
 /**
  * https://select2.org/
+ * @param {*} element 
  * @param {*} options 
- * @param options.selector string 元素選擇器
  * @param options.url string 請求服務器
  * @param options.inputLength string 限制字符數才進行服務器請求
- * @param options.data function 重新組合請求服務器的參數
- * @param options.process function
- * @param options.result function
- * @param options.selection function
- * @param options.selected function
+ * @param options.data string 携带查询参数
+ * @param options.process string 返回服务器数据封装的对象名称
+ * @param options.result string 查询框中待显示出来的字段
+ * @param options.selection string 显示框中待显示出来的字段
+ * @param options.where string 搜索条件
+ * @param options.cb_data function 重新組合請求服務器的參數
+ * @param options.cb_process function
+ * @param options.cb_result function
+ * @param options.cb_selection function
+ * @param options.cb_selected function
  *  
  */
-function select2Ajax(options){
-    $(options.selector).select2({
+function select2ajax(element, options){
+    options = $.extend({ width: 'resolve',  dataType: 'json', delay: 250, cache: true, pageLimit: 10 }, options)
+    $(element).select2({
         ajax: {
             url: options.url,
-            dataType: 'json',
-            delay: 250,
+            dataType: options.dataType,
+            delay: options.delay,
             data: function (params){
-                if(typeof options.data === 'function'){
-                    return options['data'](params)
+                if(typeof options.cb_data === 'function'){
+                    return options['cb_data'](params)
                 }
-                return { q: params.term }
+                return { q: params.term, page: params.page, limit: options.pageLimit, where: options.where }
             },
             processResults: function (data, params) {
-                if(typeof options.process === 'function'){
-                    return options['process'](data, params)
+                if(typeof options.cb_process === 'function'){
+                    return options['cb_process'](data, params)
                 }
-                return { results: data }
+                params.page = params.page || 1
+                return {
+                    results: options.process ? data[options.process] : data.rows,
+                    pagination: {
+                        more: (params.page * options.pageLimit) < data.total
+                    }
+                }
             },
-            cache: true
+            cache: options.cache
         },
         minimumInputLength: options.inputLength || 0,
+        placeholder: options.placeholder || '',
         escapeMarkup: function (markup) { return markup },
         templateResult: function(repo){
             if (repo.loading) {
                 return repo.text;
             }  
-            if(typeof options.result === 'function'){
-                return options['result'](repo)
+            if(typeof options.cb_result === 'function'){
+                return options['cb_result'](repo)
             }
-            return repo.title
+            return options.result ? repo[options.result] : ''
         },
         templateSelection: function(repo){
-            if(typeof options.selection === 'function'){
-                return options['selection'](repo)
+            if(typeof options.cb_selection === 'function'){
+                return options['cb_selection'](repo)
             }
-            return repo.title || repo.text
+            return options.selection ? repo[options.selection] : ''
         }
     }).on('select2:select', function(e){
         //填充數據回調
-        if(typeof options.selected === 'function'){
-            return options['selected'](e)
+        if(typeof options.cb_selected === 'function'){
+            return options['cb_selected'](e)
         }
     }).closest("form").on("reset",function(ev){
         //解决表单reset清空问题
@@ -161,7 +174,7 @@ function select2Ajax(options){
             this.find("select").trigger("change")
         }).bind(targetJQForm),0)
     })
-  }
+}
 
 function dragsort(element){
   $(element).dragsort({
@@ -181,4 +194,4 @@ function dragsort(element){
   })
 }
 
-export {datepicker, daterangepicker, datetimepicker, select2Ajax, select2, kindeditor, dragsort}
+export {datepicker, daterangepicker, datetimepicker, select2ajax, select2, kindeditor, dragsort}

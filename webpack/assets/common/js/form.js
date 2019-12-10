@@ -1,7 +1,7 @@
 import Http from './http'
 import Upload from './upload'
-import {cdnurl} from './util'
-import {select2, datepicker, daterangepicker, datetimepicker} from './plugins'
+import {cdnurl, lang} from './util'
+import {select2, select2ajax, datepicker, daterangepicker, datetimepicker} from './plugins'
 
 const Form = {
     config: {
@@ -10,69 +10,113 @@ const Form = {
     events: {
         validator: function (form, success, error, submit) {
             if (!form.is("form"))
-                return
-            // 表单parsley验证初始化    
-            form.parsley()
+                return;
+            //绑定表单事件
             var submitBtn = $("[type=submit]", form)
             var resetBtn = $("[type=reset]", form)
-
-            // 绑定表单事件
-            form.on('submit', function(e){
-                e.preventDefault()
-                var that = $(this)
-                if (that.parsley().isValid()) {
+            form.validator($.extend({
+                validClass: 'has-success',
+                invalidClass: 'has-error',
+                bindClassTo: '.form-group',
+                formClass: 'n-default n-bootstrap',
+                msgClass: 'n-right',
+                stopOnError: true,
+                display: function (elem) {
+                    return $(elem).closest('.form-group').find(".control-label").text().replace(/\:/, '');
+                },
+                dataFilter: function (data) {
+                    if (data.code === 1) {
+                        return data.msg ? { "ok": data.msg } : '';
+                    } else {
+                        return data.msg;
+                    }
+                },
+                target: function (input) {
+                    var target = $(input).data("target");
+                    if (target && $(target).size() > 0) {
+                        return $(target);
+                    }
+                    var $formitem = $(input).closest('.form-group'),
+                        $msgbox = $formitem.find('span.msg-box');
+                    if (!$msgbox.length) {
+                        return [];
+                    }
+                    return $msgbox;
+                },
+                valid: function (ret) {
+                    var that = this, submitBtn = $(".layer-footer [type=submit]", form);
+                    that.holdSubmit(true);
                     submitBtn.attr('disabled', true)
                     resetBtn.attr('disabled', true)
-                    var submitResult =  Form.api.submit($(this), function (data, ret) {
+                    //验证通过提交表单
+                    var submitResult = Form.api.submit($(ret), function (data, ret) {
+                        that.holdSubmit(false);
+                        submitBtn.removeAttr('disabled')
+                        resetBtn.removeAttr('disabled')
                         if (false === $(this).triggerHandler("success.form", [data, ret])) {
-                            return false
+                            return false;
                         }
                         if (typeof success === 'function') {
                             if (false === success.call($(this), data, ret)) {
-                                return false
+                                return false;
                             }
                         }
-                        // 提示信息
-                        var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : 'Operation completed'
+
                         // 关闭modal或重定向：情况根据表单是否为modal形式而定
-                        if (that.closest('.modal-item').find('.modal').length) {
-                            Toastr.success(msg)
+                        if (form.closest('.modal-item').find('.modal').length) {
                             submitBtn.removeAttr("disabled")
                             resetBtn.removeAttr("disabled")
-                            that.closest('.modal-item').find('.modal').modal('hide')
+                            form.closest('.modal-item').find('.modal').modal('hide')
                             // $(".btn-refresh").trigger("click")
                         } else {
-                          Layer.msg(msg, {icon: 6, time: 1000}, function(){
-                            location.href = ret.url
-                          })
+                            setTimeout(()=>{
+                                location.href = ret.url
+                            }, 1000)
                         }
-                        return false
                     }, function (data, ret) {
+                        that.holdSubmit(false);
                         if (false === $(this).triggerHandler("error.form", [data, ret])) {
-                            return false
+                            return false;
                         }
-                        submitBtn.removeAttr("disabled")
-                        resetBtn.removeAttr("disabled")
+                        submitBtn.removeAttr('disabled')
+                        resetBtn.removeAttr('disabled')
                         if (typeof error === 'function') {
                             if (false === error.call($(this), data, ret)) {
-                                return false
+                                return false;
                             }
                         }
-                    }, submit)
+                    }, submit);
                     //如果提交失败则释放锁定
                     if (!submitResult) {
-                        submitBtn.removeAttr("disabled")
-                        resetBtn.removeAttr("disabled")
+                        that.holdSubmit(false);
+                        submitBtn.removeAttr('disabled')
+                        resetBtn.removeAttr('disabled')
                     }
+                    return false;
                 }
-            })
+            }, form.data("validator-options") || {}));
 
+            //移除按钮的disabled
             submitBtn.removeAttr('disabled')
             resetBtn.removeAttr('disabled')
         },
         select2: function(form) {
             if($(".select2", form).length) {
                 select2($(".select2", form))
+            }
+        },
+        select2ajax: function(form) {
+            if($(".select2ajax", form).length){
+                var _that = $(".select2ajax", form)
+                var options = {
+                    url: _that.data('url'),
+                    process: _that.data('process'),
+                    result: _that.data('result'),
+                    selection: _that.data('selection'),
+                    where: _that.data('where'),
+                    pageLimit: 8
+                }
+                select2ajax($(".select2ajax", form), options)
             }
         },
         datepicker: function(form) {
@@ -413,7 +457,7 @@ const Form = {
                     }
                 }
             }, function (data, ret) {
-                // $('.form-group', form).removeClass('parsley-success parsley-error')
+                $('.form-group', form).removeClass('has-feedback has-success has-error');
                 if (data && typeof data === 'object') {
                     //刷新客户端token
                     if (typeof data.token !== 'undefined') {
@@ -450,6 +494,8 @@ const Form = {
             events.validator(form, success, error, submit)
 
             events.select2(form)
+
+            events.select2ajax(form)
 
             events.datepicker(form)
 

@@ -16,8 +16,7 @@ mix.webpackConfig({
   },
   resolve: {
     alias: {
-      'art-template': 'art-template/lib/template-web',
-      'parsley': 'parsleyjs'
+      'art-template': 'art-template/lib/template-web'
     }
   },
   module: {
@@ -56,7 +55,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'toastr', 
 'bootstrap-table', 
 'art-template',
-'parsley', 
+'nice-validator', 
 'plupload', 
 'select2', 
 'bootstrap-daterangepicker', 

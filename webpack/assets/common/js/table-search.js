@@ -27,7 +27,7 @@ import Form from './form'
 
        
         Form.api.bindevent(form);
-        form.parsley("destroy");
+        form.validator("destroy");
 
         // 表单提交
         form.on("submit", function (event) {

@@ -1,8 +1,10 @@
+import {lang} from './util'
+
 const Http = {
   // 请求成功的回调
   onAjaxSuccess(ret, onAjaxSuccess) {
     var data = typeof ret.data !== 'undefined' ? ret.data : null
-    var msg = typeof ret.msg !== 'undefined' && ret.msg ? ret.msg : 'Operation completed'
+    var msg = typeof ret.msg !== 'undefined' && ret.msg ? ret.msg : lang('Operation completed')
     if (typeof onAjaxSuccess === 'function') {
       var result = onAjaxSuccess.call(this, data, ret)
       if (result === false)

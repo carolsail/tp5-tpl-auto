@@ -1,4 +1,4 @@
-<form action="{:url('admin/test/modal')}" method="POST" data-parsley-validate="true" novalidate>
+<form action="{:url('admin/test/modal')}" method="POST">
   <div class="modal fade">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -9,11 +9,11 @@
               <div class="modal-body">
                   <div class="form-group m-b-10">
                       <label>產品名稱</label>
-                      <input type="text" name="row[name]" class="form-control focus" placeholder="名稱" data-parsley-required="true"/>
+                      <input type="text" name="row[name]" class="form-control focus" placeholder="名稱" data-rule="required"/>
                   </div>
                   <div class="form-group m-b-10">
                       <label>產品單價</label>
-                      <input type="number" name="row[unit]" class="form-control" placeholder="價格" data-parsley-type="number"  data-parsley-required="true" data-parsley-min="0"/>
+                      <input type="number" name="row[unit]" class="form-control" placeholder="價格" data-rule="price" data-rule-price="[/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/, 'price err']"/>
                   </div>
                   <button type='button' class='btn btn-primary btn-modal-twice'>加載多層modal</button>
               </div>

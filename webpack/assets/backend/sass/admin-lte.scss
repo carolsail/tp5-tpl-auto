@@ -21,7 +21,6 @@
 @import "~layerui/dist/theme/default/layer.css";
 @import '~toastr/toastr.scss';
 @import '~bootstrap-table/dist/bootstrap-table.min.css';
-@import '~parsleyjs/src/parsley.css';
 @import '~select2/dist/css/select2.css';
 @import '~bootstrap-daterangepicker/daterangepicker.scss';
 @import '~eonasdan-bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build.scss';
@@ -47,4 +46,10 @@
 .plupload-preview a img {
   height: 80px;
   object-fit: cover;
+}
+
+/* nice-validator */
+.msg-box .n-msg {
+  color: #dd4b39;
+  font-size: 10px;
 }
