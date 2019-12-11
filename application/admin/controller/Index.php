@@ -6,12 +6,12 @@ use app\common\controller\Backend;
 use think\facade\Hook;
 use app\admin\validate\Login;
 use app\admin\model\AdminLog;
-
+use think\facade\Env;
 class Index extends Backend
 {
     public function index()
     {
-        return view();
+       return view();
     }
 
     public function login()

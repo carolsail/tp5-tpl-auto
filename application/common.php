@@ -81,10 +81,9 @@ if (! function_exists('public_folder')) {
     function public_folder($path = '')
     {
         if ($path) {
-            $path = Env::get('root_path') . 'public/' . ltrim($path, '/');
-        // $path = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+            $path = Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
         } else {
-            $path = Env::get('root_path') . 'public/';
+            $path = Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR;
         }
         return $path;
     }
