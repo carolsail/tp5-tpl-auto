@@ -1,22 +1,10 @@
 <?php
 
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: luofei614 <weibo.com/luofei614>
-// +----------------------------------------------------------------------
-// | 修改者: anuo (本权限类在原3.2.3的基础上修改过来的)
-// +----------------------------------------------------------------------
-
 namespace libs;
 
 use think\Db;
-use think\Config;
-use think\Session;
+use think\facade\Config;
+use think\facade\Session;
 use think\Request;
 
 /**
@@ -62,7 +50,7 @@ class Auth
             $this->config = array_merge($this->config, $auth);
         }
         // 初始化request
-        $this->request = Request::instance();
+        $this->request = new Request();
     }
 
     /**

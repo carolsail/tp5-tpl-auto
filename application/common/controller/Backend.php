@@ -3,6 +3,7 @@
 namespace app\common\controller;
 
 use think\Controller;
+use app\admin\library\Auth;
 use think\facade\Hook;
 use think\Loader;
 use think\facade\Env;
@@ -106,11 +107,13 @@ class Backend extends Controller
     use \app\admin\library\traits\Backend;
 
     public function initialize()
-    {
+    {   
         $module_name = $this->request->module();
         $controller_name = Loader::parseName($this->request->controller());
         $action_name = strtolower($this->request->action());
         $upload = config('upload.');
+
+        $this->auth = Auth::instance();
 
         $config = [
             'site' => config('site.'),

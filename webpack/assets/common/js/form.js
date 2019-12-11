@@ -61,7 +61,6 @@ const Form = {
                                 return false;
                             }
                         }
-
                         // 关闭modal或重定向：情况根据表单是否为modal形式而定
                         if (form.closest('.modal-item').find('.modal').length) {
                             submitBtn.removeAttr("disabled")
@@ -482,6 +481,7 @@ const Form = {
                     }
                 }
             }, function (data, ret) {
+                //刷新token
                 if (data && typeof data === 'object' && typeof data.token !== 'undefined') {
                     $("input[name='__token__']").val(data.token)
                 }
