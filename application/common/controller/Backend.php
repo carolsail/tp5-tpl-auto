@@ -148,7 +148,7 @@ class Backend extends Controller
         $config = [
             'site' => config('site.'),
             'module_name' => $module_name,
-            'controller_name' => $controller_name,
+            'controller_name' => str_replace('.', '/', $controller_name),
             'action_name' => $action_name,
             'module_url' => rtrim(url("/{$module_name}", '', false), '/'),
             'upload' => $upload,

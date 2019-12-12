@@ -3,7 +3,6 @@
 namespace app\admin\controller\general;
 
 use app\common\controller\Backend;
-
 /**
  * 附件管理
  *
@@ -18,9 +17,9 @@ class Attachment extends Backend
      */
     protected $model = null;
 
-    public function _initialize()
+    public function initialize()
     {
-        parent::_initialize();
+        parent::initialize();
         $this->model = model('Attachment');
     }
 

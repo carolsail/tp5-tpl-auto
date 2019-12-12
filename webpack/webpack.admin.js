@@ -40,8 +40,10 @@ mix.autoload({
   moment: ['moment', 'Moment']
 });
 
+//ps: 多层文件夹的打包顺序要放在前面，关系到vendor.js/manifest.js位置(最后一个.js()的同级位置)
 mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台js
 .sass('assets/backend/sass/admin-lte.scss', `${output}/backend/css`) // 打包后台css
+.js('assets/backend/js/general/attachment.js', `${output}/backend/js/general`)
 .js('assets/backend/js/test.js', `${output}/backend/js`)
 .js('assets/backend/js/index.js', `${output}/backend/js`)
 .extract([

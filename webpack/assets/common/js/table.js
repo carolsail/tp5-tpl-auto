@@ -1,6 +1,6 @@
-import './table-search'
+// import './table-search'
 import './table-template'
-import {lang} from './util'
+import {fixurl, lang} from './util'
 
 var Table = {
     list: {},
@@ -654,7 +654,7 @@ var Table = {
                     }
                     dropdown = j.dropdown ? j.dropdown : '';
                     url = j.url ? j.url : '';
-                    url = typeof url === 'function' ? url.call(table, row, j) : (url ? Fast.api.fixurl(Table.api.replaceurl(url, row, table)) : 'javascript:;');
+                    url = typeof url === 'function' ? url.call(table, row, j) : (url ? fixurl(Table.api.replaceurl(url, row, table)) : 'javascript:;');
                     classname = j.classname ? j.classname : 'btn-primary btn-' + name + 'one';
                     icon = j.icon ? j.icon : '';
                     text = typeof j.text === 'function' ? j.text.call(table, row, j) : j.text ? j.text : '';

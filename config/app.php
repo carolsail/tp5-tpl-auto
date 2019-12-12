@@ -65,7 +65,7 @@ return [
     // 操作方法后缀
     'action_suffix'          => '',
     // 自动搜索控制器
-    'controller_auto_search' => false,
+    'controller_auto_search' => true, // controller里面多层目录，正常用.来访问，开启后就可以正常用/来访问了
 
     // +----------------------------------------------------------------------
     // | URL设置
@@ -127,7 +127,7 @@ return [
     'dispatch_error_tmpl'    => Env::get('app_path')  . 'common' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'dispatch_jump.tpl',
 
     // 异常页面的模板文件
-    'exception_tmpl'         => Env::get('app_path')  . 'common' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'think_exception.tpl',
+    'exception_tmpl'         => Env::get('app.debug') ? Env::get('think_path')  . 'tpl' . DIRECTORY_SEPARATOR  . 'think_exception.tpl' :  Env::get('app_path')  . 'common' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'think_exception.tpl',
 
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
