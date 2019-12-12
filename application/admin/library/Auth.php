@@ -3,32 +3,17 @@
 namespace app\admin\library;
 
 use app\admin\model\Admin;
+use think\facade\Hook;
 use libs\Tree;
 use libs\Random;
 
-class Auth {
+class Auth extends \libs\Auth{
 
-    protected static $instance; // 对象实例
     protected $_error = ''; // 错误提示
     protected $requestUri = ''; // 当前访问链接
     protected $breadcrumb = []; // 页面面包屑信息
     protected $logined = false; // 登录状态
 
-
-    /**
-     * 初始化
-     * @access public
-     * @param array $options 参数
-     * @return Auth
-     */
-    public static function instance($options = [])
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new static($options);
-        }
-
-        return self::$instance;
-    }
 
     /**
      * 魔术方法
@@ -75,6 +60,22 @@ class Auth {
         $admin->save();
         session("admin", $admin->toArray());
         $this->keeplogin($keeptime);
+        return true;
+    }
+
+    /**
+     * 注销登录
+     */
+    public function logout()
+    {
+        $admin = Admin::get(intval($this->id));
+        if (!$admin) {
+            $admin->token = '';
+            $admin->save();
+        }
+        $this->logined = false; //重置登录状态
+        session("admin", null);
+        cookie("keeplogin", null);
         return true;
     }
 
@@ -131,19 +132,35 @@ class Auth {
     }
 
     /**
-     * 注销登录
+     * 检查权限
      */
-    public function logout()
+    public function check($name, $uid = '', $relation = 'or', $mode = 'url')
     {
-        $admin = Admin::get(intval($this->id));
-        if (!$admin) {
-            $admin->token = '';
-            $admin->save();
+        $uid = $uid ? $uid : $this->id;
+        return parent::check($name, $uid, $relation, $mode);
+    }
+
+    /**
+     * 检测当前控制器和方法是否匹配传递的数组
+     *
+     * @param array $arr 需要验证权限的数组
+     * @return bool
+     */
+    public function match($arr = [])
+    {
+        $arr = is_array($arr) ? $arr : explode(',', $arr);
+        if (!$arr) {
+            return false;
         }
-        $this->logined = false; //重置登录状态
-        session("admin", null);
-        cookie("keeplogin", null);
-        return true;
+
+        $arr = array_map('strtolower', $arr);
+        // 是否存在
+        if (in_array(strtolower(request()->action()), $arr) || in_array('*', $arr)) {
+            return true;
+        }
+
+        // 没找到匹配
+        return false;
     }
 
     /**
@@ -198,6 +215,140 @@ class Auth {
     }
 
     /**
+     * 调用父Auth的getGroups
+     */
+    public function getGroups($uid = null)
+    {
+        $uid = is_null($uid) ? $this->id : $uid;
+        return parent::getGroups($uid);
+    }
+
+    /**
+     * 调用父Auth的getRuleList
+     */
+    public function getRuleList($uid = null)
+    {
+        $uid = is_null($uid) ? $this->id : $uid;
+        return parent::getRuleList($uid);
+    }
+
+    /**
+     * 调用父Auth的getUserInfo
+     */
+    public function getUserInfo($uid = null)
+    {
+        $uid = is_null($uid) ? $this->id : $uid;
+
+        return $uid != $this->id ? Admin::get(intval($uid)) : Session::get('admin');
+    }
+
+    /**
+     * 调用父Auth的getRuleIds
+     */
+    public function getRuleIds($uid = null)
+    {
+        $uid = is_null($uid) ? $this->id : $uid;
+        return parent::getRuleIds($uid);
+    }
+    
+    /**
+     * 判断管理员是否为超级管理员
+     */
+    public function isSuperAdmin()
+    {
+        return in_array('*', $this->getRuleIds()) ? true : false;
+    }
+
+    /**
+     * 获取管理员所属于的分组ID
+     * @param int $uid
+     * @return array
+     */
+    public function getGroupIds($uid = null)
+    {
+        $groups = $this->getGroups($uid);
+        $groupIds = [];
+        foreach ($groups as $K => $v) {
+            $groupIds[] = (int)$v['group_id'];
+        }
+        return $groupIds;
+    }
+
+    /**
+     * 取出当前管理员所拥有权限的分组
+     * @param boolean $withself 是否包含当前所在的分组
+     * @return array
+     */
+    public function getChildrenGroupIds($withself = false)
+    {
+        //取出当前管理员所有的分组
+        $groups = $this->getGroups();
+        $groupIds = [];
+        foreach ($groups as $k => $v) {
+            $groupIds[] = $v['id'];
+        }
+        $originGroupIds = $groupIds;
+        foreach ($groups as $k => $v) {
+            if (in_array($v['pid'], $originGroupIds)) {
+                $groupIds = array_diff($groupIds, [$v['id']]);
+                unset($groups[$k]);
+            }
+        }
+        // 取出所有分组
+        $groupList = \app\admin\model\AuthGroup::where(['status' => 'normal'])->select();
+        $objList = [];
+        foreach ($groups as $k => $v) {
+            if ($v['rules'] === '*') {
+                $objList = $groupList;
+                break;
+            }
+            // 取出包含自己的所有子节点
+            $childrenList = Tree::instance()->init($groupList)->getChildren($v['id'], true);
+            $obj = Tree::instance()->init($childrenList)->getTreeArray($v['pid']);
+            $objList = array_merge($objList, Tree::instance()->getTreeList($obj));
+        }
+        $childrenGroupIds = [];
+        foreach ($objList as $k => $v) {
+            $childrenGroupIds[] = $v['id'];
+        }
+        if (!$withself) {
+            $childrenGroupIds = array_diff($childrenGroupIds, $groupIds);
+        }
+        return $childrenGroupIds;
+    }
+
+    /**
+     * 取出当前管理员所拥有权限的管理员
+     * @param boolean $withself 是否包含自身
+     * @return array
+     */
+    public function getChildrenAdminIds($withself = false)
+    {
+        $childrenAdminIds = [];
+        if (!$this->isSuperAdmin()) {
+            $groupIds = $this->getChildrenGroupIds(false);
+            $authGroupList = \app\admin\model\AuthGroupAccess::
+            field('uid,group_id')
+                ->where('group_id', 'in', $groupIds)
+                ->select();
+            foreach ($authGroupList as $k => $v) {
+                $childrenAdminIds[] = $v['uid'];
+            }
+        } else {
+            //超级管理员拥有所有人的权限
+            $childrenAdminIds = Admin::column('id');
+        }
+        if ($withself) {
+            if (!in_array($this->id, $childrenAdminIds)) {
+                $childrenAdminIds[] = $this->id;
+            }
+        } else {
+            $childrenAdminIds = array_diff($childrenAdminIds, [$this->id]);
+        }
+        return $childrenAdminIds;
+    }
+
+    /**
      * 获得面包屑导航
      * @param string $path
      * @return array
@@ -219,6 +370,104 @@ class Auth {
             }
         }
         return $this->breadcrumb;
+    }
+
+    /**
+     * 获取左侧和顶部菜单栏
+     *
+     * @param array  $params URL对应的badge数据
+     * @param string $fixedPage 默认页, 此为控制器名, 用于判断已选择的菜单项
+     * @return array
+     */
+    public function getSidebar($params = [], $fixedPage = 'index')
+    {
+        // 边栏开始
+        Hook::listen("admin_sidebar_begin", $params);
+        $colorArr = ['red', 'green', 'yellow', 'blue', 'teal', 'orange', 'purple'];
+        $colorNums = count($colorArr);
+        $badgeList = [];
+        $module = request()->module();
+        // 生成菜单的badge
+        foreach ($params as $k => $v) {
+            $url = $k;
+            if (is_array($v)) {
+                $nums = isset($v[0]) ? $v[0] : 0;
+                $color = isset($v[1]) ? $v[1] : $colorArr[(is_numeric($nums) ? $nums : strlen($nums)) % $colorNums];
+                $class = isset($v[2]) ? $v[2] : 'label';
+            } else {
+                $nums = $v;
+                $color = $colorArr[(is_numeric($nums) ? $nums : strlen($nums)) % $colorNums];
+                $class = 'label';
+            }
+            //必须nums大于0才显示
+            if ($nums) {
+                $badgeList[$url] = '<small class="' . $class . ' pull-right bg-' . $color . '">' . $nums . '</small>';
+            }
+        }
+
+        // 读取管理员当前拥有的权限节点
+        $userRule = $this->getRuleList();
+        $selected = [];
+        $pinyin = new \Overtrue\Pinyin\Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
+        // 必须将结果集转换为数组
+        // cache('__menu__', null);
+        $ruleList = collection(\app\admin\model\AuthRule::where('status', 'normal')
+            ->where('ismenu', 1)
+            ->order('weigh', 'desc')
+            ->cache("__menu__")
+            ->select())->toArray();
+        $indexRuleList = \app\admin\model\AuthRule::where('status', 'normal')
+            ->where('ismenu', 0)
+            ->where('name', 'like', '%/index')
+            ->column('name,pid');
+        $pidArr = array_filter(array_unique(array_map(function ($item) {
+            return $item['pid'];
+        }, $ruleList)));
+        
+        foreach ($ruleList as $k => &$v) {
+            if (!in_array($v['name'], $userRule)) {
+                unset($ruleList[$k]);
+                continue;
+            }
+            $indexRuleName = $v['name'] . '/index';
+            if (isset($indexRuleList[$indexRuleName]) && !in_array($indexRuleName, $userRule)) {
+                unset($ruleList[$k]);
+                continue;
+            }
+            $v['icon'] = $v['icon'] . ' fa-fw';
+            $v['url'] = '/' . $module . '/' . $v['name'];
+            $v['badge'] = isset($badgeList[$v['name']]) ? $badgeList[$v['name']] : '';
+            $v['py'] = $pinyin->abbr($v['title'], '');
+            $v['pinyin'] = $pinyin->permalink($v['title'], '');
+            $v['title'] = __($v['title']);
+            if(strpos($fixedPage, $v['name']) !== false){
+                $selected[] = $v;
+            }
+        }
+        $lastArr = array_diff($pidArr, array_filter(array_unique(array_map(function ($item) {
+            return $item['pid'];
+        }, $ruleList))));
+        foreach ($ruleList as $index => $item) {
+            if (in_array($item['id'], $lastArr)) {
+                unset($ruleList[$index]);
+            }
+        }
+        $select_id = [];
+        if ($selected) {
+            $select_id = array_column($selected, 'id'); 
+        }
+        $menu = '';
+        // 构造菜单数据
+        Tree::instance()->init($ruleList);
+        $menu = Tree::instance()->getTreeMenu(
+            0,
+            '<li class="@class"><a href="@url" addtabs="@id" url="@url" py="@py" pinyin="@pinyin"><i class="@icon"></i> <span>@title</span> <span class="pull-right-container">@caret @badge</span></a> @childlist</li>',
+            $select_id,
+            '',
+            'ul',
+            'class="treeview-menu"'
+        );
+        return [$menu, $selected];
     }
 
     /**

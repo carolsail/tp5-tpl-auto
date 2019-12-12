@@ -14,14 +14,14 @@
     </aside>
   
     <div class="content-wrapper">
-      <section class="content-header">
-        <h1>
-          Dashboard
-          <small>Control panel</small>
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Dashboard</li>
+      <section class="content-header-sail clearfix">
+        <ol class="breadcrumb pull-left">
+          <li><a href="{:url('/admin')}" class="addtabsit"><i class="fa fa-dashboard"></i> {:__('Dashboard')}</a></li>
+        </ol>
+        <ol class="breadcrumb pull-right">
+          {foreach $breadcrumb as $vo}
+          <li><a href="javascript:;" data-url="{$vo.url}">{$vo.title}</a></li>
+          {/foreach}
         </ol>
       </section>
       <section class="content">

@@ -100,41 +100,32 @@
       <!-- User Account -->
       <li class="dropdown user user-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          {if $admin.avatar}
+          <img src="{$admin.avatar|cdnurl|htmlentities}" class="user-image" alt="User Image">
+          {else /}
           <img src="{:public_path('static/img/avatar.png')}" class="user-image" alt="User Image">
-          <span class="hidden-xs">Alexander Pierce</span>
+          {/if}
+          <span class="hidden-xs">{$admin.nickname|htmlentities}</span>
         </a>
         <ul class="dropdown-menu">
-          <!-- User image -->
           <li class="user-header">
+            {if $admin.avatar}
+            <img src="{$admin.avatar|cdnurl|htmlentities}" class="img-circle" alt="User Image">
+            {else /}
             <img src="{:public_path('static/img/avatar.png')}" class="img-circle" alt="User Image">
-
+            {/if}
             <p>
-              Alexander Pierce - Web Developer
-              <small>Member since Nov. 2012</small>
+              {$admin.nickname|htmlentities}
+              <small>{$admin.logintime|date="Y-m-d H:i:s"}</small>
             </p>
           </li>
-          <!-- Menu Body -->
-          <li class="user-body">
-            <div class="row">
-              <div class="col-xs-4 text-center">
-                <a href="#">Followers</a>
-              </div>
-              <div class="col-xs-4 text-center">
-                <a href="#">Sales</a>
-              </div>
-              <div class="col-xs-4 text-center">
-                <a href="#">Friends</a>
-              </div>
-            </div>
-            <!-- /.row -->
-          </li>
-          <!-- Menu Footer-->
+          <li class="user-body hidden"></li>
           <li class="user-footer">
             <div class="pull-left">
               <a href="#" class="btn btn-default btn-flat">Profile</a>
             </div>
             <div class="pull-right">
-              <a href="#" class="btn btn-default btn-flat">Sign out</a>
+              <a href="{:url('index/logout')}" class="btn btn-default btn-flat">{:__('Sign out')}</a>
             </div>
           </li>
         </ul>

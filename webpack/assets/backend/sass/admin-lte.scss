@@ -66,3 +66,27 @@
     }
   }
 }
+
+/* breadcrumb */
+ .content-header-sail {
+  overflow: hidden;
+  padding: 15px 15px 0 15px;
+  position: relative;
+  a {
+    color: #777 !important;
+    text-decoration: none !important;
+  }
+  .breadcrumb {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    background: none;
+    vertical-align: top;
+    > .active, li {
+      color: #aaa;
+    }
+  }
+  .shortcut a {
+    margin-left: 10px;
+  }
+}

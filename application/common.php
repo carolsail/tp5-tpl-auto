@@ -1,7 +1,5 @@
 <?php
 
-use think\facade\Env;
-
 if (! function_exists('mix')) {
     /**
      * Get the path to a versioned Mix file.
@@ -81,9 +79,9 @@ if (! function_exists('public_folder')) {
     function public_folder($path = '')
     {
         if ($path) {
-            $path = Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+            $path = \think\facade\Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
         } else {
-            $path = Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR;
+            $path = \think\facade\Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR;
         }
         return $path;
     }
@@ -184,7 +182,7 @@ if (!function_exists('cdnurl')) {
     function cdnurl($url, $domain = false)
     {
         $regex = "/^((?:[a-z]+:)?\/\/|data:image\/)(.*)/i";
-        $url = preg_match($regex, $url) ? $url : config('upload.cdnurl') . $url;
+        $url = preg_match($regex, $url) ? $url : config('upload.cdnurl') . ltrim($url, '/');
         if ($domain && !preg_match($regex, $url)) {
             $domain = is_bool($domain) ? request()->domain() : $domain;
             $url = $domain . $url;
@@ -192,7 +190,6 @@ if (!function_exists('cdnurl')) {
         return $url;
     }
 }
-
 
 if (!function_exists('is_really_writable')) {
 
@@ -462,5 +459,22 @@ if (!function_exists('hsv2rgb')) {
             floor($g * 255),
             floor($b * 255)
         ];
+    }
+}
+
+if (!function_exists('collection')) {
+    /**
+     * 数组转换为数据集对象
+     * @param array $resultSet 数据集数组
+     * @return \think\model\Collection|\think\Collection
+     */
+    function collection($resultSet)
+    {
+        $item = current($resultSet);
+        if ($item instanceof Model) {
+            return \think\model\Collection::make($resultSet);
+        } else {
+            return \think\Collection::make($resultSet);
+        }
     }
 }

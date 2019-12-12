@@ -7,15 +7,20 @@ use think\facade\Hook;
 use app\admin\validate\Login;
 use app\admin\model\AdminLog;
 use think\facade\Env;
+
 class Index extends Backend
 {
+    protected $noNeedLogin = ['login'];
+    protected $noNeedRight = ['logout'];
+
     public function index()
     {
-       return view();
+        return view();
     }
 
     public function login()
-    {   
+    {
+        // 获取未登录前访问的url参数, 若不存在则默认跳转为首页
         $url = $this->request->get('url', 'index/index');
         if ($this->auth->isLogin()) {
             $this->success(__("You've logged in, do not login again"), $url);
@@ -23,7 +28,7 @@ class Index extends Backend
 
         if ($this->request->isPost()) {
             $validate = new Login;
-            if(!$validate->goCheck()){
+            if (!$validate->goCheck()) {
                 // 传回token便客户端刷新token
                 $this->error($validate->getError(), $url, ['token' => $this->request->token()]);
             }
@@ -49,5 +54,12 @@ class Index extends Backend
         Hook::listen("admin_login_init", $this->request);
         $this->view->engine->layout('layout/blank');
         return view();
+    }
+
+    public function logout()
+    {
+        $this->auth->logout();
+        Hook::listen("admin_logout_after", $this->request);
+        $this->success(__('Logout successful'), 'index/login');
     }
 }

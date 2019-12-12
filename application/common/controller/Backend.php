@@ -107,13 +107,43 @@ class Backend extends Controller
     use \app\admin\library\traits\Backend;
 
     public function initialize()
-    {   
+    {
         $module_name = $this->request->module();
         $controller_name = Loader::parseName($this->request->controller());
         $action_name = strtolower($this->request->action());
+        $path = str_replace('.', '/', $controller_name) . '/' . $action_name;
         $upload = config('upload.');
 
         $this->auth = Auth::instance();
+
+        // 设置当前请求的URI
+        $this->auth->setRequestUri($path);
+        // 当前方法是否需要验证登录
+        if (!$this->auth->match($this->noNeedLogin)) {
+            // 检测是否登录
+            if (!$this->auth->isLogin()) {
+                Hook::listen('admin_nologin', $this);
+                $url = $this->request->url();
+                // 记录访问的url便登录后跳转
+                config('url_common_param', true); // 设置为?url=...
+                $this->error(__('Please login first'), url('index/login', ['url' => $url]));
+            }
+            // 已登录状态，判断是否需要验证权限
+            if (!$this->auth->match($this->noNeedRight)) {
+                // 根据控制器和方法判断是否有对应权限
+                if (!$this->auth->check($path)) {
+                    Hook::listen('admin_nopermission', $this);
+                    $this->error(__('You have no permission'), '');
+                }
+            }
+        }
+
+        // 设置面包屑导航数据
+        $breadcrumb = $this->auth->getBreadCrumb($path);
+        array_pop($breadcrumb);
+
+        // 设置菜单数据(左侧)
+        list($menulist, $selected) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
 
         $config = [
             'site' => config('site.'),
@@ -136,7 +166,12 @@ class Backend extends Controller
 
         // 配置信息后
         Hook::listen("config_init", $config);
+        
+        $this->assign('breadcrumb', $breadcrumb);
+        $this->assign('menulist', $menulist);
         $this->assign('config', $config);
+        $this->assign('auth', $this->auth);
+        $this->assign('admin', session('admin'));
     }
 
     /**
@@ -148,12 +183,12 @@ class Backend extends Controller
         Lang::load(Env::get('app_path') . $this->request->module() . '/lang/' . $this->request->langset() . '/' . str_replace('.', '/', $name) . '.php');
     }
 
-     /**
-     * 生成查询所需要的条件,排序方式
-     * @param mixed   $searchfields   快速查询的字段
-     * @param boolean $relationSearch 是否关联查询
-     * @return array
-     */
+    /**
+    * 生成查询所需要的条件,排序方式
+    * @param mixed   $searchfields   快速查询的字段
+    * @param boolean $relationSearch 是否关联查询
+    * @return array
+    */
     protected function buildparams($searchfields = null, $relationSearch = null)
     {
         $searchfields = is_null($searchfields) ? $this->searchFields : $searchfields;
@@ -326,8 +361,8 @@ class Backend extends Controller
         $page = isset($data['page']) ? $data['page'] : 1;
         $limit = $data['limit'];
         //print_r($w);
-        $where = function($query) use ($q, $w) {
-            if($q && $w){
+        $where = function ($query) use ($q, $w) {
+            if ($q && $w) {
                 $query->where($w, 'like', "%{$q}%");
             }
         };

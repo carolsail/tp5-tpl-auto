@@ -5,7 +5,7 @@ namespace libs;
 use think\Db;
 use think\facade\Config;
 use think\facade\Session;
-use think\Request;
+use think\facade\Request;
 
 /**
  * 权限认证类
@@ -29,11 +29,6 @@ class Auth
     protected static $instance;
     protected $rules = [];
 
-    /**
-     * 当前请求实例
-     * @var Request
-     */
-    protected $request;
     //默认配置
     protected $config = [
         'auth_on'           => 1, // 权限开关
@@ -49,8 +44,6 @@ class Auth
         if ($auth = Config::get('auth')) {
             $this->config = array_merge($this->config, $auth);
         }
-        // 初始化request
-        $this->request = new Request();
     }
 
     /**
@@ -97,7 +90,7 @@ class Auth
         }
         $list = []; //保存验证通过的规则名
         if ('url' == $mode) {
-            $REQUEST = unserialize(strtolower(serialize($this->request->param())));
+            $REQUEST = unserialize(strtolower(serialize(Request::param())));
         }
         foreach ($rulelist as $rule) {
             $query = preg_replace('/^.+\?/U', '', $rule);
