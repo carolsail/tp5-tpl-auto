@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "art-template": "^4.13.2",
-    "bootstrap-table": "^1.15.5",
+    "bootstrap-table": "~1.12.2",
     "cxselect": "^1.4.0",
     "dragsort": "^1.0.6",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",

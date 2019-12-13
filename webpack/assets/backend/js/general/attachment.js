@@ -33,7 +33,7 @@ export function index() {
     }
   })
 
-  const table = $('#table')
+  var table = $('#table')
   // 初始化表格
   table.bootstrapTable({
     url: $.fn.bootstrapTable.defaults.extend.index_url,
@@ -45,7 +45,7 @@ export function index() {
             {field: 'admin_id', title: lang('Admin_id'), visible: false, addClass: "selectpage", extend: "data-source='auth/admin/index' data-field='nickname'"},
             {field: 'user_id', title: lang('User_id'), visible: false, addClass: "selectpage", extend: "data-source='user/user/index' data-field='nickname'"},
             {field: 'url', title: lang('Preview'), formatter: api.formatter.thumb, operate: false},
-            {field: 'url', title: lang('Url'), visible: false, formatter: api.formatter.url},
+            {field: 'url', title: lang('Url'), formatter: api.formatter.url},
             {field: 'imagewidth', title: lang('Imagewidth'), sortable: true},
             {field: 'imageheight', title: lang('Imageheight'), sortable: true},
             {field: 'imagetype', title: lang('Imagetype'), formatter: Table.api.formatter.search},

@@ -17,7 +17,7 @@ var Table = {
         titleForm: '', //为空则不显示标题，不定义默认显示：普通搜索
         idTable: 'commonTable',
         showExport: true,
-        exportDataType: "basic", // 'basic 当前条数', 'all 所有', 'selected 选中'
+        exportDataType: "all", // 'basic 当前条数', 'all 所有', 'selected 选中'
         exportTypes: ['json', 'xml', 'csv', 'txt', 'doc', 'excel'],
         exportOptions: {
             fileName: 'export_' + Moment().format("YYYY-MM-DD"),
@@ -418,7 +418,6 @@ var Table = {
                     ModalLayer.open(Table.api.replaceurl(url, row, table), lang('Edit'), $(this).data() || {});
                 },
                 'click .btn-delone': function (e, value, row, index) {
-                    console.log(123123123)
                     e.stopPropagation();
                     e.preventDefault();
                     var that = this;

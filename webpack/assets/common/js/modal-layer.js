@@ -26,7 +26,6 @@ const ModalLayer = {
             Layer.setTop(layero);
             try {
                 var frame = Layer.getChildFrame('html', index);
-                console.log(frame)
                 var layerfooter = frame.find(".layer-footer");
                 ModalLayer.layerfooter(layero, index, that);
 
