@@ -65,7 +65,7 @@ trait Backend
 
             return json($result);
         }
-        return $this->view->fetch();
+        return view();
     }
 
     /**
@@ -94,7 +94,7 @@ trait Backend
 
             return json($result);
         }
-        return $this->view->fetch();
+        return view();
     }
 
     /**
@@ -139,7 +139,16 @@ trait Backend
             }
             $this->error(__('Parameter %s can not be empty', ''));
         }
-        return $this->view->fetch();
+
+        switch ($this->addType) {
+            case 'layer':
+                $this->view->engine->layout('layout/blank');
+            break;
+            case 'modal':
+                $this->view->engine->layout(false);
+            break;
+        }
+        return view();
     }
 
     /**
@@ -191,7 +200,16 @@ trait Backend
             $this->error(__('Parameter %s can not be empty', ''));
         }
         $this->view->assign("row", $row);
-        return $this->view->fetch();
+
+        switch ($this->addType) {
+            case 'layer':
+                $this->view->engine->layout('layout/blank');
+            break;
+            case 'modal':
+                $this->view->engine->layout(false);
+            break;
+        }
+        return view();
     }
 
     /**

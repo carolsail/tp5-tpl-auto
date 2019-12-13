@@ -102,6 +102,16 @@ class Backend extends Controller
     protected $importHeadType = 'comment';
 
     /**
+     * 定义add,edit的交互方式:多页或单页
+     * 参数:layer, page, modal
+     * layer: 利用Layer打开一个页面
+     * page: location.href定向到一个新页面
+     * modal: 利用ajax加载一个modal页面
+     */
+    protected $addType = 'layer';
+    protected $editType = 'layer';
+
+    /**
      * 引入后台控制器的traits
      */
     use \app\admin\library\traits\Backend;

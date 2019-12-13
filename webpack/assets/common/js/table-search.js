@@ -8,13 +8,14 @@
  * @update 2018-04-05 <https://gitee.com/karson/fastadmin>
  */
 import Form from './form'
+import { query as fn_query } from './util'
+
 !function ($) {
     'use strict';
 
     var ColumnsForSearch = [];
 
     var sprintf = $.fn.bootstrapTable.utils.sprintf;
-
     var initCommonSearch = function (pColumns, that) {
         var vFormCommon = createFormCommon(pColumns, that);
 
@@ -60,8 +61,8 @@ import Form from './form'
         for (var i in pColumns) {
             var vObjCol = pColumns[i];
             if (!vObjCol.checkbox && vObjCol.field !== 'operate' && vObjCol.searchable && vObjCol.operate !== false) {
-                var query = Fast.api.query(vObjCol.field);
-                var operate = Fast.api.query(vObjCol.field + "-operate");
+                var query = fn_query(vObjCol.field);
+                var operate = fn_query(vObjCol.field + "-operate");
 
                 vObjCol.defaultValue = that.options.renderDefault && query ? query : (typeof vObjCol.defaultValue === 'undefined' ? '' : vObjCol.defaultValue);
                 vObjCol.operate = that.options.renderDefault && operate ? operate : (typeof vObjCol.operate === 'undefined' ? '=' : vObjCol.operate);
@@ -176,11 +177,11 @@ import Form from './form'
             var name = $(this).data("name");
             var sym = $(this).is("select") ? $("option:selected", this).val() : $(this).val().toUpperCase();
             var obj = $("[name='" + name + "']", that.$commonsearch);
-            if (obj.size() == 0)
+            if (obj.length == 0)
                 return true;
             var vObjCol = ColumnsForSearch[i];
             var process = !that.options.searchFormTemplate && vObjCol && typeof vObjCol.process == 'function' ? vObjCol.process : null;
-            if (obj.size() > 1) {
+            if (obj.length > 1) {
                 if (/BETWEEN$/.test(sym)) {
                     var value_begin = $.trim($("[name='" + name + "']:first", that.$commonsearch).val()),
                         value_end = $.trim($("[name='" + name + "']:last", that.$commonsearch).val());
@@ -309,7 +310,7 @@ import Form from './form'
             html.push(sprintf('<i class="%s %s"></i>', that.options.iconsPrefix, that.options.icons.commonSearchIcon))
             html.push('</button></div>');
         }
-        if (that.$toolbar.find(".pull-right").size() > 0) {
+        if (that.$toolbar.find(".pull-right").length) {
             $(html.join('')).insertBefore(that.$toolbar.find(".pull-right:first"));
         } else {
             that.$toolbar.append(html.join(''));
@@ -325,11 +326,11 @@ import Form from './form'
 
         that.$container.on("click", "." + that.options.searchClass, function () {
             var obj = $("form [name='" + $(this).data("field") + "']", that.$commonsearch);
-            if (obj.size() > 0) {
+            if (obj.length > 0) {
                 var value = $(this).data("value");
                 if (obj.is("select")) {
                     $("option[value='" + value + "']", obj).prop("selected", true);
-                } else if (obj.size() > 1) {
+                } else if (obj.length > 1) {
                     $("form [name='" + $(this).data("field") + "'][value='" + value + "']", that.$commonsearch).prop("checked", true);
                 } else {
                     obj.val(value);

@@ -1,4 +1,5 @@
 import Table from '../../../common/js/table'
+import Form from '../../../common/js/form'
 import {fixurl, lang} from '../../../common/js/util'
 
 const api = {
@@ -28,7 +29,7 @@ export function index() {
       edit_url: fixurl('general/attachment/edit'),
       del_url: fixurl('general/attachment/del'),
       multi_url: fixurl('general/attachment/multi'),
-      table: 'attachment'
+      table: 'attachment',
     }
   })
 
@@ -39,12 +40,12 @@ export function index() {
     sortName: 'id',
     columns: [
         [
-            {field: 'state', checkbox: true,},
+            {field: 'state', checkbox: true},
             {field: 'id', title: lang('Id')},
             {field: 'admin_id', title: lang('Admin_id'), visible: false, addClass: "selectpage", extend: "data-source='auth/admin/index' data-field='nickname'"},
             {field: 'user_id', title: lang('User_id'), visible: false, addClass: "selectpage", extend: "data-source='user/user/index' data-field='nickname'"},
             {field: 'url', title: lang('Preview'), formatter: api.formatter.thumb, operate: false},
-            {field: 'url', title: lang('Url'), formatter: api.formatter.url},
+            {field: 'url', title: lang('Url'), visible: false, formatter: api.formatter.url},
             {field: 'imagewidth', title: lang('Imagewidth'), sortable: true},
             {field: 'imageheight', title: lang('Imageheight'), sortable: true},
             {field: 'imagetype', title: lang('Imagetype'), formatter: Table.api.formatter.search},
@@ -71,4 +72,12 @@ export function index() {
   });
   // 为表格绑定事件
   Table.api.bindevent(table);
+}
+
+export function add() {
+  api.bindevent()
+}
+
+export function edit() {
+  api.bindevent()
 }

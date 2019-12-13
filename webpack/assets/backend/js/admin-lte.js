@@ -31,5 +31,7 @@ try {
   require('dragsort');
   require('cxselect');
   require('summernote');
-  
+  require('../../common/js/table-search');
+  require('../../common/js/table-template');
+  require('../../common/js/table-export');
 } catch (e) {}

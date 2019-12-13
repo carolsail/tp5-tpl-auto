@@ -61,13 +61,19 @@ const Form = {
                                 return false;
                             }
                         }
-                        // 关闭modal或重定向：情况根据表单是否为modal形式而定
+                        
                         if (form.closest('.modal-item').find('.modal').length) {
+                            //modal提交
                             submitBtn.removeAttr("disabled")
                             resetBtn.removeAttr("disabled")
                             form.closest('.modal-item').find('.modal').modal('hide')
-                            // $(".btn-refresh").trigger("click")
+                        } else if (form.find('.layer-footer').length) {
+                            //layer提交
+                            parent.$(".btn-refresh").trigger("click");
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
                         } else {
+                            //page提交
                             setTimeout(()=>{
                                 location.href = ret.url
                             }, 1000)

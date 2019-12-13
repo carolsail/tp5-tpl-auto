@@ -1,6 +1,6 @@
-// import './table-search'
-import './table-template'
-import {fixurl, lang} from './util'
+import {fixurl, lang, cdnurl} from './util'
+import ModalLayer from './modal-layer'
+import Http from './http'
 
 var Table = {
     list: {},
@@ -17,11 +17,11 @@ var Table = {
         titleForm: '', //为空则不显示标题，不定义默认显示：普通搜索
         idTable: 'commonTable',
         showExport: true,
-        exportDataType: "all",
+        exportDataType: "basic", // 'basic 当前条数', 'all 所有', 'selected 选中'
         exportTypes: ['json', 'xml', 'csv', 'txt', 'doc', 'excel'],
         exportOptions: {
             fileName: 'export_' + Moment().format("YYYY-MM-DD"),
-            ignoreColumn: [0, 'operate'] //默认不导出第一列(checkbox)与操作(operate)列
+            ignoreColumn: [0, 'operate'], //默认不导出第一列(checkbox)与操作(operate)列
         },
         pageSize: 10,
         pageList: [10, 25, 50, 'All'],
@@ -30,7 +30,7 @@ var Table = {
         dblClickToEdit: true, //是否启用双击编辑
         singleSelect: false, //是否启用单选
         showRefresh: false,
-        locale: 'zh-CN',
+        locale: 'en',
         showToggle: true,
         showColumns: true,
         pk: 'id',
@@ -51,6 +51,8 @@ var Table = {
             import_url: '',
             multi_url: '',
             dragsort_url: 'ajax/weigh',
+            add_type: 'modal',  // modal 或 page
+            edit_type: 'modal'
         }
     },
     // Bootstrap-table 列配置
@@ -129,6 +131,7 @@ var Table = {
                     return lang('Choose');
                 }
             }, locales);
+            
             if (typeof defaults.exportTypes != 'undefined') {
                 $.fn.bootstrapTable.defaults.exportTypes = defaults.exportTypes;
             }
@@ -220,7 +223,11 @@ var Table = {
                 if (url.indexOf("{ids}") !== -1) {
                     url = Table.api.replaceurl(url, {ids: ids.length > 0 ? ids.join(",") : 0}, table);
                 }
-                Fast.api.open(url, lang('Add'), $(this).data() || {});
+                if(options.extend.add_type=='modal') {
+                    ModalLayer.open(url, lang('Add'), $(this).data() || {});
+                } else {
+                    location.href = url
+                }
             });
             // 导入按钮事件
             if ($(Table.config.importbtn, toolbar).length) {
@@ -243,7 +250,7 @@ var Table = {
                     var url = options.extend.edit_url;
                     row = $.extend({}, row ? row : {}, {ids: row[options.pk]});
                     var url = Table.api.replaceurl(url, row, table);
-                    Fast.api.open(url, lang('Edit'), $(that).data() || {});
+                    ModalLayer.open(url, lang('Edit'), $(that).data() || {});
                 });
             });
             //清空回收站
@@ -251,7 +258,7 @@ var Table = {
                 var that = this;
                 Layer.confirm(lang('Are you sure you want to truncate?'), function () {
                     var url = $(that).data("url") ? $(that).data("url") : $(that).attr("href");
-                    Fast.api.ajax(url, function () {
+                    Http.ajax(url, function () {
                         Layer.closeAll();
                         table.bootstrapTable('refresh');
                     }, function () {
@@ -264,7 +271,7 @@ var Table = {
             $(document).on('click', Table.config.restoreallbtn + ',' + Table.config.restoreonebtn + ',' + Table.config.destroyonebtn, function () {
                 var that = this;
                 var url = $(that).data("url") ? $(that).data("url") : $(that).attr("href");
-                Fast.api.ajax(url, function () {
+                Http.ajax(url, function () {
                     table.bootstrapTable('refresh');
                 });
                 return false;
@@ -352,7 +359,7 @@ var Table = {
                 var row = Table.api.getrowbyid(table, ids);
                 row.ids = ids;
                 var url = Table.api.replaceurl(options.extend.edit_url, row, table);
-                Fast.api.open(url, lang('Edit'), $(this).data() || {});
+                ModalLayer.open(url, lang('Edit'), $(this).data() || {});
             });
             $(table).on("click", "[data-id].btn-del", function (e) {
                 e.preventDefault();
@@ -380,7 +387,7 @@ var Table = {
             url = this.replaceurl(url, {ids: ids}, table);
             var params = typeof data.params !== "undefined" ? (typeof data.params == 'object' ? $.param(data.params) : data.params) : '';
             var options = {url: url, data: {action: action, ids: ids, params: params}};
-            Fast.api.ajax(options, function (data, ret) {
+            Http.ajax(options, function (data, ret) {
                 var success = $(element).data("success") || $.noop;
                 if (typeof success === 'function') {
                     if (false === success.call(element, data, ret)) {
@@ -408,9 +415,10 @@ var Table = {
                     var ids = row[options.pk];
                     row = $.extend({}, row ? row : {}, {ids: ids});
                     var url = options.extend.edit_url;
-                    Fast.api.open(Table.api.replaceurl(url, row, table), lang('Edit'), $(this).data() || {});
+                    ModalLayer.open(Table.api.replaceurl(url, row, table), lang('Edit'), $(this).data() || {});
                 },
                 'click .btn-delone': function (e, value, row, index) {
+                    console.log(123123123)
                     e.stopPropagation();
                     e.preventDefault();
                     var that = this;
@@ -440,7 +448,7 @@ var Table = {
                     value = value.split(",");
                     $.each(value, function (index, value) {
                         data.push({
-                            src: Fast.api.cdnurl(value),
+                            src: cdnurl(value),
                         });
                     });
                     Layer.photos({
@@ -466,7 +474,7 @@ var Table = {
             image: function (value, row, index) {
                 value = value ? value : '/assets/img/blank.gif';
                 var classname = typeof this.classname !== 'undefined' ? this.classname : 'img-sm img-center';
-                return '<a href="javascript:"><img class="' + classname + '" src="' + Fast.api.cdnurl(value) + '" /></a>';
+                return '<a href="javascript:"><img class="' + classname + '" src="' + cdnurl(value) + '" /></a>';
             },
             images: function (value, row, index) {
                 value = value === null ? '' : value.toString();
@@ -475,7 +483,7 @@ var Table = {
                 var html = [];
                 $.each(arr, function (i, value) {
                     value = value ? value : '/assets/img/blank.gif';
-                    html.push('<a href="javascript:"><img class="' + classname + '" src="' + Fast.api.cdnurl(value) + '" /></a>');
+                    html.push('<a href="javascript:"><img class="' + classname + '" src="' + cdnurl(value) + '" /></a>');
                 });
                 return html.join(' ');
             },
@@ -542,12 +550,12 @@ var Table = {
             addtabs: function (value, row, index) {
                 var url = Table.api.replaceurl(this.url, row, this.table);
                 var title = this.atitle ? this.atitle : lang("Search %s", value);
-                return '<a href="' + Fast.api.fixurl(url) + '" class="addtabsit" data-value="' + value + '" title="' + title + '">' + value + '</a>';
+                return '<a href="' + fixurl(url) + '" class="addtabsit" data-value="' + value + '" title="' + title + '">' + value + '</a>';
             },
             dialog: function (value, row, index) {
                 var url = Table.api.replaceurl(this.url, row, this.table);
                 var title = this.atitle ? this.atitle : lang("View %s", value);
-                return '<a href="' + Fast.api.fixurl(url) + '" class="dialogit" data-value="' + value + '" title="' + title + '">' + value + '</a>';
+                return '<a href="' + fixurl(url) + '" class="dialogit" data-value="' + value + '" title="' + title + '">' + value + '</a>';
             },
             flag: function (value, row, index) {
                 var that = this;

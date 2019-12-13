@@ -9,7 +9,7 @@ const Modal = {
    * @param fun  options.hide modal關閉后回調
    * @param bool options.refresh 是否刷新bootstrap-table
    */
-  open(url, options) {
+  open(url, options={}) {
     url = fixurl(url)
     const opts = {
       type: 'GET',

@@ -69,6 +69,15 @@ class Attachment extends Backend
         return $this->view->fetch();
     }
 
+    public function add()
+    {
+        if($this->request->isAjax()){
+            $this->success('hahahah123');
+        }
+        $this->view->engine->layout('layout/blank');
+        return view();
+    }
+
     /**
      * 选择附件
      */
@@ -76,17 +85,6 @@ class Attachment extends Backend
     {
         if ($this->request->isAjax()) {
             return $this->index();
-        }
-        return $this->view->fetch();
-    }
-
-    /**
-     * 添加
-     */
-    public function add()
-    {
-        if ($this->request->isAjax()) {
-            $this->error();
         }
         return $this->view->fetch();
     }

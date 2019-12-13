@@ -37,6 +37,7 @@
     "plupload": "^2.3.6",
     "select2": "^4.0.12",
     "summernote": "^0.8.12",
+    "tableexport.jquery.plugin": "^1.10.12",
     "toastr": "^2.1.4"
   }
 }
