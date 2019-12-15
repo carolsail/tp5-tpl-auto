@@ -69,11 +69,11 @@ const ModalLayer = {
     return Layer.open(options);
   },
   // 关闭窗口并回传数据
-  close: function (data) {
-      var index = parent.Layer.getFrameIndex(window.name);
+  close: function (data={}) {
+      var index = parent.layer.getFrameIndex(window.name);
       var callback = parent.$("#layui-layer" + index).data("callback");
       //再执行关闭
-      parent.Layer.close(index);
+      parent.layer.close(index);
       //再调用回传函数
       if (typeof callback === 'function') {
           callback.call(undefined, data);
@@ -81,6 +81,7 @@ const ModalLayer = {
   },
   // 封装底部按钮操作替换form中的按钮操作
   layerfooter: function (layero, index, that) {
+      var layerIndex = index
       var frame = Layer.getChildFrame('html', index);
       var layerfooter = frame.find(".layer-footer");
       if (layerfooter.length) {
@@ -95,6 +96,13 @@ const ModalLayer = {
           footer.on("click", ".btn", function () {
               if ($(this).attr("disabled") || $(this).parent().attr("disabled")) {
                   return;
+              }
+              // button的type: submit, reset, button
+              if($(this).attr('type') === 'button') {
+                  // 直接关闭layer
+                  layer.close(layerIndex)
+                  $('.btn-refresh').trigger('click')
+                  return
               }
               var index = footer.find('.btn').index(this);
               $(".btn:eq(" + index + ")", layerfooter).trigger("click");

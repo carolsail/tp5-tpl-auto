@@ -102,3 +102,18 @@
 .layui-layer-footer {
   background: #F8F8F8;
 }
+
+/* bootstrap table */
+.bootstrap-table {
+  .bs-checkbox {
+    vertical-align: middle;
+  }
+}
+
+/* common serach */
+.row-between .col-xs-6 + .col-xs-6:before {
+  content: "-";
+  position: absolute;
+  left: -2%;
+  top: 6px;
+}
