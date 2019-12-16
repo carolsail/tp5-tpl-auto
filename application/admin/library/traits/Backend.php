@@ -60,7 +60,6 @@ trait Backend
                 ->limit($offset, $limit)
                 ->select();
 
-            $list = collection($list)->toArray();
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);
@@ -370,7 +369,7 @@ trait Backend
         if (!$file) {
             $this->error(__('Parameter %s can not be empty', 'file'));
         }
-        $filePath = ROOT_PATH . DS . 'public' . DS . $file;
+        $filePath = \think\facade\Env::get('root_path') . DS . 'public' . DS . $file;
         if (!is_file($filePath)) {
             $this->error(__('No results were found'));
         }
@@ -409,8 +408,8 @@ trait Backend
         //导入文件首行类型,默认是注释,如果需要使用字段名称请使用name
         $importHeadType = isset($this->importHeadType) ? $this->importHeadType : 'comment';
 
-        $table = $this->model->getQuery()->getTable();
-        $database = \think\Config::get('database.database');
+        $table = $this->model->getTable();
+        $database = \think\facade\Config::get('database.database');
         $fieldArr = [];
         $list = db()->query("SELECT COLUMN_NAME,COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND TABLE_SCHEMA = ?", [$table, $database]);
         foreach ($list as $k => $v) {

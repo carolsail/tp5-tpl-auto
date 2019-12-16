@@ -1,6 +1,7 @@
 import {fixurl, lang, cdnurl} from './util'
 import ModalLayer from './modal-layer'
 import Http from './http'
+import Upload from './upload'
 
 var Table = {
     list: {},
@@ -231,16 +232,14 @@ var Table = {
             });
             // 导入按钮事件
             if ($(Table.config.importbtn, toolbar).length) {
-                // require(['upload'], function (Upload) {
-                //     Upload.api.plupload($(Table.config.importbtn, toolbar), function (data, ret) {
-                //         Fast.api.ajax({
-                //             url: options.extend.import_url,
-                //             data: {file: data.url},
-                //         }, function (data, ret) {
-                //             table.bootstrapTable('refresh');
-                //         });
-                //     });
-                // });
+                Upload.api.plupload($(Table.config.importbtn, toolbar), function (data, ret) {
+                    Http.ajax({
+                        url: options.extend.import_url,
+                        data: {file: data.url},
+                    }, function (data, ret) {
+                        table.bootstrapTable('refresh')
+                    })
+                })
             }
             // 批量编辑按钮事件
             $(toolbar).on('click', Table.config.editbtn, function () {

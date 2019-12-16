@@ -3,6 +3,7 @@
 namespace app\admin\controller\general;
 
 use app\common\controller\Backend;
+
 /**
  * 附件管理
  *
@@ -33,7 +34,7 @@ class Attachment extends Backend
         if ($this->request->isAjax()) {
             $mimetypeQuery = [];
             $filter = $this->request->request('filter');
-            $filterArr = (array)json_decode($filter, TRUE);
+            $filterArr = (array)json_decode($filter, true);
             if (isset($filterArr['mimetype']) && stripos($filterArr['mimetype'], ',') !== false) {
                 $this->request->get(['filter' => json_encode(array_merge($filterArr, ['mimetype' => '']))]);
                 $mimetypeQuery = function ($query) use ($filterArr) {
@@ -71,7 +72,7 @@ class Attachment extends Backend
 
     public function add()
     {
-        if($this->request->isAjax()){
+        if ($this->request->isAjax()) {
             $this->success('hahahah123');
         }
         $this->view->engine->layout('layout/blank');
@@ -96,20 +97,19 @@ class Attachment extends Backend
     public function del($ids = "")
     {
         if ($ids) {
-            \think\Hook::add('upload_delete', function ($params) {
-                $attachmentFile = ROOT_PATH . '/public' . $params['url'];
+            \think\facade\Hook::add('upload_delete', function ($params) {
+                $attachmentFile = \think\facade\Env::get('root_path') . '/public' . $params['url'];
                 if (is_file($attachmentFile)) {
                     @unlink($attachmentFile);
                 }
             });
             $attachmentlist = $this->model->where('id', 'in', $ids)->select();
             foreach ($attachmentlist as $attachment) {
-                \think\Hook::listen("upload_delete", $attachment);
+                \think\facade\Hook::listen("upload_delete", $attachment);
                 $attachment->delete();
             }
             $this->success();
         }
         $this->error(__('Parameter %s can not be empty', 'ids'));
     }
-
 }

@@ -7,8 +7,8 @@ use think\facade\Hook;
 use libs\Tree;
 use libs\Random;
 
-class Auth extends \libs\Auth{
-
+class Auth extends \libs\Auth
+{
     protected $_error = ''; // 错误提示
     protected $requestUri = ''; // 当前访问链接
     protected $breadcrumb = []; // 页面面包屑信息
@@ -19,8 +19,9 @@ class Auth extends \libs\Auth{
      * 魔术方法
      * 访问不存在成员变量的时候调用
      */
-    public function __get($name){
-      return session('admin.' . $name);
+    public function __get($name)
+    {
+        return session('admin.' . $name);
     }
 
     /**
@@ -411,11 +412,11 @@ class Auth extends \libs\Auth{
         $pinyin = new \Overtrue\Pinyin\Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
         // 必须将结果集转换为数组
         // cache('__menu__', null);
-        $ruleList = collection(\app\admin\model\AuthRule::where('status', 'normal')
+        $ruleList = \app\admin\model\AuthRule::where('status', 'normal')
             ->where('ismenu', 1)
             ->order('weigh', 'desc')
             ->cache("__menu__")
-            ->select())->toArray();
+            ->select()->toArray();
         $indexRuleList = \app\admin\model\AuthRule::where('status', 'normal')
             ->where('ismenu', 0)
             ->where('name', 'like', '%/index')
@@ -423,7 +424,6 @@ class Auth extends \libs\Auth{
         $pidArr = array_filter(array_unique(array_map(function ($item) {
             return $item['pid'];
         }, $ruleList)));
-        
         foreach ($ruleList as $k => &$v) {
             if (!in_array($v['name'], $userRule)) {
                 unset($ruleList[$k]);
@@ -440,7 +440,7 @@ class Auth extends \libs\Auth{
             $v['py'] = $pinyin->abbr($v['title'], '');
             $v['pinyin'] = $pinyin->permalink($v['title'], '');
             $v['title'] = __($v['title']);
-            if(strpos($fixedPage, $v['name']) !== false){
+            if (strpos($fixedPage, $v['name']) !== false) {
                 $selected[] = $v;
             }
         }
@@ -454,7 +454,7 @@ class Auth extends \libs\Auth{
         }
         $select_id = [];
         if ($selected) {
-            $select_id = array_column($selected, 'id'); 
+            $select_id = array_column($selected, 'id');
         }
         $menu = '';
         // 构造菜单数据

@@ -73,14 +73,14 @@ class Category extends Model
      */
     public static function getCategoryArray($type = null, $status = null)
     {
-        $list = collection(self::where(function ($query) use ($type, $status) {
+        $list = self::where(function ($query) use ($type, $status) {
             if (!is_null($type)) {
                 $query->where('type', '=', $type);
             }
             if (!is_null($status)) {
                 $query->where('status', '=', $status);
             }
-        })->order('weigh', 'desc')->select())->toArray();
+        })->order('weigh', 'desc')->select()->toArray();
         return $list;
     }
 }

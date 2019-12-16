@@ -84,7 +84,7 @@ class Ajax extends Backend
         $splInfo = $file->validate(['size' => $size])->move(Env::get('root_path') . '/public' . $uploadDir, $fileName);
         if ($splInfo) {
             $params = array(
-                // 'admin_id'    => (int)$this->auth->id,
+                'admin_id'    => (int)$this->auth->id,
                 'user_id'     => 0,
                 'filesize'    => $fileInfo['size'],
                 'imagewidth'  => $imagewidth,

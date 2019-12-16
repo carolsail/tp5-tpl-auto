@@ -17,9 +17,9 @@ try {
   require('admin-lte');
 
   // 扩展
-  require('layerui');
+  window.layer = window.Layer = require('layerui');
   require('moment');
-  require('toastr');
+  window.toastr = window.Toastr = require('toastr');
   require('bootstrap-table');
   require('art-template/lib/template-web');
   require('nice-validator');

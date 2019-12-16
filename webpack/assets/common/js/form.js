@@ -61,14 +61,18 @@ const Form = {
                                 return false;
                             }
                         }
+
+                        var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : __('Operation completed');
                         
                         if (form.closest('.modal-item').find('.modal').length) {
                             //modal提交
+                            toastr.success(msg);
                             submitBtn.removeAttr("disabled")
                             resetBtn.removeAttr("disabled")
                             form.closest('.modal-item').find('.modal').modal('hide')
                         } else if (form.find('.layer-footer').length) {
                             //layer提交
+                            parent.toastr.success(msg);
                             parent.$(".btn-refresh").trigger("click");
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
@@ -78,6 +82,7 @@ const Form = {
                                 location.href = ret.url
                             }, 1000)
                         }
+                        return false
                     }, function (data, ret) {
                         that.holdSubmit(false);
                         if (false === $(this).triggerHandler("error.form", [data, ret])) {
