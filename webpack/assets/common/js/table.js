@@ -294,55 +294,53 @@ var Table = {
                 );
             });
             // 拖拽排序
-            // require(['dragsort'], function () {
-            //     //绑定拖动排序
-            //     $("tbody", table).dragsort({
-            //         itemSelector: 'tr:visible',
-            //         dragSelector: "a.btn-dragsort",
-            //         dragEnd: function (a, b) {
-            //             var element = $("a.btn-dragsort", this);
-            //             var data = table.bootstrapTable('getData');
-            //             var current = data[parseInt($(this).data("index"))];
-            //             var options = table.bootstrapTable('getOptions');
-            //             //改变的值和改变的ID集合
-            //             var ids = $.map($("tbody tr:visible", table), function (tr) {
-            //                 return data[parseInt($(tr).data("index"))][options.pk];
-            //             });
-            //             var changeid = current[options.pk];
-            //             var pid = typeof current.pid != 'undefined' ? current.pid : '';
-            //             var params = {
-            //                 url: table.bootstrapTable('getOptions').extend.dragsort_url,
-            //                 data: {
-            //                     ids: ids.join(','),
-            //                     changeid: changeid,
-            //                     pid: pid,
-            //                     field: Table.config.dragsortfield,
-            //                     orderway: options.sortOrder,
-            //                     table: options.extend.table,
-            //                     pk: options.pk
-            //                 }
-            //             };
-            //             Fast.api.ajax(params, function (data, ret) {
-            //                 var success = $(element).data("success") || $.noop;
-            //                 if (typeof success === 'function') {
-            //                     if (false === success.call(element, data, ret)) {
-            //                         return false;
-            //                     }
-            //                 }
-            //                 table.bootstrapTable('refresh');
-            //             }, function (data, ret) {
-            //                 var error = $(element).data("error") || $.noop;
-            //                 if (typeof error === 'function') {
-            //                     if (false === error.call(element, data, ret)) {
-            //                         return false;
-            //                     }
-            //                 }
-            //                 table.bootstrapTable('refresh');
-            //             });
-            //         },
-            //         placeHolderTemplate: ""
-            //     });
-            // });
+            $("tbody", table).dragsort({
+                itemSelector: 'tr:visible',
+                dragSelector: "a.btn-dragsort",
+                dragEnd: function (a, b) {
+                    var element = $("a.btn-dragsort", this);
+                    var data = table.bootstrapTable('getData');
+                    var current = data[parseInt($(this).data("index"))];
+                    var options = table.bootstrapTable('getOptions');
+                    //改变的值和改变的ID集合
+                    var ids = $.map($("tbody tr:visible", table), function (tr) {
+                        return data[parseInt($(tr).data("index"))][options.pk];
+                    });
+                    var changeid = current[options.pk];
+                    var pid = typeof current.pid != 'undefined' ? current.pid : '';
+                    var params = {
+                        url: table.bootstrapTable('getOptions').extend.dragsort_url,
+                        data: {
+                            ids: ids.join(','),
+                            changeid: changeid,
+                            pid: pid,
+                            field: Table.config.dragsortfield,
+                            orderway: options.sortOrder,
+                            table: options.extend.table,
+                            pk: options.pk
+                        }
+                    };
+                    Http.ajax(params, function (data, ret) {
+                        var success = $(element).data("success") || $.noop;
+                        if (typeof success === 'function') {
+                            if (false === success.call(element, data, ret)) {
+                                return false;
+                            }
+                        }
+                        table.bootstrapTable('refresh');
+                    }, function (data, ret) {
+                        var error = $(element).data("error") || $.noop;
+                        if (typeof error === 'function') {
+                            if (false === error.call(element, data, ret)) {
+                                return false;
+                            }
+                        }
+                        table.bootstrapTable('refresh');
+                    });
+                },
+                placeHolderTemplate: ""
+            });
+
             $(table).on("click", "input[data-id][name='checkbox']", function (e) {
                 var ids = $(this).data("id");
                 var row = Table.api.getrowbyid(table, ids);

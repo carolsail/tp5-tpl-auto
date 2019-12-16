@@ -10,6 +10,7 @@ class Test extends Backend
     {
         if ($this->request->isAjax()) {
             if ($this->request->isGet()) {
+                $this->view->engine->layout(false);
                 return view('test/modal_bootstrap');
             }
         }

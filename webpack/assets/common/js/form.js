@@ -63,7 +63,7 @@ const Form = {
                         }
 
                         var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : __('Operation completed');
-                        parent.toastr.success(msg);
+                        parent.Toastr.success(msg);
 
                         if (form.closest('.modal-item').find('.modal').length) {
                             //modal提交
@@ -73,8 +73,8 @@ const Form = {
                         } else if (form.find('.layer-footer').length) {
                             //layer提交
                             parent.$(".btn-refresh").trigger("click");
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
+                            var index = parent.Layer.getFrameIndex(window.name);
+                            parent.Layer.close(index);
                         } else {
                             //page提交
                             setTimeout(()=>{
@@ -168,15 +168,15 @@ const Form = {
                         contents: '<i class="fa fa-file-image-o"/>',
                         tooltip: 'Choose',
                         click: function () {
-                            // parent.Fast.api.open("general/attachment/select?element_id=&multiple=true&mimetype=image/*", __('Choose'), {
-                            //     callback: function (data) {
-                            //         var urlArr = data.url.split(/\,/);
-                            //         $.each(urlArr, function () {
-                            //             var url = Fast.api.cdnurl(this);
-                            //             context.invoke('editor.insertImage', url);
-                            //         });
-                            //     }
-                            // });
+                            parent.ModalLayer.open("general/attachment/select?element_id=&multiple=true&mimetype=image/*", lang('Choose'), {
+                                callback: function (data) {
+                                    var urlArr = data.url.split(/\,/);
+                                    $.each(urlArr, function () {
+                                        var url = cdnurl(this);
+                                        context.invoke('editor.insertImage', url);
+                                    });
+                                }
+                            });
                             return false;
                         }
                     });
@@ -188,16 +188,17 @@ const Form = {
                         contents: '<i class="fa fa-file"/>',
                         tooltip: 'Choose',
                         click: function () {
-                            // parent.Fast.api.open("general/attachment/select?element_id=&multiple=true&mimetype=*", __('Choose'), {
-                            //     callback: function (data) {
-                            //         var urlArr = data.url.split(/\,/);
-                            //         $.each(urlArr, function () {
-                            //             var url = Fast.api.cdnurl(this);
-                            //             var node = $("<a href='" + url + "'>" + url + "</a>");
-                            //             context.invoke('insertNode', node[0]);
-                            //         });
-                            //     }
-                            // });
+                            parent.ModalLayer.open("general/attachment/select?element_id=&multiple=true&mimetype=*", lang('Choose'), {
+                                callback: function (data) {
+                                    var urlArr = data.url.split(/\,/);
+                                    $.each(urlArr, function () {
+                                        var url = cdnurl(this);
+                                        var node = $("<a href='" + url + "'>" + url + "</a>");
+                                        console.log(context)
+                                        context.invoke('insertNode', node[0]);
+                                    });
+                                }
+                            });
                             return false;
                         }
                     });
@@ -267,7 +268,7 @@ const Form = {
                     var mimetype = $(this).data("mimetype") ? $(this).data("mimetype") : '';
                     var admin_id = $(this).data("admin-id") ? $(this).data("admin-id") : '';
                     var user_id = $(this).data("user-id") ? $(this).data("user-id") : '';
-                    parent.Fast.api.open("general/attachment/select?element_id=" + $(this).attr("id") + "&multiple=" + multiple + "&mimetype=" + mimetype + "&admin_id=" + admin_id + "&user_id=" + user_id, __('Choose'), {
+                    parent.ModalLayer.open("general/attachment/select?element_id=" + $(this).attr("id") + "&multiple=" + multiple + "&mimetype=" + mimetype + "&admin_id=" + admin_id + "&user_id=" + user_id, lang('Choose'), {
                         callback: function (data) {
                             var button = $("#" + $(that).attr("id"));
                             var maxcount = $(button).data("maxcount");
@@ -301,125 +302,120 @@ const Form = {
                 });
             }
         },
-        // fieldlist: function (form) {
-        //     //绑定fieldlist
-        //     if ($(".fieldlist", form).size() > 0) {
-        //         require(['dragsort', 'template'], function (undefined, Template) {
-        //             //刷新隐藏textarea的值
-        //             var refresh = function (name) {
-        //                 var data = {};
-        //                 var textarea = $("textarea[name='" + name + "']", form);
-        //                 var container = textarea.closest("dl");
-        //                 var template = container.data("template");
-        //                 $.each($("input,select,textarea", container).serializeArray(), function (i, j) {
-        //                     var reg = /\[(\w+)\]\[(\w+)\]$/g;
-        //                     var match = reg.exec(j.name);
-        //                     if (!match)
-        //                         return true;
-        //                     match[1] = "x" + parseInt(match[1]);
-        //                     if (typeof data[match[1]] == 'undefined') {
-        //                         data[match[1]] = {};
-        //                     }
-        //                     data[match[1]][match[2]] = j.value;
-        //                 });
-        //                 var result = template ? [] : {};
-        //                 $.each(data, function (i, j) {
-        //                     if (j) {
-        //                         if (!template) {
-        //                             if (j.key != '') {
-        //                                 result[j.key] = j.value;
-        //                             }
-        //                         } else {
-        //                             result.push(j);
-        //                         }
-        //                     }
-        //                 });
-        //                 textarea.val(JSON.stringify(result));
-        //             };
-        //             //监听文本框改变事件
-        //             $(document).on('change keyup', ".fieldlist input,.fieldlist textarea,.fieldlist select", function () {
-        //                 refresh($(this).closest("dl").data("name"));
-        //             });
-        //             //追加控制
-        //             $(".fieldlist", form).on("click", ".btn-append,.append", function (e, row) {
-        //                 var container = $(this).closest("dl");
-        //                 var index = container.data("index");
-        //                 var name = container.data("name");
-        //                 var template = container.data("template");
-        //                 var data = container.data();
-        //                 index = index ? parseInt(index) : 0;
-        //                 container.data("index", index + 1);
-        //                 var row = row ? row : {};
-        //                 var vars = {index: index, name: name, data: data, row: row};
-        //                 var html = template ? Template(template, vars) : Template.render(Form.config.fieldlisttpl, vars);
-        //                 $(html).insertBefore($(this).closest("dd"));
-        //                 $(this).trigger("fa.event.appendfieldlist", $(this).closest("dd").prev());
-        //             });
-        //             //移除控制
-        //             $(".fieldlist", form).on("click", "dd .btn-remove", function () {
-        //                 var container = $(this).closest("dl");
-        //                 $(this).closest("dd").remove();
-        //                 refresh(container.data("name"));
-        //             });
-        //             //拖拽排序
-        //             $("dl.fieldlist", form).dragsort({
-        //                 itemSelector: 'dd',
-        //                 dragSelector: ".btn-dragsort",
-        //                 dragEnd: function () {
-        //                     refresh($(this).closest("dl").data("name"));
-        //                 },
-        //                 placeHolderTemplate: "<dd></dd>"
-        //             });
-        //             //渲染数据
-        //             $(".fieldlist", form).each(function () {
-        //                 var container = this;
-        //                 var textarea = $("textarea[name='" + $(this).data("name") + "']", form);
-        //                 if (textarea.val() == '') {
-        //                     return true;
-        //                 }
-        //                 var template = $(this).data("template");
-        //                 var json = {};
-        //                 try {
-        //                     json = JSON.parse(textarea.val());
-        //                 } catch (e) {
-        //                 }
-        //                 $.each(json, function (i, j) {
-        //                     $(".btn-append,.append", container).trigger('click', template ? j : {
-        //                         key: i,
-        //                         value: j
-        //                     });
-        //                 });
-        //             });
-        //         });
-        //     }
-        // },
-        // switcher: function (form) {
-        //     form.on("click", "[data-toggle='switcher']", function () {
-        //         if ($(this).hasClass("disabled")) {
-        //             return false;
-        //         }
-        //         var input = $(this).prev("input");
-        //         input = $(this).data("input-id") ? $("#" + $(this).data("input-id")) : input;
-        //         if (input.size() > 0) {
-        //             var yes = $(this).data("yes");
-        //             var no = $(this).data("no");
-        //             if (input.val() == yes) {
-        //                 input.val(no);
-        //                 $("i", this).addClass("fa-flip-horizontal text-gray");
-        //             } else {
-        //                 input.val(yes);
-        //                 $("i", this).removeClass("fa-flip-horizontal text-gray");
-        //             }
-        //             input.trigger('change');
-        //         }
-        //         return false;
-        //     });
-        // },
-        // bindevent: function (form) {
-
-        // },
+        fieldlist: function (form) {
+            //绑定fieldlist
+            if ($(".fieldlist", form).length) {
+                //刷新隐藏textarea的值
+                var refresh = function (name) {
+                    var data = {};
+                    var textarea = $("textarea[name='" + name + "']", form);
+                    var container = textarea.closest("dl");
+                    var template = container.data("template");
+                    $.each($("input,select,textarea", container).serializeArray(), function (i, j) {
+                        var reg = /\[(\w+)\]\[(\w+)\]$/g;
+                        var match = reg.exec(j.name);
+                        if (!match)
+                            return true;
+                        match[1] = "x" + parseInt(match[1]);
+                        if (typeof data[match[1]] == 'undefined') {
+                            data[match[1]] = {};
+                        }
+                        data[match[1]][match[2]] = j.value;
+                    });
+                    var result = template ? [] : {};
+                    $.each(data, function (i, j) {
+                        if (j) {
+                            if (!template) {
+                                if (j.key != '') {
+                                    result[j.key] = j.value;
+                                }
+                            } else {
+                                result.push(j);
+                            }
+                        }
+                    });
+                    textarea.val(JSON.stringify(result));
+                };
+                //监听文本框改变事件
+                $(document).on('change keyup', ".fieldlist input,.fieldlist textarea,.fieldlist select", function () {
+                    refresh($(this).closest("dl").data("name"));
+                });
+                //追加控制
+                $(".fieldlist", form).on("click", ".btn-append,.append", function (e, row) {
+                    var container = $(this).closest("dl");
+                    var index = container.data("index");
+                    var name = container.data("name");
+                    var template = container.data("template");
+                    var data = container.data();
+                    index = index ? parseInt(index) : 0;
+                    container.data("index", index + 1);
+                    var row = row ? row : {};
+                    var vars = {index: index, name: name, data: data, row: row};
+                    var html = template ? Template(template, vars) : Template.render(Form.config.fieldlisttpl, vars);
+                    $(html).insertBefore($(this).closest("dd"));
+                    $(this).trigger("fa.event.appendfieldlist", $(this).closest("dd").prev());
+                });
+                //移除控制
+                $(".fieldlist", form).on("click", "dd .btn-remove", function () {
+                    var container = $(this).closest("dl");
+                    $(this).closest("dd").remove();
+                    refresh(container.data("name"));
+                });
+                //拖拽排序
+                $("dl.fieldlist", form).dragsort({
+                    itemSelector: 'dd',
+                    dragSelector: ".btn-dragsort",
+                    dragEnd: function () {
+                        refresh($(this).closest("dl").data("name"));
+                    },
+                    placeHolderTemplate: "<dd></dd>"
+                });
+                //渲染数据
+                $(".fieldlist", form).each(function () {
+                    var container = this;
+                    var textarea = $("textarea[name='" + $(this).data("name") + "']", form);
+                    if (textarea.val() == '') {
+                        return true;
+                    }
+                    var template = $(this).data("template");
+                    var json = {};
+                    try {
+                        json = JSON.parse(textarea.val());
+                    } catch (e) {
+                    }
+                    $.each(json, function (i, j) {
+                        $(".btn-append,.append", container).trigger('click', template ? j : {
+                            key: i,
+                            value: j
+                        });
+                    });
+                });
+            }
+        },
+        switcher: function (form) {
+            form.on("click", "[data-toggle='switcher']", function () {
+                if ($(this).hasClass("disabled")) {
+                    return false;
+                }
+                var input = $(this).prev("input");
+                input = $(this).data("input-id") ? $("#" + $(this).data("input-id")) : input;
+                if (input.length > 0) {
+                    var yes = $(this).data("yes");
+                    var no = $(this).data("no");
+                    if (input.val() == yes) {
+                        input.val(no);
+                        $("i", this).addClass("fa-flip-horizontal text-gray");
+                    } else {
+                        input.val(yes);
+                        $("i", this).removeClass("fa-flip-horizontal text-gray");
+                    }
+                    input.trigger('change');
+                }
+                return false;
+            });
+        },
         // slider: function (form) {
-        //     if ($(".slider", form).size() > 0) {
+        //     if ($(".slider", form).length) {
         //         require(['bootstrap-slider'], function () {
         //             $('.slider').removeClass('hidden').css('width', function (index, value) {
         //                 return $(this).parents('.form-control').width();
@@ -531,11 +527,12 @@ const Form = {
 
             events.summernote(form)
 
-            // events.fieldlist(form);
+            events.fieldlist(form);
+
+            events.switcher(form);
 
             // events.slider(form);
 
-            // events.switcher(form);
         }
     }
 }

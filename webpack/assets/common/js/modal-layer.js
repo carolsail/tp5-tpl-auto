@@ -70,10 +70,10 @@ const ModalLayer = {
   },
   // 关闭窗口并回传数据
   close: function (data={}) {
-      var index = parent.layer.getFrameIndex(window.name);
+      var index = parent.Layer.getFrameIndex(window.name);
       var callback = parent.$("#layui-layer" + index).data("callback");
       //再执行关闭
-      parent.layer.close(index);
+      parent.Layer.close(index);
       //再调用回传函数
       if (typeof callback === 'function') {
           callback.call(undefined, data);
@@ -123,4 +123,5 @@ const ModalLayer = {
   }
 }
 
+window.ModalLayer = ModalLayer
 export default ModalLayer

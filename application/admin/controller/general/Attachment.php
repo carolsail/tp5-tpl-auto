@@ -73,7 +73,7 @@ class Attachment extends Backend
     public function add()
     {
         if ($this->request->isAjax()) {
-            $this->success('hahahah123');
+            $this->success('success');
         }
         $this->view->engine->layout('layout/blank');
         return view();
@@ -87,6 +87,7 @@ class Attachment extends Backend
         if ($this->request->isAjax()) {
             return $this->index();
         }
+        $this->view->engine->layout('layout/blank');
         return $this->view->fetch();
     }
 

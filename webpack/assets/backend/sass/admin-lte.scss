@@ -117,3 +117,24 @@
   left: -2%;
   top: 6px;
 }
+
+/* fieldlist */
+.fieldlist {
+  dd {
+    display: block;
+    margin: 5px 0;
+    input {
+      display: inline-block;
+      width: 300px;
+      &:first-child {
+        width: 110px;
+      }
+    }
+    ins {
+      width: 110px;
+      display: inline-block;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}

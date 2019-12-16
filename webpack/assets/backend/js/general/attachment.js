@@ -1,6 +1,7 @@
 import Table from '../../../common/js/table'
 import Form from '../../../common/js/form'
-import {fixurl, lang} from '../../../common/js/util'
+import Upload from '../../../common/js/upload'
+import {fixurl, lang, query} from '../../../common/js/util'
 
 const api = {
   bindevent: function () {
@@ -72,6 +73,69 @@ export function index() {
   });
   // 为表格绑定事件
   Table.api.bindevent(table);
+}
+
+export function select () {
+  // 初始化表格参数配置
+  Table.api.init({
+      extend: {
+          index_url: fixurl('general/attachment/select'),
+      }
+  });
+  var table = $("#table");
+  // 初始化表格
+  table.bootstrapTable({
+      url: $.fn.bootstrapTable.defaults.extend.index_url,
+      sortName: 'id',
+      showToggle: false,
+      showExport: false,
+      columns: [
+          [
+              {field: 'state', checkbox: true,},
+              {field: 'id', title: lang('Id')},
+              {field: 'admin_id', title: lang('Admin_id'), visible: false},
+              {field: 'user_id', title: lang('User_id'), visible: false},
+              {field: 'url', title: lang('Preview'), formatter: api.formatter.thumb, operate: false},
+              {field: 'imagewidth', title: lang('Imagewidth'), operate: false},
+              {field: 'imageheight', title: lang('Imageheight'), operate: false},
+              {
+                  field: 'mimetype', title: lang('Mimetype'), operate: 'LIKE %...%',
+                  process: function (value, arg) {
+                      return value.replace(/\*/g, '%');
+                  }
+              },
+              {field: 'createtime', title: lang('Createtime'), formatter: Table.api.formatter.datetime, operate: 'RANGE', addclass: 'datetimerange', sortable: true},
+              {
+                  field: 'operate', title: lang('Operate'), events: {
+                      'click .btn-chooseone': function (e, value, row, index) {
+                          var multiple = query('multiple');
+                          multiple = multiple == 'true' ? true : false;
+                          ModalLayer.close({url: row.url, multiple: multiple});
+                      },
+                  }, formatter: function () {
+                      return '<a href="javascript:;" class="btn btn-danger btn-chooseone btn-xs"><i class="fa fa-check"></i> ' + lang('Choose') + '</a>';
+                  }
+              }
+          ]
+      ]
+  });
+
+  // 选中多个
+  $(document).on("click", ".btn-choose-multi", function () {
+      var urlArr = new Array();
+      $.each(table.bootstrapTable("getAllSelections"), function (i, j) {
+          urlArr.push(j.url);
+      });
+      var multiple = query('multiple');
+      multiple = multiple == 'true' ? true : false;
+      ModalLayer.close({url: urlArr.join(","), multiple: multiple});
+  });
+
+  // 为表格绑定事件
+  Table.api.bindevent(table);
+  Upload.api.plupload($("#toolbar .plupload"), function () {
+      $(".btn-refresh").trigger("click");
+  });
 }
 
 export function add() {
