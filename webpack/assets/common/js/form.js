@@ -63,16 +63,15 @@ const Form = {
                         }
 
                         var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : __('Operation completed');
-                        
+                        parent.toastr.success(msg);
+
                         if (form.closest('.modal-item').find('.modal').length) {
                             //modal提交
-                            toastr.success(msg);
                             submitBtn.removeAttr("disabled")
                             resetBtn.removeAttr("disabled")
                             form.closest('.modal-item').find('.modal').modal('hide')
                         } else if (form.find('.layer-footer').length) {
                             //layer提交
-                            parent.toastr.success(msg);
                             parent.$(".btn-refresh").trigger("click");
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
