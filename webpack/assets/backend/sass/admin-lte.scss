@@ -138,3 +138,9 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .fixed-table-toolbar .columns-right.btn-group {
+    display: none;
+  }
+}

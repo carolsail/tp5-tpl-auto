@@ -162,18 +162,19 @@ const Form = {
         },
         summernote: function(form) {
             if ($(".summernote,.editor", form).length) {
+                var note = $(".summernote,.editor", form)
                 var imageButton = function (context) {
                     var ui = $.summernote.ui;
                     var button = ui.button({
                         contents: '<i class="fa fa-file-image-o"/>',
-                        tooltip: 'Choose',
+                        tooltip: lang('Choose'),
                         click: function () {
                             parent.ModalLayer.open("general/attachment/select?element_id=&multiple=true&mimetype=image/*", lang('Choose'), {
                                 callback: function (data) {
                                     var urlArr = data.url.split(/\,/);
                                     $.each(urlArr, function () {
                                         var url = cdnurl(this);
-                                        context.invoke('editor.insertImage', url);
+                                        note.summernote('editor.insertImage', url);
                                     });
                                 }
                             });
@@ -186,7 +187,7 @@ const Form = {
                     var ui = $.summernote.ui;
                     var button = ui.button({
                         contents: '<i class="fa fa-file"/>',
-                        tooltip: 'Choose',
+                        tooltip: lang('Choose'),
                         click: function () {
                             parent.ModalLayer.open("general/attachment/select?element_id=&multiple=true&mimetype=*", lang('Choose'), {
                                 callback: function (data) {
@@ -194,8 +195,7 @@ const Form = {
                                     $.each(urlArr, function () {
                                         var url = cdnurl(this);
                                         var node = $("<a href='" + url + "'>" + url + "</a>");
-                                        console.log(context)
-                                        context.invoke('insertNode', node[0]);
+                                        note.summernote('insertNode', node[0]);
                                     });
                                 }
                             });
@@ -204,7 +204,7 @@ const Form = {
                     });
                     return button.render();
                 };
-                $(".summernote,.editor", form).summernote({
+                note.summernote({
                     height: 250,
                     lang: 'zh-CN',
                     fontNames: [
@@ -245,7 +245,7 @@ const Form = {
                             //依次上传图片
                             for (var i = 0; i < files.length; i++) {
                                 Upload.api.send(files[i], function (data) {
-                                    var url = cdnurl(data.url);
+                                    var url = Fast.api.cdnurl(data.url);
                                     $(that).summernote("insertImage", url, 'filename');
                                 });
                             }

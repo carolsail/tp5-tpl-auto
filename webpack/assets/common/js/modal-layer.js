@@ -62,9 +62,13 @@ const ModalLayer = {
             }
         }
     }, options ? options : {});
-    if ($(window).width() < 480 || (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && top.$(".tab-pane.active").size() > 0)) {
-        options.area = [top.$(".tab-pane.active").width() + "px", top.$(".tab-pane.active").height() + "px"];
-        options.offset = [top.$(".tab-pane.active").scrollTop() + "px", "0px"];
+    // if ($(window).width() < 480 || (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && top.$(".tab-pane.active").length > 0)) {
+    //     options.area = [top.$(".tab-pane.active").width() + "px", top.$(".tab-pane.active").height() + "px"];
+    //     options.offset = [top.$(".tab-pane.active").scrollTop() + "px", "0px"];
+    // }
+    if ($(window).width() < 480) {
+        options.area = [top.$(".wrapper").width() + "px", top.$(".wrapper").height() + "px"];
+        options.offset = [top.$(".wrapper").scrollTop() + "px", "0px"]; 
     }
     return Layer.open(options);
   },
