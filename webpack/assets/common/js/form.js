@@ -62,7 +62,7 @@ const Form = {
                             }
                         }
 
-                        var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : __('Operation completed');
+                        var msg = ret.hasOwnProperty("msg") && ret.msg !== "" ? ret.msg : lang('Operation completed');
                         parent.Toastr.success(msg);
 
                         if (form.closest('.modal-item').find('.modal').length) {

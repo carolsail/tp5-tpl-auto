@@ -44,6 +44,7 @@ mix.autoload({
 mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台js
 .sass('assets/backend/sass/admin-lte.scss', `${output}/backend/css`) // 打包后台css
 .js('assets/backend/js/general/attachment.js', `${output}/backend/js/general`)
+.js('assets/backend/js/general/profile.js', `${output}/backend/js/general`)
 .js('assets/backend/js/test.js', `${output}/backend/js`)
 .js('assets/backend/js/index.js', `${output}/backend/js`)
 .extract([

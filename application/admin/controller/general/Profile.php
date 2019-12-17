@@ -5,7 +5,7 @@ namespace app\admin\controller\general;
 use app\admin\model\Admin;
 use app\common\controller\Backend;
 use libs\Random;
-use think\Validate;
+use think\facade\Validate;
 
 /**
  * 个人配置

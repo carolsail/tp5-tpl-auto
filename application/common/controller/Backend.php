@@ -8,6 +8,7 @@ use think\facade\Hook;
 use think\Loader;
 use think\facade\Env;
 use think\facade\Lang;
+use think\facade\Validate;
 
 class Backend extends Controller
 {
@@ -392,5 +393,19 @@ class Backend extends Controller
                 ->select();
         }
         return json(['rows' => $list, 'total' => $total]);
+    }
+
+    /**
+     * 刷新Token
+     */
+    protected function token()
+    {
+        $token = $this->request->post('__token__');
+        //验证Token
+        if (!Validate::is($token, "token", ['__token__' => $token])) {
+            $this->error(__('Token verification error'), '', ['__token__' => $this->request->token()]);
+        }
+        //刷新Token
+        $this->request->token();
     }
 }
