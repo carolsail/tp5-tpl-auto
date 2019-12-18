@@ -140,10 +140,10 @@ class Backend extends Controller
 
         $breadcrumb = [];
         $menulist = '';
+        // 设置面包屑导航数据
+        $breadcrumb = $this->auth->getBreadCrumb($path);
+        array_pop($breadcrumb);
         if(!$this->request->isAjax()){
-            // 设置面包屑导航数据
-            $breadcrumb = $this->auth->getBreadCrumb($path);
-            array_pop($breadcrumb);
             // 设置菜单数据(左侧) 耗时TTFP利用cache
             list($menulist) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
         }

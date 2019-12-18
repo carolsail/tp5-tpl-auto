@@ -35,3 +35,56 @@ try {
   require('../../common/js/table-template');
   require('../../common/js/table-export');
 } catch (e) {}
+
+
+// 全局配置项
+import {fixurl, lang as __} from '../../common/js/util';
+$(function(){
+  // 设置Toastr
+  Toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
+  // 清除缓存
+  if($('.wipecache').length){
+    $('.wipecache').click(function(){
+      Layer.confirm(__('Are you sure'), function(index){
+        $.ajax({
+            url: fixurl('ajax/wipecache'),
+            dataType: 'json',
+            cache: false,
+            success: function (ret) {
+                if (ret.hasOwnProperty("code")) {
+                    var msg = ret.hasOwnProperty("msg") && ret.msg != "" ? ret.msg : "";
+                    if (ret.code === 1) {
+                        Toastr.success(msg ? msg : __('Wipe cache completed'));
+                    } else {
+                        Toastr.error(msg ? msg : __('Wipe cache failed'));
+                    }
+                } else {
+                    Toastr.error(__('Unknown data format'));
+                }
+                Layer.close(index)
+            }, error: function () {
+                Toastr.error(__('Network error'));
+                Layer.close(index)
+            }
+        })
+      })
+    })
+  }
+})

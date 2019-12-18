@@ -141,4 +141,18 @@ class Ajax extends Backend
         }
         $this->success('', null, $provincelist);
     }
+
+    /**
+     * 清空系统缓存
+     */
+    public function wipecache()
+    {
+        $cache_path = Env::get('runtime_path') . DIRECTORY_SEPARATOR . 'cache';
+        $temp_path = Env::get('runtime_path') . DIRECTORY_SEPARATOR . 'temp';
+        rmdirs($cache_path, false);
+        rmdirs($temp_path, false);
+        \think\facade\Cache::clear();
+        \think\facade\Hook::listen("wipecache_after");
+        $this->success();
+    }
 }
