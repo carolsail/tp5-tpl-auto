@@ -14,7 +14,6 @@ use think\facade\Validate;
  */
 class Profile extends Backend
 {
-
     /**
      * 查看
      */

@@ -405,9 +405,10 @@ class Auth extends \libs\Auth
                 $badgeList[$url] = '<small class="' . $class . ' pull-right bg-' . $color . '">' . $nums . '</small>';
             }
         }
-
+        
         // 读取管理员当前拥有的权限节点
         $userRule = $this->getRuleList();
+        
         $selected = [];
         $pinyin = new \Overtrue\Pinyin\Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
         // 必须将结果集转换为数组
@@ -420,6 +421,7 @@ class Auth extends \libs\Auth
         $indexRuleList = \app\admin\model\AuthRule::where('status', 'normal')
             ->where('ismenu', 0)
             ->where('name', 'like', '%/index')
+            ->cache("__menu_index__")
             ->column('name,pid');
         $pidArr = array_filter(array_unique(array_map(function ($item) {
             return $item['pid'];

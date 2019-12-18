@@ -139,14 +139,7 @@ trait Backend
             $this->error(__('Parameter %s can not be empty', ''));
         }
 
-        switch ($this->addType) {
-            case 'layer':
-                $this->view->engine->layout('layout/blank');
-            break;
-            case 'modal':
-                $this->view->engine->layout(false);
-            break;
-        }
+        $this->view->engine->layout('layout/blank');
         return view();
     }
 
@@ -200,14 +193,7 @@ trait Backend
         }
         $this->view->assign("row", $row);
 
-        switch ($this->addType) {
-            case 'layer':
-                $this->view->engine->layout('layout/blank');
-            break;
-            case 'modal':
-                $this->view->engine->layout(false);
-            break;
-        }
+        $this->view->engine->layout('layout/blank');
         return view();
     }
 

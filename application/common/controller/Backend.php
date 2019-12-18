@@ -103,16 +103,6 @@ class Backend extends Controller
     protected $importHeadType = 'comment';
 
     /**
-     * 定义add,edit的交互方式:多页或单页
-     * 参数:layer, page, modal
-     * layer: 利用Layer打开一个页面
-     * page: location.href定向到一个新页面
-     * modal: 利用ajax加载一个modal页面
-     */
-    protected $addType = 'layer';
-    protected $editType = 'layer';
-
-    /**
      * 引入后台控制器的traits
      */
     use \app\admin\library\traits\Backend;
@@ -126,7 +116,6 @@ class Backend extends Controller
         $upload = config('upload.');
 
         $this->auth = Auth::instance();
-
         // 设置当前请求的URI
         $this->auth->setRequestUri($path);
         // 当前方法是否需要验证登录
@@ -141,7 +130,7 @@ class Backend extends Controller
             }
             // 已登录状态，判断是否需要验证权限
             if (!$this->auth->match($this->noNeedRight)) {
-                // 根据控制器和方法判断是否有对应权限
+                // 根据控制器和方法判断是否有对应权限 耗时TTFP利用cache
                 if (!$this->auth->check($path)) {
                     Hook::listen('admin_nopermission', $this);
                     $this->error(__('You have no permission'), '');
@@ -149,13 +138,16 @@ class Backend extends Controller
             }
         }
 
-        // 设置面包屑导航数据
-        $breadcrumb = $this->auth->getBreadCrumb($path);
-        array_pop($breadcrumb);
-
-        // 设置菜单数据(左侧)
-        list($menulist, $selected) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
-
+        $breadcrumb = [];
+        $menulist = '';
+        if(!$this->request->isAjax()){
+            // 设置面包屑导航数据
+            $breadcrumb = $this->auth->getBreadCrumb($path);
+            array_pop($breadcrumb);
+            // 设置菜单数据(左侧) 耗时TTFP利用cache
+            list($menulist) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
+        }
+        
         $config = [
             'site' => config('site.'),
             'module_name' => $module_name,

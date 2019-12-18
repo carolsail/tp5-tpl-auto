@@ -52,8 +52,6 @@ var Table = {
             import_url: '',
             multi_url: '',
             dragsort_url: 'ajax/weigh',
-            add_type: 'modal',  // modal 或 page
-            edit_type: 'modal'
         }
     },
     // Bootstrap-table 列配置
@@ -224,11 +222,7 @@ var Table = {
                 if (url.indexOf("{ids}") !== -1) {
                     url = Table.api.replaceurl(url, {ids: ids.length > 0 ? ids.join(",") : 0}, table);
                 }
-                if(options.extend.add_type=='modal') {
-                    ModalLayer.open(url, lang('Add'), $(this).data() || {});
-                } else {
-                    location.href = url
-                }
+                ModalLayer.open(url, lang('Add'), $(this).data() || {});
             });
             // 导入按钮事件
             if ($(Table.config.importbtn, toolbar).length) {
