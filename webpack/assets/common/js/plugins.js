@@ -89,7 +89,7 @@ function datetimepicker(element, options){
  * @param {*} options 
  */
 function select2(element, options){
-  options = $.extend({ width: 'resolve' }, options)
+  options = $.extend({ width: '100%' }, options)
   $(element).select2(options).closest("form").on("reset",function(ev){
       //解决表单reset清空问题
       var targetJQForm = $(ev.target)

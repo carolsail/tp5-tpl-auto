@@ -139,7 +139,7 @@ class Auth
             ->join('__' . strtoupper($this->config['auth_group']) . '__ ag', 'aga.group_id = ag.id', 'LEFT')
             ->field('aga.uid,aga.group_id,ag.id,ag.pid,ag.name,ag.rules')
             ->where("aga.uid='{$uid}' and ag.status='normal'")
-            ->cache('__user_groups__')
+            //->cache('__user_groups__')
             ->select();
         $groups[$uid] = $user_groups ?: [];
         return $groups[$uid];
@@ -159,14 +159,13 @@ class Auth
         if (2 == $this->config['auth_type'] && Session::has('_rule_list_' . $uid)) {
             return Session::get('_rule_list_' . $uid);
         }
-
+        
         // 读取用户规则节点
         $ids = $this->getRuleIds($uid);
         if (empty($ids)) {
             $_rulelist[$uid] = [];
             return [];
         }
-
         // 筛选条件
         $where = [
             'status' => 'normal'
@@ -175,7 +174,11 @@ class Auth
             $where['id'] = ['in', $ids];
         }
         //读取用户组所有权限规则
-        $this->rules = Db::name($this->config['auth_rule'])->where($where)->field('id,pid,condition,icon,name,title,ismenu')->cache('__rules__')->select();
+        $this->rules = Db::name($this->config['auth_rule'])
+            ->where($where)
+            ->field('id,pid,condition,icon,name,title,ismenu')
+            //->cache('__rules__')
+            ->select();
         //循环规则，判断结果。
         $rulelist = []; //
         if (in_array('*', $ids)) {

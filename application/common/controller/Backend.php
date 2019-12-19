@@ -24,6 +24,9 @@ class Backend extends Controller
      */
     protected $noNeedRight = [];
 
+    // 无需要加载menu数据
+    protected $noNeedMenu = ['add', 'edit'];
+
     /**
      * 布局模板
      * @var string
@@ -144,8 +147,10 @@ class Backend extends Controller
         $breadcrumb = $this->auth->getBreadCrumb($path);
         array_pop($breadcrumb);
         if(!$this->request->isAjax()){
-            // 设置菜单数据(左侧) 耗时TTFP利用cache
-            list($menulist) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
+            if(!$this->auth->match($this->noNeedMenu)){
+                // 设置菜单数据(左侧) 耗时TTFP利用cache
+                list($menulist) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
+            }
         }
         
         $config = [
@@ -184,6 +189,16 @@ class Backend extends Controller
     protected function loadlang($name)
     {
         Lang::load(Env::get('app_path') . $this->request->module() . '/lang/' . $this->request->langset() . '/' . str_replace('.', '/', $name) . '.php');
+    }
+
+    /**
+     * 渲染配置信息，追加view中config信息
+     * @param mixed $name 键名或数组
+     * @param mixed $value 值
+     */
+    protected function assignconfig($name, $value = '')
+    {
+        $this->view->config = array_merge($this->view->config ? $this->view->config : [], is_array($name) ? $name : [$name => $value]);
     }
 
     /**

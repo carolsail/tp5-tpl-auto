@@ -34,6 +34,7 @@ try {
   require('../../common/js/table-search');
   require('../../common/js/table-template');
   require('../../common/js/table-export');
+  require('jstree');
 } catch (e) {}
 
 
@@ -87,4 +88,22 @@ $(function(){
       })
     })
   }
+
+  // jstree
+  $.jstree.core.prototype.get_all_checked = function (full) {
+    var obj = this.get_selected(), i, j;
+    for (i = 0, j = obj.length; i < j; i++) {
+        obj = obj.concat(this.get_node(obj[i]).parents);
+    }
+    obj = $.grep(obj, function (v, i, a) {
+        return v != '#';
+    });
+    obj = obj.filter(function (itm, i, a) {
+        return i == a.indexOf(itm);
+    });
+    return full ? $.map(obj, $.proxy(function (i) {
+        return this.get_node(i);
+    }, this)) : obj;
+  }
+  
 })

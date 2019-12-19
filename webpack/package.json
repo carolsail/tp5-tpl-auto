@@ -32,6 +32,7 @@
     "cxselect": "^1.4.0",
     "dragsort": "^1.0.6",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "jstree": "^3.3.8",
     "layerui": "^3.1.1",
     "nice-validator": "^1.1.4",
     "plupload": "^2.3.6",

@@ -45,6 +45,8 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 .sass('assets/backend/sass/admin-lte.scss', `${output}/backend/css`) // 打包后台css
 .js('assets/backend/js/general/attachment.js', `${output}/backend/js/general`)
 .js('assets/backend/js/general/profile.js', `${output}/backend/js/general`)
+.js('assets/backend/js/auth/admin.js', `${output}/backend/js/auth`)
+.js('assets/backend/js/auth/group.js', `${output}/backend/js/auth`)
 .js('assets/backend/js/test.js', `${output}/backend/js`)
 .js('assets/backend/js/index.js', `${output}/backend/js`)
 .extract([
@@ -67,6 +69,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'eonasdan-bootstrap-datetimepicker', 
 'dragsort', 
 'cxselect', 
-'summernote']) // 提取依赖库
+'summernote', 
+'jstree']) // 提取依赖库
 .setResourceRoot('../') // 设置资源目录
 .setPublicPath(`${output}/backend`); // 设置 mix-manifest.json 目录
