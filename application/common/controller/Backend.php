@@ -24,9 +24,6 @@ class Backend extends Controller
      */
     protected $noNeedRight = [];
 
-    // 无需要加载menu数据
-    protected $noNeedMenu = ['add', 'edit'];
-
     /**
      * 布局模板
      * @var string
@@ -116,7 +113,13 @@ class Backend extends Controller
         $controller_name = Loader::parseName($this->request->controller());
         $action_name = strtolower($this->request->action());
         $path = str_replace('.', '/', $controller_name) . '/' . $action_name;
-        $upload = config('upload.');
+
+        // 定义是否Addtabs请求
+        !defined('IS_ADDTABS') && define('IS_ADDTABS', input("addtabs") ? true : false);
+        // 定义是否Dialog请求
+        !defined('IS_DIALOG') && define('IS_DIALOG', input("dialog") ? true : false);
+        // 定义是否AJAX请求
+        !defined('IS_AJAX') && define('IS_AJAX', $this->request->isAjax());
 
         $this->auth = Auth::instance();
         // 设置当前请求的URI
@@ -126,7 +129,8 @@ class Backend extends Controller
             // 检测是否登录
             if (!$this->auth->isLogin()) {
                 Hook::listen('admin_nologin', $this);
-                $url = $this->request->url();
+                $url = session('referer');
+                $url = $url ?: $this->request->url();
                 // 记录访问的url便登录后跳转
                 config('url_common_param', true); // 设置为?url=...
                 $this->error(__('Please login first'), url('index/login', ['url' => $url]));
@@ -141,18 +145,20 @@ class Backend extends Controller
             }
         }
 
-        $breadcrumb = [];
-        $menulist = '';
+        // 非选项卡时重定向
+        if (!$this->request->isPost() && !IS_AJAX && !IS_ADDTABS && !IS_DIALOG && input("ref") == 'addtabs') {
+            $url = preg_replace_callback("/([\?|&]+)ref=addtabs(&?)/i", function ($matches) {
+                return $matches[2] == '&' ? $matches[1] : '';
+            }, $this->request->url());
+            //跳转并且闪存数据referer, session('referer')
+            $this->redirect('index/index', [], 302, ['referer' => $url]);
+            exit;
+        }
         // 设置面包屑导航数据
         $breadcrumb = $this->auth->getBreadCrumb($path);
         array_pop($breadcrumb);
-        if(!$this->request->isAjax()){
-            if(!$this->auth->match($this->noNeedMenu)){
-                // 设置菜单数据(左侧) 耗时TTFP利用cache
-                list($menulist) = $this->auth->getSidebar(['index' => 'index'], str_replace('.', '/', $controller_name));
-            }
-        }
         
+        $upload = config('upload.');
         $config = [
             'site' => config('site.'),
             'module_name' => $module_name,
@@ -160,13 +166,9 @@ class Backend extends Controller
             'action_name' => $action_name,
             'module_url' => rtrim(url("/{$module_name}", '', false), '/'),
             'upload' => $upload,
+            'referer' => session('referer') //当前选项卡
         ];
         
-        // 如果有使用模板布局
-        if ($this->layout) {
-            $this->view->engine->layout('layout/' . $this->layout);
-        }
-
         // 加载当前控制器语言包
         $this->loadlang($controller_name);
         // 将语言包传递到前台config
@@ -174,9 +176,13 @@ class Backend extends Controller
 
         // 配置信息后
         Hook::listen("config_init", $config);
+
+        // 如果有使用模板布局
+        if ($this->layout) {
+            $this->view->engine->layout('layout/' . $this->layout);
+        }
         
         $this->assign('breadcrumb', $breadcrumb);
-        $this->assign('menulist', $menulist);
         $this->assign('config', $config);
         $this->assign('auth', $this->auth);
         $this->assign('admin', session('admin'));

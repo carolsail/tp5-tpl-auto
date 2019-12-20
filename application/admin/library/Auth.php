@@ -381,6 +381,7 @@ class Auth extends \libs\Auth
      * @param string $fixedPage 默认页, 此为控制器名, 用于判断已选择的菜单项
      * @return array
      */
+    /*
     public function getSidebar($params = [], $fixedPage = 'index')
     {
         // 边栏开始
@@ -471,6 +472,71 @@ class Auth extends \libs\Auth
             'class="treeview-menu"'
         );
         return [$menu, $selected];
+    }
+    */
+    public function getSidebar($params = [], $fixedPage = 'dashboard')
+    {
+        $colorArr = ['red', 'green', 'yellow', 'blue', 'teal', 'orange', 'purple'];
+        $colorNums = count($colorArr);
+        $badgeList = [];
+        $module = request()->module();
+        // 生成菜单的badge
+        foreach ($params as $k => $v) {
+            $url = $k;
+            if (is_array($v)) {
+                $nums = isset($v[0]) ? $v[0] : 0;
+                $color = isset($v[1]) ? $v[1] : $colorArr[(is_numeric($nums) ? $nums : strlen($nums)) % $colorNums];
+                $class = isset($v[2]) ? $v[2] : 'label';
+            } else {
+                $nums = $v;
+                $color = $colorArr[(is_numeric($nums) ? $nums : strlen($nums)) % $colorNums];
+                $class = 'label';
+            }
+            //必须nums大于0才显示
+            if ($nums) {
+                $badgeList[$url] = '<small class="' . $class . ' pull-right bg-' . $color . '">' . $nums . '</small>';
+            }
+        }
+
+        // 读取管理员当前拥有的权限节点
+        $userRule = $this->getRuleList();
+        $selected = $referer = [];
+        $refererUrl = session('referer');
+        $pinyin = new \Overtrue\Pinyin\Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
+        // 必须将结果集转换为数组
+        $ruleList = \app\admin\model\AuthRule::where('status', 'normal')->where('ismenu', 1)->order('weigh', 'desc')->cache("__menu__")->select()->toArray();
+        foreach ($ruleList as $k => &$v) {
+            if (!in_array($v['name'], $userRule)) {
+                unset($ruleList[$k]);
+                continue;
+            }
+            $v['icon'] = $v['icon'] . ' fa-fw';
+            $v['url'] = '/' . $module . '/' . $v['name'];
+            $v['badge'] = isset($badgeList[$v['name']]) ? $badgeList[$v['name']] : '';
+            $v['py'] = $pinyin->abbr($v['title'], '');
+            $v['pinyin'] = $pinyin->permalink($v['title'], '');
+            $v['title'] = __($v['title']);
+            $selected = $v['name'] == $fixedPage ? $v : $selected;
+            $referer = url($v['url']) == $refererUrl ? $v : $referer;
+        }
+        if ($selected == $referer) {
+            $referer = [];
+        }
+        $selected && $selected['url'] = url($selected['url']);
+        $referer && $referer['url'] = url($referer['url']);
+
+        $select_id = $selected ? $selected['id'] : 0;
+        $menu = $nav = '';
+        // 构造菜单数据
+        Tree::instance()->init($ruleList);
+        $menu = Tree::instance()->getTreeMenu(0, '<li class="@class"><a href="@url@addtabs" addtabs="@id" url="@url" py="@py" pinyin="@pinyin"><i class="@icon"></i> <span>@title</span> <span class="pull-right-container">@caret @badge</span></a> @childlist</li>', $select_id, '', 'ul', 'class="treeview-menu"');
+        if ($selected) {
+            $nav .= '<li role="presentation" id="tab_' . $selected['id'] . '" class="' . ($referer ? '' : 'active') . '"><a href="#con_' . $selected['id'] . '" node-id="' . $selected['id'] . '" aria-controls="' . $selected['id'] . '" role="tab" data-toggle="tab"><i class="' . $selected['icon'] . ' fa-fw"></i> <span>' . $selected['title'] . '</span> </a></li>';
+        }
+        if ($referer) {
+            $nav .= '<li role="presentation" id="tab_' . $referer['id'] . '" class="active"><a href="#con_' . $referer['id'] . '" node-id="' . $referer['id'] . '" aria-controls="' . $referer['id'] . '" role="tab" data-toggle="tab"><i class="' . $referer['icon'] . ' fa-fw"></i> <span>' . $referer['title'] . '</span> </a> <i class="close-tab fa fa-remove"></i></li>';
+        }
+        return [$menu, $nav, $selected, $referer];
     }
 
     /**

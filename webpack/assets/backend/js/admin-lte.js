@@ -35,6 +35,7 @@ try {
   require('../../common/libs/table/table-template');
   require('../../common/libs/table/table-export');
   require('jstree');
+  require('../../common/libs/addtabs/jquery.addtabs');
 } catch (e) {}
 
 

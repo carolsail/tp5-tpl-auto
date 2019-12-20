@@ -11,12 +11,26 @@ use think\facade\Env;
 class Index extends Backend
 {
     protected $noNeedLogin = ['login'];
-    protected $noNeedRight = ['logout'];
-    protected $noNeedMenu = ['login', 'logout'];
+    protected $noNeedRight = ['index', 'logout'];
+    //protected $noNeedMenu = ['login', 'logout'];
+    protected $layout = '';
 
     public function index()
     {
-        return view();
+        list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], 'dashboard');
+        $action = $this->request->request('action');
+        //echo '<pre>',print_r($referermenu,1);exit;
+        if ($this->request->isPost()) {
+            if ($action == 'refreshmenu') {
+                $this->success('', null, ['menulist' => $menulist, 'navlist' => $navlist]);
+            }
+        }
+        $this->view->assign('menulist', $menulist);
+        $this->view->assign('navlist', $navlist);
+        $this->view->assign('fixedmenu', $fixedmenu);
+        $this->view->assign('referermenu', $referermenu);
+        $this->view->assign('title', __('Home'));
+        return $this->view->fetch();
     }
 
     public function login()

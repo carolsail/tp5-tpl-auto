@@ -3,41 +3,21 @@
 <head>
   {include file="common/meta" /}
 </head>
-<body class="hold-transition skin-blue sidebar-mini fixed">
-  <div class="wrapper">
-    <header class="main-header">
-      {include file='common/header' /}
-    </header>
+<body style="height: 100%;">
+  <section class="content-header-sail clearfix">
+    <ol class="breadcrumb pull-left">
+      <li><a href="{:url('/admin')}" class="addtabsit"><i class="fa fa-dashboard"></i> {:__('Dashboard')}</a></li>
+    </ol>
+    <ol class="breadcrumb pull-right">
+      {foreach $breadcrumb as $vo}
+      <li><a href="javascript:;" data-url="{$vo.url}">{$vo.title}</a></li>
+      {/foreach}
+    </ol>
+  </section>
 
-    <aside class="main-sidebar">
-      {include file='common/menu' /}
-    </aside>
-  
-    <div class="content-wrapper">
-      <section class="content-header-sail clearfix">
-        <ol class="breadcrumb pull-left">
-          <li><a href="{:url('/admin')}" class="addtabsit"><i class="fa fa-dashboard"></i> {:__('Dashboard')}</a></li>
-        </ol>
-        <ol class="breadcrumb pull-right">
-          {foreach $breadcrumb as $vo}
-          <li><a href="javascript:;" data-url="{$vo.url}">{$vo.title}</a></li>
-          {/foreach}
-        </ol>
-      </section>
-      <section class="content">
-        {__CONTENT__}
-      </section>
-    </div>
-
-    <footer class="main-footer hidden">
-      {include file='common/footer' /}
-    </footer>
-  
-    <aside class="control-sidebar control-sidebar-dark">
-        {include file='common/control' /}
-    </aside>
-    <div class="control-sidebar-bg"></div>
-  </div>
+  <section class="content">
+    {__CONTENT__}
+  </section>
   
   {include file="common/script" /}
 </body>
