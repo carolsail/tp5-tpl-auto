@@ -71,9 +71,10 @@ class Auth extends \libs\Auth
     {
         $admin = Admin::get(intval($this->id));
         if (!$admin) {
-            $admin->token = '';
-            $admin->save();
+            return true;
         }
+        $admin->token = '';
+        $admin->save();
         $this->logined = false; //重置登录状态
         session("admin", null);
         cookie("keeplogin", null);

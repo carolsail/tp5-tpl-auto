@@ -9,7 +9,8 @@ use think\Db;
 
 class Ajax extends Backend
 {
-
+    protected $noNeedRight = ['*'];
+    protected $noNeedMenu = ['*'];
     /**
      * 上传文件
      */

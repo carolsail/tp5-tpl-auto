@@ -133,14 +133,18 @@ class Auth
             return $groups[$uid];
         }
 
-        // 执行查询
-        $user_groups = Db::name($this->config['auth_group_access'])
-            ->alias('aga')
-            ->join('__' . strtoupper($this->config['auth_group']) . '__ ag', 'aga.group_id = ag.id', 'LEFT')
-            ->field('aga.uid,aga.group_id,ag.id,ag.pid,ag.name,ag.rules')
-            ->where("aga.uid='{$uid}' and ag.status='normal'")
-            //->cache('__user_groups__')
-            ->select();
+        // 执行查询  耗时根据uid加入cache
+        if(cache('user_groups_'.$uid)) {
+            $user_groups = cache('user_groups_'.$uid);
+        }else {
+            $user_groups = Db::name($this->config['auth_group_access'])
+                ->alias('aga')
+                ->join('__' . strtoupper($this->config['auth_group']) . '__ ag', 'aga.group_id = ag.id', 'LEFT')
+                ->field('aga.uid,aga.group_id,ag.id,ag.pid,ag.name,ag.rules')
+                ->where("aga.uid='{$uid}' and ag.status='normal'")
+                ->select();
+            cache('user_groups_'.$uid, $user_groups);
+        }
         $groups[$uid] = $user_groups ?: [];
         return $groups[$uid];
     }
@@ -167,18 +171,22 @@ class Auth
             return [];
         }
         // 筛选条件
-        $where = [
-            'status' => 'normal'
-        ];
+        $where = new \think\db\Where;
+        $where['status'] = ['=', 'normal'];
         if (!in_array('*', $ids)) {
             $where['id'] = ['in', $ids];
         }
-        //读取用户组所有权限规则
-        $this->rules = Db::name($this->config['auth_rule'])
-            ->where($where)
-            ->field('id,pid,condition,icon,name,title,ismenu')
-            //->cache('__rules__')
-            ->select();
+        //读取用户组所有权限规则 耗时根据uid加入cache
+        if(cache('rules_'.$uid)) {
+            $this->rules = cache('rules_'.$uid);
+        }else {
+            $this->rules = Db::table($this->config['auth_rule'])
+                ->where($where)
+                ->field('id,pid,condition,icon,name,title,ismenu')
+                ->select();
+            cache('rules_'.$uid, $this->rules);
+        }
+        
         //循环规则，判断结果。
         $rulelist = []; //
         if (in_array('*', $ids)) {

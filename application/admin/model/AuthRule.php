@@ -9,7 +9,6 @@ class AuthRule extends BaseModel
         self::afterWrite(function ($row) {
             cache('__menu__', null);
             cache('__menu_index__', null);
-            cache('__rules__', null);
         });
     }
 
@@ -17,5 +16,4 @@ class AuthRule extends BaseModel
     {
         return __($value);
     }
-
 }

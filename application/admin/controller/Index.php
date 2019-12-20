@@ -12,6 +12,7 @@ class Index extends Backend
 {
     protected $noNeedLogin = ['login'];
     protected $noNeedRight = ['logout'];
+    protected $noNeedMenu = ['login', 'logout'];
 
     public function index()
     {
