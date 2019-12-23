@@ -12,14 +12,12 @@ class Index extends Backend
 {
     protected $noNeedLogin = ['login'];
     protected $noNeedRight = ['index', 'logout'];
-    //protected $noNeedMenu = ['login', 'logout'];
     protected $layout = '';
 
     public function index()
     {
-        list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], 'dashboard');
+        list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], config('site.fixedpage'));
         $action = $this->request->request('action');
-        //echo '<pre>',print_r($referermenu,1);exit;
         if ($this->request->isPost()) {
             if ($action == 'refreshmenu') {
                 $this->success('', null, ['menulist' => $menulist, 'navlist' => $navlist]);
@@ -67,7 +65,6 @@ class Index extends Backend
             $this->redirect($url);
         }
         Hook::listen("admin_login_init", $this->request);
-        $this->view->engine->layout('layout/blank');
         return view();
     }
 

@@ -20,8 +20,6 @@ class Test extends Backend
             $params = $this->request->post("row/a");
             $this->success('success');
         }
-
-        $this->view->engine->layout('layout/blank');
         return view('test/modal_layer');
     }
 

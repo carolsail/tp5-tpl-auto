@@ -114,7 +114,6 @@ class Group extends Backend
             }
             $this->error();
         }
-        $this->view->engine->layout('layout/blank');
         return $this->view->fetch();
     }
 
@@ -158,7 +157,6 @@ class Group extends Backend
             return;
         }
         $this->view->assign("row", $row);
-        $this->view->engine->layout('layout/blank');
         return $this->view->fetch();
     }
 

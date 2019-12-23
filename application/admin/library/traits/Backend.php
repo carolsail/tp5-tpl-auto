@@ -138,8 +138,6 @@ trait Backend
             }
             $this->error(__('Parameter %s can not be empty', ''));
         }
-
-        $this->view->engine->layout('layout/blank');
         return view();
     }
 
@@ -192,8 +190,6 @@ trait Backend
             $this->error(__('Parameter %s can not be empty', ''));
         }
         $this->view->assign("row", $row);
-
-        $this->view->engine->layout('layout/blank');
         return view();
     }
 

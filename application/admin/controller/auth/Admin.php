@@ -151,7 +151,6 @@ class Admin extends Backend
             }
             $this->error();
         }
-        $this->view->engine->layout('layout/blank');
         return $this->view->fetch();
     }
 
@@ -218,7 +217,6 @@ class Admin extends Backend
         }
         $this->view->assign("row", $row);
         $this->view->assign("groupids", $groupids);
-        $this->view->engine->layout('layout/blank');
         return $this->view->fetch();
     }
 

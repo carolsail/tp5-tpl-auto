@@ -3,7 +3,8 @@
 <head>
   {include file="common/meta" /}
 </head>
-<body style="height: 100%;">
+<body>
+  {if !IS_DIALOG}
   <section class="content-header-sail clearfix">
     <ol class="breadcrumb pull-left">
       <li><a href="{:url('/admin')}" class="addtabsit"><i class="fa fa-dashboard"></i> {:__('Dashboard')}</a></li>
@@ -14,6 +15,7 @@
       {/foreach}
     </ol>
   </section>
+  {/if}
 
   <section class="content">
     {__CONTENT__}

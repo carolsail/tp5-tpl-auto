@@ -75,7 +75,6 @@ class Attachment extends Backend
         if ($this->request->isAjax()) {
             $this->success('success');
         }
-        $this->view->engine->layout('layout/blank');
         return view();
     }
 
@@ -87,7 +86,6 @@ class Attachment extends Backend
         if ($this->request->isAjax()) {
             return $this->index();
         }
-        $this->view->engine->layout('layout/blank');
         return $this->view->fetch();
     }
 
