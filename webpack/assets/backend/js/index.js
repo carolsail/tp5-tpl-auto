@@ -3,6 +3,15 @@ import Tabs from '../../common/js/tabs'
 import {fixurl, lang as __} from '../../common/js/util';
 
 export function index(){
+    //点击包含.btn-addtabs的元素时新增选项卡
+    $(document).on('click', '.btn-addtabs,.addtabsit', function (e) {
+      var that = this;
+      var title = $(that).attr("title") || $(that).data("title") || $(that).data('original-title');
+      var url = $(that).attr('href')
+      Tabs.addtabs(url, title);
+      return false;
+    })
+
     // 清除缓存
     if($('.wipecache').length){
       $('.wipecache').click(function(){
@@ -34,31 +43,25 @@ export function index(){
 
     //切换左侧sidebar显示隐藏
     $(document).on("click fa.event.toggleitem", ".sidebar-menu li > a", function (e) {
-      $(".sidebar-menu li").removeClass("active");
-      // //当外部触发隐藏的a时,触发父辈a的事件
-      if (!$(this).closest("ul").is(":visible")) {
-          //如果不需要左侧的菜单栏联动可以注释下面一行即可
-          $(this).closest("ul").prev().trigger("click");
+      if($(this).parent('li').hasClass('treeview')){
+        //点击二级
+        console.log('点击2级')
+      }else{
+          $(".sidebar-menu li").removeClass("active");
+          if($(this).parents('ul').hasClass('treeview-menu')){
+            //点击三级
+            console.log('点击3级')
+            $(this).parents("li").addClass("active");
+            $(this).closest('.treeview').addClass('menu-open')
+            $(this).closest('.treeview-menu').css('display', 'block')
+          }else{
+            //点击一级
+            console.log('点击1级')
+            $(this).parent('li').addClass('active')
+            $('.sidebar-menu .treeview').removeClass('menu-open')
+            $('.sidebar-menu .treeview-menu').css('display', 'none')
+          }
       }
-      var visible = $(this).next("ul").is(":visible");
-      if (!visible) {
-        $(this).parents("li").addClass("active");
-      } else {
-      }
-
- 
-      // if($(this).parents('ul').hasClass('treeview-menu')){
-      //   $(this).closest('.treeview').addClass('menu-open')
-      // }else if($(this).parent('li').hasClass('treeview')){
-      //   if(!$(this).parent('li').hasClass('menu-open')){
-      //     $(this).next('.treeview-menu').css('display', 'block')
-      //   }else{
-      //     $(this).next('.treeview-menu').css('display', 'none')
-      //   }
-      // }else{
-      //   $('.sidebar-menu .treeview-menu').css('display', 'none')
-      //   $('.sidebar-menu .treeview').removeClass('menu-open')
-      // }
       e.stopPropagation();
     });
 
@@ -85,7 +88,6 @@ export function index(){
 }
 
 export function login(){
-  // Toastr.options.positionClass = "toast-top-center"
   const form = $("form[role=form]")
   // 验证提示
   form.data("validator-options", {
