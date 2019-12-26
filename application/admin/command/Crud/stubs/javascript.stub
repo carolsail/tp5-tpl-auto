@@ -1,0 +1,48 @@
+import Table from '@common/table'
+import Form from '@common/form'
+import {fixurl, lang as __} from '@common/util'
+
+const api = {
+    bindevent() {
+        Form.api.bindevent($("form[role=form]"))
+    }
+}
+
+export function index() {
+    // 初始化表格参数配置
+    Table.api.init({
+        extend: {
+            index_url: fixurl('{%controllerUrl%}/index'),
+            add_url: fixurl('{%controllerUrl%}/add'),
+            edit_url: fixurl('{%controllerUrl%}/edit'),
+            del_url: fixurl('{%controllerUrl%}/del'),
+            multi_url: fixurl('{%controllerUrl%}/multi'),
+            table: '{%table%}',
+        }
+    });
+
+    var table = $("#table");
+
+    // 初始化表格
+    table.bootstrapTable({
+        url: $.fn.bootstrapTable.defaults.extend.index_url,
+        pk: '{%pk%}',
+        sortName: '{%order%}',
+        columns: [
+            [
+                {%javascriptList%}
+            ]
+        ]
+    });
+
+    // 为表格绑定事件
+    Table.api.bindevent(table);
+}
+
+export function add() {
+    api.bindevent()
+}
+
+export function edit() {
+    api.bindevent()
+}

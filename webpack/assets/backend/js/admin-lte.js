@@ -1,22 +1,11 @@
-window._ = require('lodash');
-
 try {
   window.$ = window.jQuery = require('jquery');
-
   require('bootstrap-sass');
-
   require('jquery-slimscroll');
-
   require('fastclick');
-
-  require('icheck');
-
-  // bootstrap-datepicker
-  require('bootstrap-datepicker');
-
   require('admin-lte');
-
   // 扩展
+  window._ = require('lodash');
   window.Layer = require('layerui');
   window.Toastr = require('toastr');
   require('moment');
@@ -26,22 +15,24 @@ try {
   require('nice-validator/dist/local/en');
   require('plupload');
   require('select2');
+  require('bootstrap-datepicker');
   require('bootstrap-daterangepicker');
   require('eonasdan-bootstrap-datetimepicker');
   require('dragsort');
   require('cxselect');
   require('summernote');
+  require('jstree');
+  require('icheck');
   require('../../common/libs/table/table-search');
   require('../../common/libs/table/table-template');
   require('../../common/libs/table/table-export');
-  require('jstree');
   require('../../common/libs/addtabs/jquery.addtabs');
 } catch (e) {}
 
 
 // 全局配置项
 $(function(){
-  // 设置Toastr
+  // toastr
   Toastr.options = {
     "closeButton": true,
     "debug": false,

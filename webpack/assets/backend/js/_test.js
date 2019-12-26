@@ -1,8 +1,8 @@
-import { fixurl, serializeObj, lang } from '../../common/js/util'
-import Http from '../../common/js/http'
-import Form from '../../common/js/form'
-import Modal from '../../common/js/modal'
-import ModalLayer from '../../common/js/modal-layer'
+import { fixurl, serializeObj, lang } from '@common/util'
+import Http from '@common/http'
+import Form from '@common/form'
+import Modal from '@common/modal'
+import ModalLayer from '@common/modal-layer'
 
 const api = {
 	events: {

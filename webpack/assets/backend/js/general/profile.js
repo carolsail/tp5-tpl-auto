@@ -1,6 +1,6 @@
-import Table from '../../../common/js/table'
-import Form from '../../../common/js/form'
-import {lang as __, cdnurl, fixurl} from '../../../common/js/util'
+import Table from '@common/table'
+import Form from '@common/form'
+import {lang as __, cdnurl, fixurl} from '@common/util'
 
 export function index() {
 

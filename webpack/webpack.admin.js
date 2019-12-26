@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 if (mix.inProduction()) {
   mix.version()
@@ -16,7 +17,8 @@ mix.webpackConfig({
   },
   resolve: {
     alias: {
-      'art-template': 'art-template/lib/template-web'
+      'art-template': 'art-template/lib/template-web',
+      '@common': path.resolve('assets/common/js')
     }
   },
   module: {
@@ -35,9 +37,9 @@ mix.autoload({
   lodash: ['_'],
   toastr: ['toastr', 'Toastr'],
   layerui: ['layer', 'Layer'],
-  'art-template': ['template', 'Template'],
   plupload: ['plupload'],
-  moment: ['moment', 'Moment']
+  moment: ['moment', 'Moment'],
+  'art-template': ['template', 'Template']
 });
 
 //ps: 多层文件夹的打包顺序要放在前面，关系到vendor.js/manifest.js位置(最后一个.js()的同级位置)
@@ -47,8 +49,8 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 .js('assets/backend/js/general/profile.js', `${output}/backend/js/general`)
 .js('assets/backend/js/auth/admin.js', `${output}/backend/js/auth`)
 .js('assets/backend/js/auth/group.js', `${output}/backend/js/auth`)
-.js('assets/backend/js/test.js', `${output}/backend/js`)
 .js('assets/backend/js/index.js', `${output}/backend/js`)
+.js('assets/backend/js/test.js', `${output}/backend/js`)
 .extract([
 'admin-lte', 
 'bootstrap-sass', 
@@ -65,6 +67,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'nice-validator', 
 'plupload', 
 'select2', 
+'bootstrap-datepicker', 
 'bootstrap-daterangepicker', 
 'eonasdan-bootstrap-datetimepicker', 
 'dragsort', 

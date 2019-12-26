@@ -1,7 +1,7 @@
 
-import Table from '../../../common/js/table'
-import Form from '../../../common/js/form'
-import {lang as __, fixurl} from '../../../common/js/util'
+import Table from '@common/table'
+import Form from '@common/form'
+import {lang as __, fixurl} from '@common/util'
 
 const api = {
   bindevent: function () {

@@ -1,0 +1,26 @@
+<?php
+
+namespace {%modelNamespace%};
+
+use think\Model;
+
+class {%modelName%} extends Model
+{
+    // 表名
+    protected ${%modelTableType%} = '{%modelTableTypeName%}';
+    
+    // 追加属性
+    protected $append = [
+{%appendAttrList%}
+    ];
+    
+{%modelInit%}
+    
+{%getEnumList%}
+
+{%getAttrList%}
+
+{%setAttrList%}
+
+{%relationMethodList%}
+}

@@ -1,6 +1,6 @@
-import Form from '../../common/js/form'
-import Tabs from '../../common/js/tabs'
-import {fixurl, lang as __} from '../../common/js/util';
+import Form from '@common/form'
+import Tabs from '@common/tabs'
+import {fixurl, lang as __} from '@common/util';
 
 export function index(){
     //点击包含.btn-addtabs的元素时新增选项卡

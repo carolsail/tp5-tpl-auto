@@ -7,7 +7,7 @@
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
       <!-- 头部区域 -->
-      <header id="header" class="main-header">
+      <header class="main-header">
         {include file='common/header' /}
       </header>
 
@@ -30,17 +30,16 @@
         {/if}
       </div>
 
-      <!-- 底部链接,默认隐藏 -->
+      <!-- 底部链接 -->
       <footer class="main-footer hidden">
         {include file='common/footer' /}
       </footer>
 
       <!-- 右侧控制栏 -->
-      <aside class="control-sidebar control-sidebar-dark">
-        {include file='common/control' /}
-      </aside>
+      {include file='common/control' /}
       <div class="control-sidebar-bg"></div>
     </div>
+    
     <!-- 加载JS脚本 -->
     {include file="common/script" /}
   </body>

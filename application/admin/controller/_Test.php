@@ -7,6 +7,7 @@ use app\common\controller\Backend;
 class Test extends Backend
 {
     protected $noNeedRight = ['*'];
+
     public function modal()
     {
         if ($this->request->isAjax()) {

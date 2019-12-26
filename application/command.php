@@ -9,4 +9,7 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-return [];
+return [
+  'app\admin\command\Crud',
+  'app\admin\command\Menu',
+];
