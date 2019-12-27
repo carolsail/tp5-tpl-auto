@@ -50,7 +50,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 .js('assets/backend/js/auth/admin.js', `${output}/backend/js/auth`)
 .js('assets/backend/js/auth/group.js', `${output}/backend/js/auth`)
 .js('assets/backend/js/index.js', `${output}/backend/js`)
-.js('assets/backend/js/test.js', `${output}/backend/js`)
+.js('assets/backend/js/dashboard.js', `${output}/backend/js`)
 .extract([
 'admin-lte', 
 'bootstrap-sass', 
@@ -71,7 +71,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'bootstrap-daterangepicker', 
 'eonasdan-bootstrap-datetimepicker', 
 'dragsort', 
-'cxselect', 
+'cxselect',
 'summernote', 
 'jstree']) // 提取依赖库
 .setResourceRoot('../') // 设置资源目录

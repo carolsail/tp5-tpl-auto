@@ -43,16 +43,14 @@ export function index() {
         [
             {field: 'state', checkbox: true},
             {field: 'id', title: lang('Id'), operate: false},
-            // {field: 'admin_id', title: lang('Admin_id'), visible: false, addClass: "selectpage", extend: "data-source='auth/admin/index' data-field='nickname'"},
-            // {field: 'user_id', title: lang('User_id'), visible: false, addClass: "selectpage", extend: "data-source='user/user/index' data-field='nickname'"},
             {field: 'url', title: lang('Preview'), formatter: api.formatter.thumb, operate: false},
             // {field: 'url', title: lang('Url'), formatter: api.formatter.url},
             {field: 'imagewidth', title: lang('Imagewidth'), sortable: true},
             {field: 'imageheight', title: lang('Imageheight'), sortable: true},
             {field: 'imagetype', title: lang('Imagetype'), formatter: Table.api.formatter.search},
-            {field: 'storage', title: lang('Storage'), formatter: Table.api.formatter.search},
+            // {field: 'storage', title: lang('Storage'), formatter: Table.api.formatter.search},
             {field: 'filesize', title: lang('Filesize'), operate: 'BETWEEN', sortable: true},
-            {field: 'mimetype', title: lang('Mimetype'), formatter: Table.api.formatter.search},
+            {field: 'mimetype', title: lang('Mimetype'), formatter: Table.api.formatter.search, operate: false},
             {
                 field: 'create_time',
                 title: lang('Createtime'),

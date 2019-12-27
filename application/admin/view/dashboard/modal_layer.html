@@ -1,4 +1,4 @@
-<form class='modal-layer-form' action="{:url('admin/test/modal')}" method="POST">
+<form class='modal-layer-form' action="{:url('admin/dashboard/modal')}" method="POST">
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
@@ -39,10 +39,10 @@
       <div class="form-group">
         <label>select2</label>
         <div class="controls">
-          <select name="row[select2]" class='select2 hidden' style='width:100%;' multiple>
+          <select name="row[select2][]" class='select2 hidden' multiple>
             <option value=''>請選擇</option>
-            <option value=''>sail</option>
-            <option value=''>test</option>
+            <option value='sail' selected>sail</option>
+            <option value='test'>test</option>
           </select>
         </div>
       </div>
@@ -51,13 +51,15 @@
         <label>select2ajax</label>
         <div class="controls">
           <select 
-            name="row[select2ajax]"
+            name="row[select2ajax][]"
             class="select2ajax hidden" 
-            data-url="{:url('/admin/test/select2ajax')}" 
+            data-url="{:url('admin/dashboard/select2ajax')}" 
             data-result="name" 
             data-selection="name" 
-            data-where="id|name"
-            style="width:100%;"></select>
+            data-where="id|name" multiple="">
+            <option value="14" selected>143</option>
+            <option value="2" selected>移动应用</option>
+          </select>
         </div>
       </div>
 
@@ -111,15 +113,9 @@
       <div class="form-group">
         <label>cxselect</label>
         <div class="form-inline" data-toggle="cxselect" data-selects="province,city,area">
-          <select class="province form-control" name="row[province]" data-url="{:url('/admin/ajax/area')}">
-            <option value="1964" selected="">广东省</option>
-          </select>
-          <select class="city form-control" name="row[city]" data-url="{:url('/admin/ajax/area')}">
-            <option value="1988" selected="">深圳市</option>
-          </select>
-          <select class="area form-control" name="row[area]" data-url="{:url('/admin/ajax/area')}">
-            <option value="1991" selected="">南山区</option>
-          </select>
+            <select class="province form-control" name="row[province]" data-url="{:url('/admin/ajax/area')}"></select>
+            <select class="city form-control" name="row[city]" data-url="{:url('/admin/ajax/area')}"></select>
+            <select class="area form-control" name="row[area]" data-url="{:url('/admin/ajax/area')}"></select>
         </div>
       </div>
 

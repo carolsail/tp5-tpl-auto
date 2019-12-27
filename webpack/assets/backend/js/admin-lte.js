@@ -19,10 +19,10 @@ try {
   require('bootstrap-daterangepicker');
   require('eonasdan-bootstrap-datetimepicker');
   require('dragsort');
-  require('cxselect');
   require('summernote');
   require('jstree');
   require('icheck');
+  require('cxselect');
   require('../../common/libs/table/table-search');
   require('../../common/libs/table/table-template');
   require('../../common/libs/table/table-export');

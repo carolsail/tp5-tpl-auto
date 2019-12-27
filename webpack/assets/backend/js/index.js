@@ -45,18 +45,18 @@ export function index(){
     $(document).on("click fa.event.toggleitem", ".sidebar-menu li > a", function (e) {
       if($(this).parent('li').hasClass('treeview')){
         //点击二级
-        console.log('点击2级')
+        //console.log('点击2级')
       }else{
           $(".sidebar-menu li").removeClass("active");
           if($(this).parents('ul').hasClass('treeview-menu')){
             //点击三级
-            console.log('点击3级')
+            //console.log('点击3级')
             $(this).parents("li").addClass("active");
             $(this).closest('.treeview').addClass('menu-open')
             $(this).closest('.treeview-menu').css('display', 'block')
           }else{
             //点击一级
-            console.log('点击1级')
+            //console.log('点击1级')
             $(this).parent('li').addClass('active')
             $('.sidebar-menu .treeview').removeClass('menu-open')
             $('.sidebar-menu .treeview-menu').css('display', 'none')

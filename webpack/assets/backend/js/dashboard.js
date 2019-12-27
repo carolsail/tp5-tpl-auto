@@ -24,17 +24,17 @@ const api = {
 						serializeObj(form)
 					}
 				}
-				Modal.open('test/modal', options)
+				Modal.open('dashboard/modal', options)
 			})
 
 			$('.action-modal-layer').click(function(){
-				ModalLayer.open('test/modal', lang('layer modal'), $(this).data() || {})
+				ModalLayer.open('dashboard/modal', lang('layer modal'), $(this).data() || {})
 			})
 		},
 		ajax() {
 			$('.action-ajax').click(function(){
 				var options = {
-					url: fixurl('test/ajax'),
+					url: fixurl('dashboard/ajax'),
 					data: {type: $(this).data('type')}
 				}
 				Http.ajax(options)

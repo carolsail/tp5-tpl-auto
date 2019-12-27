@@ -157,7 +157,7 @@ const Form = {
                 $.cxSelect.defaults.jsonName = 'name';
                 $.cxSelect.defaults.jsonValue = 'value';
                 $.cxSelect.defaults.jsonSpace = 'data';
-                $("[data-toggle='cxselect']", form).cxSelect();
+                $("[data-toggle='cxselect']", form).cxSelect()
             }
         },
         summernote: function(form) {

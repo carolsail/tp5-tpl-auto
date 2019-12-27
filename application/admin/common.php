@@ -86,7 +86,7 @@ if (!function_exists('build_category_select')) {
         foreach ($categorylist as $k => $v) {
             $categorydata[$v['id']] = $v['name'];
         }
-        $attr = array_merge(['id' => "c-{$name}", 'class' => 'form-control selectpicker'], $attr);
+        $attr = array_merge(['id' => "c-{$name}", 'class' => 'form-control select2'], $attr);
         return build_select($name, $categorydata, $selected, $attr);
     }
 }

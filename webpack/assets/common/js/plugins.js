@@ -118,7 +118,7 @@ function select2(element, options){
  *  
  */
 function select2ajax(element, options){
-    options = $.extend({ width: 'resolve',  dataType: 'json', delay: 250, cache: true, pageLimit: 10 }, options)
+    options = $.extend({ width: '100%',  dataType: 'json', delay: 250, cache: false, pageLimit: 10 }, options)
     $(element).select2({
         ajax: {
             url: options.url,
@@ -146,6 +146,7 @@ function select2ajax(element, options){
         },
         minimumInputLength: options.inputLength || 0,
         placeholder: options.placeholder || '',
+        width: options.width,
         escapeMarkup: function (markup) { return markup },
         templateResult: function(repo){
             if (repo.loading) {
@@ -157,18 +158,19 @@ function select2ajax(element, options){
             return options.result ? repo[options.result] : ''
         },
         templateSelection: function(repo){
+            console.log(repo)
             if(typeof options.cb_selection === 'function'){
                 return options['cb_selection'](repo)
             }
-            return options.selection ? repo[options.selection] : ''
+            return options.selection && repo[options.selection] ? repo[options.selection] : repo.text
         }
     }).on('select2:select', function(e){
-        //填充數據回調
+        // 填充數據回調
         if(typeof options.cb_selected === 'function'){
             return options['cb_selected'](e)
         }
     }).closest("form").on("reset",function(ev){
-        //解决表单reset清空问题
+        // 解决表单reset清空问题
         var targetJQForm = $(ev.target)
         setTimeout((function(){
             this.find("select").trigger("change")
