@@ -27,6 +27,7 @@ try {
   require('../../common/libs/table/table-template');
   require('../../common/libs/table/table-export');
   require('../../common/libs/addtabs/jquery.addtabs');
+  require('../../common/libs/selectpage/selectpage');
 } catch (e) {}
 
 

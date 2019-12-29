@@ -128,6 +128,29 @@ const Form = {
                 select2ajax($(".select2ajax", form), options)
             }
         },
+        selectpage: function(form) {
+            if ($(".selectpage", form).length) {
+                $('.selectpage', form).selectPage({
+                    eAjaxSuccess: function (data) {
+                        data.list = typeof data.rows !== 'undefined' ? data.rows : (typeof data.list !== 'undefined' ? data.list : []);
+                        data.totalRow = typeof data.total !== 'undefined' ? data.total : (typeof data.totalRow !== 'undefined' ? data.totalRow : data.list.length);
+                        return data;
+                    }
+                });
+                //给隐藏的元素添加上validate验证触发事件
+                $(document).on("change", ".sp_hidden", function () {
+                    $(this).trigger("validate");
+                });
+                $(document).on("change", ".sp_input", function () {
+                    $(this).closest(".sp_container").find(".sp_hidden").trigger("change");
+                });
+                $(form).on("reset", function () {
+                    setTimeout(function () {
+                        $('.selectpage', form).selectPageClear();
+                    }, 1);
+                });
+            }
+        },
         datepicker: function(form) {
             if($(".datepicker", form).length) {
                 datepicker($(".datepicker", form))
@@ -510,6 +533,8 @@ const Form = {
             events.select2(form)
 
             events.select2ajax(form)
+
+            events.selectpage(form)
 
             events.datepicker(form)
 

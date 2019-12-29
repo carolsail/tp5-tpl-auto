@@ -158,7 +158,6 @@ function select2ajax(element, options){
             return options.result ? repo[options.result] : ''
         },
         templateSelection: function(repo){
-            console.log(repo)
             if(typeof options.cb_selection === 'function'){
                 return options['cb_selection'](repo)
             }

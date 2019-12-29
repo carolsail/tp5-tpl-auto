@@ -23,6 +23,8 @@ use ArrayAccess;
  * @method string selects(string $name, array $list = [], string $selected = null, array $options = []) static 下拉列表组件(多选)
  * @method string select2(string $name, array $list = [], string $selected = null, array $options = []) static 下拉列表组件(友好)
  * @method string select2s(string $name, array $list = [], string $selected = null, array $options = []) static 下拉列表组件(友好)(多选)
+ * @method string selectpage(string $name, string $value, string $url, string $field = null, string $primaryKey = null, array $options = []) static 动态下拉列表组件
+ * @method string selectpages(string $name, string $value, string $url, string $field = null, string $primaryKey = null, array $options = []) static 动态下拉列表组件(多选)
  * @method string citypicker(string $name, string $value, array $options = []) static 城市选择组件
  * @method string switcher(string $name, string $value, array $options = []) static 切换组件
  * @method string datepicker(string $name, string $value, array $options = []) static 日期选择组件
@@ -448,6 +450,42 @@ class FormBuilder
     {
         $options[] = 'multiple';
         return $this->select2($name, $list, $selected, $options);
+    }
+
+    /**
+     * 生成动态下拉列表
+     *
+     * @param string $name       名称
+     * @param mixed  $value
+     * @param string $url        数据源地址
+     * @param string $field      显示的字段名称,默认为name
+     * @param string $primaryKey 主键,数据库中保存的值,默认为id
+     * @param array  $options
+     * @return string
+     */
+    public function selectpage($name, $value, $url, $field = null, $primaryKey = null, $options = [])
+    {
+        $options = array_merge($options, ['data-source' => $url, 'data-field' => $field ? $field : 'name', 'data-primary-key' => $primaryKey ? $primaryKey : 'id']);
+        $options['class'] = isset($options['class']) ? $options['class'] . ' selectpage' : 'selectpage';
+        return $this->text($name, $value, $options);
+    }
+
+
+    /**
+     * 生成动态下拉列表(复选)
+     *
+     * @param string $name       名称
+     * @param mixed  $value
+     * @param string $url        数据源地址
+     * @param string $field      显示的字段名称,默认为name
+     * @param string $primaryKey 主键,数据库中保存的值,默认为id
+     * @param array  $options
+     * @return string
+     */
+    public function selectpages($name, $value, $url, $field = null, $primaryKey = null, $options = [])
+    {
+        $options['data-multiple'] = "true";
+        return $this->selectpage($name, $value, $url, $field, $primaryKey, $options);
     }
 
     /**

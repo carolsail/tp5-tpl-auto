@@ -622,21 +622,36 @@ class Crud extends Command
                     } else {
                         $search = $replace = '';
                         //特殊字段为关联搜索
-                        $isSelect2ajax = false;
                         if ($this->isMatchSuffix($field, $this->selectpageSuffix)) {
+                            $inputType = 'text';
+                            $defaultValue = '';
                             $attrArr['data-rule'] = 'required';
-                            $cssClassArr = ['select2ajax', 'hidden'];
-                            $attrArr['class'] = implode(' ', $cssClassArr);
+                            $cssClassArr[] = 'selectpage';
                             $selectpageController = str_replace('_', '/', substr($field, 0, strripos($field, '_')));
-                            $attrArr['data-url'] = '{:url("admin/'.$selectpageController.'/select2ajax")}';
-                            if ($this->isMatchSuffix($field, $this->selectpagesSuffix)) {
-                                $attrArr['multiple'] = '';
-                                $fieldName .= "[]";
+                            $attrArr['data-source'] = $selectpageController . "/index";
+                            //如果是类型表需要特殊处理下
+                            if ($selectpageController == 'category') {
+                                $attrArr['data-source'] = 'category/selectpage';
+                                $attrArr['data-params'] = '##replacetext##';
+                                $search = '"##replacetext##"';
+                                $replace = '\'{"custom[type]":"' . $table . '"}\'';
+                            } elseif ($selectpageController == 'admin') {
+                                $attrArr['data-source'] = 'auth/admin/selectpage';
+                            } elseif ($selectpageController == 'user') {
+                                $attrArr['data-source'] = 'user/user/index';
                             }
-                            $isSelect2ajax = true;
+                            if ($this->isMatchSuffix($field, $this->selectpagesSuffix)) {
+                                $attrArr['data-multiple'] = 'true';
+                            }
+                            foreach ($this->fieldSelectpageMap as $m => $n) {
+                                if (in_array($field, $n)) {
+                                    $attrArr['data-field'] = $m;
+                                    break;
+                                }
+                            }
                         }
                         //因为有自动完成可输入其它内容
-                        $step = array_intersect($cssClassArr, ['select2ajax']) ? 0 : $step;
+                        $step = array_intersect($cssClassArr, ['selectpage']) ? 0 : $step;
                         $attrArr['class'] = implode(' ', $cssClassArr);
                         $isUpload = false;
                         if ($this->isMatchSuffix($field, array_merge($this->imageField, $this->fileField))) {
@@ -661,11 +676,6 @@ class Crud extends Command
                         if ($isUpload) {
                             $formAddElement = $this->getImageUpload($field, $formAddElement);
                             $formEditElement = $this->getImageUpload($field, $formEditElement);
-                        }
-                        
-                        if($isSelect2ajax){
-                            $formAddElement = '';
-                            $formEditElement = '';
                         }
                     }
                     //构造添加和编辑HTML信息

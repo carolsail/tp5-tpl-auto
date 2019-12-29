@@ -67,6 +67,10 @@ class Admin extends Backend
     public function index()
     {
         if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
             $childrenGroupIds = $this->childrenGroupIds;
             $groupName = AuthGroup::where('id', 'in', $childrenGroupIds)
                 ->column('id,name');
@@ -257,10 +261,10 @@ class Admin extends Backend
     /**
      * 下拉搜索
      */
-    public function select2ajax()
+    public function selectpage()
     {
         $this->dataLimit = 'auth';
         $this->dataLimitField = 'id';
-        return parent::select2ajax();
+        return parent::selectpage();
     }
 }
