@@ -628,17 +628,17 @@ class Crud extends Command
                             $attrArr['data-rule'] = 'required';
                             $cssClassArr[] = 'selectpage';
                             $selectpageController = str_replace('_', '/', substr($field, 0, strripos($field, '_')));
-                            $attrArr['data-source'] = $selectpageController . "/index";
+                            $attrArr['data-source'] = "{:url('".$selectpageController."/index')}";
                             //如果是类型表需要特殊处理下
                             if ($selectpageController == 'category') {
-                                $attrArr['data-source'] = 'category/selectpage';
+                                $attrArr['data-source'] = "{:url('category/selectpage')}";
                                 $attrArr['data-params'] = '##replacetext##';
                                 $search = '"##replacetext##"';
                                 $replace = '\'{"custom[type]":"' . $table . '"}\'';
                             } elseif ($selectpageController == 'admin') {
-                                $attrArr['data-source'] = 'auth/admin/selectpage';
+                                $attrArr['data-source'] = "{:url('auth/admin/selectpage')}";
                             } elseif ($selectpageController == 'user') {
-                                $attrArr['data-source'] = 'user/user/index';
+                                $attrArr['data-source'] = "{:url('user/user/index')}";
                             }
                             if ($this->isMatchSuffix($field, $this->selectpagesSuffix)) {
                                 $attrArr['data-multiple'] = 'true';
@@ -826,9 +826,9 @@ class Crud extends Command
             }
 
             // 生成控制器文件
-            //$result = $this->writeToFile('controller', $data, $controllerFile);
+            $result = $this->writeToFile('controller', $data, $controllerFile);
             // 生成模型文件
-            //$result = $this->writeToFile('model', $data, $modelFile);
+            $result = $this->writeToFile('model', $data, $modelFile);
 
             if ($relations) {
                 foreach ($relations as $i => $relation) {
@@ -840,13 +840,13 @@ class Crud extends Command
                 }
             }
             // 生成验证文件
-            //$result = $this->writeToFile('validate', $data, $validateFile);
+            $result = $this->writeToFile('validate', $data, $validateFile);
             // 生成视图文件
             $result = $this->writeToFile('add', $data, $addFile);
             $result = $this->writeToFile('edit', $data, $editFile);
-            //$result = $this->writeToFile('index', $data, $indexFile);
+            $result = $this->writeToFile('index', $data, $indexFile);
             // 生成JS文件
-            //$result = $this->writeToFile('javascript', $data, $javascriptFile);
+            $result = $this->writeToFile('javascript', $data, $javascriptFile);
             // 生成语言文件
             if ($langList) {
                 $result = $this->writeToFile('lang', $data, $langFile);

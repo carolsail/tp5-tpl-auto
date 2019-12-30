@@ -9,3 +9,4 @@ webpack/node_modules
 webpack/package-lock.json
 public/uploads
 public/static/dist
+composer.lock
