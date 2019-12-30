@@ -4,10 +4,11 @@
   {include file="common/meta" /}
 </head>
 <body class="{:defined('IS_DIALOG') && IS_DIALOG ? 'is-dialog' : ''}">
+  
   {if !IS_DIALOG}
   <section class="content-header-sail clearfix">
     <ol class="breadcrumb pull-left">
-      <li><a href="{:url('/admin')}" class="addtabsit"><i class="fa fa-dashboard"></i> {:__('Dashboard')}</a></li>
+      <li><a href="{:url('/admin/dashboard')}" class="addtabsit"><i class="fa fa-dashboard"></i> {:__('Dashboard')}</a></li>
     </ol>
     <ol class="breadcrumb pull-right">
       {foreach $breadcrumb as $vo}
