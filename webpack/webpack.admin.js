@@ -12,8 +12,8 @@ mix.webpackConfig({
   output: {
     publicPath: `${output}/backend`, // 设置默认打包目录
     chunkFilename: `js/[name].${mix.inProduction() ? '[chunkhash].' : ''}js`, // 路由懒加载的时候打包出来的js文件
-    libraryTarget: "var",
-    library: "I"
+    // libraryTarget: "var",
+    // library: "I"
   },
   resolve: {
     alias: {
@@ -42,15 +42,9 @@ mix.autoload({
   'art-template': ['template', 'Template']
 });
 
-//ps: 多层文件夹的打包顺序要放在前面，关系到vendor.js/manifest.js位置(最后一个.js()的同级位置)
 mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台js
 .sass('assets/backend/sass/admin-lte.scss', `${output}/backend/css`) // 打包后台css
-.js('assets/backend/js/general/attachment.js', `${output}/backend/js/general`)
-.js('assets/backend/js/general/profile.js', `${output}/backend/js/general`)
-.js('assets/backend/js/auth/admin.js', `${output}/backend/js/auth`)
-.js('assets/backend/js/auth/group.js', `${output}/backend/js/auth`)
-.js('assets/backend/js/index.js', `${output}/backend/js`)
-.js('assets/backend/js/dashboard.js', `${output}/backend/js`)
+.js('assets/backend/js/backend.js', `${output}/backend/js`) // backend.js通过require动态按需引入
 .extract([
 'admin-lte', 
 'bootstrap-sass', 
