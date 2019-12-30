@@ -3,7 +3,7 @@
 <head>
   {include file="common/meta" /}
 </head>
-<body>
+<body class="{:defined('IS_DIALOG') && IS_DIALOG ? 'is-dialog' : ''}">
   {if !IS_DIALOG}
   <section class="content-header-sail clearfix">
     <ol class="breadcrumb pull-left">

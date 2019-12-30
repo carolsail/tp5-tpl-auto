@@ -17,18 +17,9 @@ mix.webpackConfig({
   },
   resolve: {
     alias: {
-      'art-template': 'art-template/lib/template-web',
+      'art-template': 'art-template/dist/template-native',
       '@common': path.resolve('assets/common/js')
     }
-  },
-  module: {
-    rules: [
-        {
-            test: /\.art$/,
-            loader: 'art-template-loader',
-            options: {}
-        }
-    ]
   }
 })
 

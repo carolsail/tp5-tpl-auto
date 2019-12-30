@@ -8,9 +8,9 @@ try {
   window._ = require('lodash');
   window.Layer = require('layerui');
   window.Toastr = require('toastr');
-  require('moment');
+  window.Moment = require('moment');
+  window.Template = require('art-template/dist/template-native');
   require('bootstrap-table');
-  require('art-template/lib/template-web');
   require('nice-validator');
   require('nice-validator/dist/local/en');
   require('plupload');

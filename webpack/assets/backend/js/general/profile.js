@@ -29,7 +29,7 @@ export function index() {
               {field: 'title', title: __('Title')},
               {field: 'url', title: __('Url'), align: 'left', formatter: Table.api.formatter.url},
               {field: 'ip', title: __('ip'), formatter:Table.api.formatter.search},
-              {field: 'createtime', title: __('Createtime'), formatter: Table.api.formatter.datetime, operate: 'RANGE', addclass: 'datetimerange', sortable: true},
+              {field: 'create_time', title: __('Createtime'), formatter: Table.api.formatter.datetime, operate: 'RANGE', addclass: 'datetimerange', sortable: true},
           ]
       ],
       commonSearch: false

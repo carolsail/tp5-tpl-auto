@@ -51,7 +51,8 @@ class AdminLog extends BaseModel
             'admin_id'  => $admin_id,
             'username'  => $username,
             'useragent' => substr(request()->server('HTTP_USER_AGENT'), 0, 255),
-            'ip'        => request()->ip()
+            'ip'        => request()->ip(),
+            'create_time' => time()
         ]);
     }
 

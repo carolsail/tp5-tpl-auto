@@ -28,6 +28,14 @@
 @import '~jstree/dist/themes/default/style.min.css';
 @import '../../common/libs/selectpage/selectpage.css';
 
+body {
+  background: #f1f4f6;
+}
+
+body.is-dialog {
+  background: #fff;
+}
+
 /* plupload預覽 */
 .plupload-preview {
   padding: 0 10px;
@@ -252,4 +260,20 @@
     width: 100%;
     height: 100%;
   }
+}
+
+/*去除bootstrap-table的边框*/
+.fixed-table-container {
+  border: none !important;
+}
+
+/*使用table-template的时候隐藏滚动条*/
+table.table-template {
+  overflow: hidden;
+}
+
+.img-center {
+  margin: 0 auto;
+  display: inline;
+  float: none;
 }
