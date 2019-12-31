@@ -330,6 +330,10 @@ body {
       }
     }
   }
+  // 修复firefox或ie中iframe出现的滚动条问题
+  iframe {
+    display: flex;
+  }
 }
 
 /*去除bootstrap-table的边框*/
