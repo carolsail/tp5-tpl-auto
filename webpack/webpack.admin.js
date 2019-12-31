@@ -47,7 +47,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'layerui',
 'moment', 
 'toastr', 
-'bootstrap-table', 
+'bootstrap-table',
 'art-template',
 'nice-validator', 
 'plupload', 

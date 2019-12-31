@@ -32,7 +32,7 @@ import { query as fn_query } from '../../js/util'
         });
 
         // 重置搜索
-        form.on("click", "button[type=reset]", function (event) {
+        form.on("click", "button[type=reset], input[type=reset]", function (event) {
             form[0].reset();
             setTimeout(function () {
                 that.onCommonSearch();

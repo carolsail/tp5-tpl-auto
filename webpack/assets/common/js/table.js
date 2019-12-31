@@ -615,8 +615,7 @@ var Table = {
                     buttons.push(Table.button.del);
                 }
                 return Table.api.buttonlink(this, buttons, value, row, index, 'operate');
-            }
-            ,
+            },
             buttons: function (value, row, index) {
                 // 默认按钮组
                 var buttons = $.extend([], this.buttons || []);
@@ -749,7 +748,7 @@ var Table = {
             });
             return row;
         }
-    },
+    }
 }
 
 export default Table

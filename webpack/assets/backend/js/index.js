@@ -1,8 +1,15 @@
 import Form from '@common/form'
-import Tabs from '@common/tabs'
 import {fixurl, lang as __} from '@common/util';
 
 export function index(){
+    //修复在移除窗口时下拉框不隐藏的BUG
+    $(window).on("blur", function () {
+      $("[data-toggle='dropdown']").parent().removeClass("open");
+      if ($("body").hasClass("sidebar-open")) {
+          $(".sidebar-toggle").trigger("click");
+      }
+    })
+
     // 清除缓存
     if($('.wipecache').length){
       $('.wipecache').click(function(){
@@ -73,7 +80,7 @@ export function index(){
             }
         } else {
             //刷新页面后跳到到刷新前的页面
-            Tabs.addtabs(Config.referer);
+            Backend.api.addtabs(Config.referer);
         }
     }
 }
