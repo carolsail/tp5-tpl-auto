@@ -18,14 +18,14 @@ try {
   require('bootstrap-datepicker');
   require('bootstrap-daterangepicker');
   require('eonasdan-bootstrap-datetimepicker');
-  require('dragsort');
   require('summernote');
   require('jstree');
   require('icheck');
   require('cxselect');
+  require('carolsail.selectpage');
   require('../../common/libs/table/table-search');
   require('../../common/libs/table/table-template');
   require('../../common/libs/table/table-export');
   require('../../common/libs/addtabs/jquery.addtabs');
-  require('../../common/libs/selectpage/selectpage');
+  require('../../common/libs/dragsort/jquery.dragsort');
 } catch (e) {}

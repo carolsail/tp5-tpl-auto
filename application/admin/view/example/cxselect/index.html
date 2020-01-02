@@ -1,0 +1,106 @@
+<style>#cxselect-example textarea{margin:10px 0;}</style>
+<div class="panel panel-default panel-intro">
+    {:build_heading()}
+
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+                <div class="widget-body no-padding" id="cxselect-example">
+                    <form id="cxselectform" action="">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><b>省市区联动</b>(通过AJAX读取数据)</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-9">
+                                                <div class="form-inline" data-toggle="cxselect" data-selects="province,city,area">
+                                                    <select class="province form-control" name="province" data-url="{:url('/admin/ajax/area')}"></select>
+                                                    <select class="city form-control" name="city" data-url="{:url('/admin/ajax/area')}"></select>
+                                                    <select class="area form-control" name="area" data-url="{:url('/admin/ajax/area')}"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 text-right">
+                                                <h6><label class="label label-primary"><i class="fa fa-pencil"></i> 增加</label></h6>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <textarea class="form-control" rows="8">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-9">
+                                                <div class="form-inline" data-toggle="cxselect" data-selects="province,city,area">
+                                                    <select class="province form-control" name="province" data-url="{:url('/admin/ajax/area')}">
+                                                        <option value="1964" selected>广东省</option>
+                                                    </select>
+                                                    <select class="city form-control" name="city" data-url="{:url('/admin/ajax/area')}">
+                                                        <option value="1988" selected>深圳市</option>
+                                                    </select>
+                                                    <select class="area form-control" name="area" data-url="{:url('/admin/ajax/area')}">
+                                                        <option value="1991" selected>南山区</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 text-right">
+                                                <h6><label class="label label-success"><i class="fa fa-edit"></i> 修改</label></h6>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <textarea class="form-control" rows="8">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><b>类别联动</b>(Ajax读取数据)</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-9">
+                                                <div class="form-inline" data-toggle="cxselect" data-selects="first,second">
+                                                    <select class="first form-control" name="first" data-url="{:url('/admin/ajax/category')}?type=page&pid=5"></select>
+                                                    <select class="second form-control" name="second" data-url="{:url('/admin/ajax/category')}" data-query-name="pid"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 text-right">
+                                                <h6><label class="label label-primary"><i class="fa fa-pencil"></i> 增加</label></h6>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <textarea class="form-control" rows="8">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-9">
+                                                <div class="form-inline" data-toggle="cxselect" data-selects="first,second">
+                                                    <select class="first form-control" name="first" data-url="{:url('/admin/ajax/category')}?type=page&pid=5">
+                                                        <option value="6" selected>网站建站</option>
+                                                    </select>
+                                                    <select class="second form-control" name="second" data-url="{:url('/admin/ajax/category')}" data-query-name="pid">
+                                                        <option value="9" selected>移动端</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 text-right">
+                                                <h6><label class="label label-success"><i class="fa fa-edit"></i> 修改</label></h6>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <textarea class="form-control" rows="8">
+                                                </textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

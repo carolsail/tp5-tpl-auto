@@ -26,7 +26,7 @@
 @import '~eonasdan-bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build.scss';
 @import '~summernote/dist/summernote.css';
 @import '~jstree/dist/themes/default/style.min.css';
-@import '../../common/libs/selectpage/selectpage.css';
+@import '~carolsail.selectpage/selectpage.css';
 
 body {
   background: #f1f4f6;
@@ -326,7 +326,7 @@ body {
       .tab-pane{
         position: absolute;
         width: 100%;
-        height: 100%;
+        height: calc(100% - 50px);
       }
     }
   }
@@ -355,9 +355,32 @@ table {
   float: none;
 }
 
+/* commonsearch form样式 */
+form.form-horizontal .control-label {
+  font-weight: normal;
+}
+.bootstrap-table .form-commonsearch .form-group {
+  margin-left: 0;
+  margin-right: 0;
+  white-space: nowrap;
+}
+
+
 /* 隐藏bootstrap-table右边操作按钮 */
 @media (max-width: 480px) {
   .fixed-table-toolbar .columns-right.btn-group {
     display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .content-wrapper{
+    &.tab-content {
+      &.tab-addtabs {
+        .tab-pane{
+          height: calc(100% - 100px);
+        }
+      }
+    }
   }
 }

@@ -6,25 +6,26 @@ import {fixurl} from '@common/util'
 var Backend = {
   api: {
     sidebar: function (params) {
-      colorArr = ['red', 'green', 'yellow', 'blue', 'teal', 'orange', 'purple'];
-      $colorNums = colorArr.length;
-      badgeList = {};
+      var colorArr = ['red', 'green', 'yellow', 'blue', 'teal', 'orange', 'purple'];
+      var $colorNums = colorArr.length;
+      var badgeList = {};
       $.each(params, function (k, v) {
-          $url = fixurl(k);
-
+          var $url = fixurl(k);
+          
           if ($.isArray(v)) {
-              $nums = typeof v[0] !== 'undefined' ? v[0] : 0;
-              $color = typeof v[1] !== 'undefined' ? v[1] : colorArr[(!isNaN($nums) ? $nums : $nums.length) % $colorNums];
-              $class = typeof v[2] !== 'undefined' ? v[2] : 'label';
+              var $nums = typeof v[0] !== 'undefined' ? v[0] : 0;
+              var $color = typeof v[1] !== 'undefined' ? v[1] : colorArr[(!isNaN($nums) ? $nums : $nums.length) % $colorNums];
+              var $class = typeof v[2] !== 'undefined' ? v[2] : 'label';
           } else {
-              $nums = v;
-              $color = colorArr[(!isNaN($nums) ? $nums : $nums.length) % $colorNums];
-              $class = 'label';
+              var $nums = v;
+              var $color = colorArr[(!isNaN($nums) ? $nums : $nums.length) % $colorNums];
+              var $class = 'label';
           }
           //必须nums大于0才显示
           badgeList[$url] = $nums > 0 ? '<small class="' + $class + ' pull-right bg-' + $color + '">' + $nums + '</small>' : '';
       });
       $.each(badgeList, function (k, v) {
+          k += '.html'
           var anchor = top.window.$("li a[addtabs][url='" + k + "']");
           if (anchor) {
               top.window.$(".pull-right-container", anchor).html(v);

@@ -55,7 +55,7 @@ mix.js('assets/backend/js/admin-lte.js', `${output}/backend/js`) // 打包后台
 'bootstrap-datepicker', 
 'bootstrap-daterangepicker', 
 'eonasdan-bootstrap-datetimepicker', 
-'dragsort', 
+'carolsail.selectpage',
 'cxselect',
 'summernote', 
 'jstree']) // 提取依赖库
