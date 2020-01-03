@@ -32,6 +32,9 @@ body {
   background: #f1f4f6;
   &.is-dialog {
     background: #fff;
+    .layer-footer {
+      display: none;
+    }
   }
 }
 
@@ -365,6 +368,10 @@ form.form-horizontal .control-label {
   white-space: nowrap;
 }
 
+/* select2 option的class为hidden的时候 */
+li.select2-results__option:empty {
+    display: none;
+}
 
 /* 隐藏bootstrap-table右边操作按钮 */
 @media (max-width: 480px) {
