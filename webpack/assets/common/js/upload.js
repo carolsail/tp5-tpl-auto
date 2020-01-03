@@ -207,6 +207,7 @@ const Upload = {
                     container: $(this).parent().get(0), //取按钮的上级元素
                     flash_swf_url: '/assets/libs/plupload/js/Moxie.swf',
                     silverlight_xap_url: '/assets/libs/plupload/js/Moxie.xap',
+                    drop_element: [id, $(this).data("input-id")],
                     filters: {
                         max_file_size: maxsize,
                         mime_types: mimetype,
@@ -290,12 +291,17 @@ const Upload = {
                         var inputArr = inputStr.split(/\,/);
                         $("#" + preview_id).empty();
                         var tpl = $("#" + preview_id).data("template") ? $("#" + preview_id).data("template") : "";
+                        var extend = $("#" + preview_id).next().is("textarea") ? $("#" + preview_id).next("textarea").val() : "{}";
+                        var json = {};
+                        try {
+                            json = JSON.parse(extend);
+                        } catch (e) {
+                        }
                         $.each(inputArr, function (i, j) {
                             if (!j) {
                                 return true;
                             }
-                            var data = {url: j, fullurl: cdnurl(j), data: $(that).data()};
-                            //console.log(data)
+                            var data = {url: j, fullurl: cdnurl(j), data: $(that).data(), key: i, index: i, value: (json && typeof json[i] !== 'undefined' ? json[i] : null)};
                             var html = tpl ? template(tpl, data) : template.render(Upload.config.previewtpl, data);
                             $("#" + preview_id).append(html);
                         });
@@ -316,6 +322,7 @@ const Upload = {
                         if (input_id) {
                             $("#" + input_id).val(urlArr.join(","));
                         }
+                        refresh($("#" + preview_id).data("name"));
                     });
                     // 移除按钮事件
                     $(document.body).on("click", "#" + preview_id + " .btn-trash", function () {
