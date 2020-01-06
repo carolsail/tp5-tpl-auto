@@ -12,7 +12,13 @@ function fixurl(url) {
 // 获取修复后可访问的cdn链接
 function cdnurl(url, domain) {
 		var rule = new RegExp("^((?:[a-z]+:)?\\/\\/|data:image\\/)", "i");
-		var url = rule.test(url) ? url : Config.upload.cdnurl + url
+		if(!rule.test(url)) {
+			//去掉以第一位的/
+			if(url.substr(0,1)=='/'){
+				url = url.substr(1)
+			}
+			url = Config.upload.cdnurl + url
+		}
 		if (domain && !rule.test(url)) {
 				domain = typeof domain === 'string' ? domain : location.origin
 				url = domain + url

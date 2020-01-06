@@ -87,9 +87,20 @@ function datetimepicker(element, options){
  * https://select2.org/
  * @param {*} element 
  * @param {*} options 
+ * options.templateResult 判断是否包含hidden, 如果是则隐藏不显示, 配合admin-lte.scss使用
  */
 function select2(element, options){
-  options = $.extend({ width: '100%' }, options)
+  options = $.extend({
+      width: '100%',
+      templateResult: function(item){
+        var theOption = $("#c-pid").find('option[value="' + item.id + '"]')
+        if(!theOption.hasClass('hidden')) {
+            return item.text
+        }
+        return false
+      }
+    }, options)
+
   $(element).select2(options).closest("form").on("reset",function(ev){
       //解决表单reset清空问题
       var targetJQForm = $(ev.target)

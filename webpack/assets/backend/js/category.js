@@ -5,21 +5,9 @@ import {fixurl, lang as __} from '@common/util'
 const api = {
     bindevent() {
         $(document).on("change", "#c-type", function () {
-            console.log('打开触发')
             $("#c-pid option[data-type='all']").prop("selected", true);
             $("#c-pid option").removeClass("hidden");
             $("#c-pid option[data-type!='" + $(this).val() + "'][data-type!='all']").addClass("hidden");
-            // 如果为hidden则不相识
-            $("#c-pid").select2({
-                width:'100%', 
-                templateResult: function(option){
-                    var theOption = $("#c-pid").find('option[value="' + option.id + '"]')
-                    if(!theOption.hasClass('hidden')) {
-                        return option.text
-                    }
-                    return false
-                }
-            })
         })
         $("#c-type").trigger('change')
         Form.api.bindevent($("form[role=form]"))

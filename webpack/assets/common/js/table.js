@@ -288,54 +288,52 @@ var Table = {
                 );
             });
             // 拖拽排序
-            if($('.btn-dragsort').length){
-                $("tbody", table).dragsort({
-                    itemSelector: 'tr:visible',
-                    dragSelector: "a.btn-dragsort",
-                    dragEnd: function (a, b) {
-                        var element = $("a.btn-dragsort", this);
-                        var data = table.bootstrapTable('getData');
-                        var current = data[parseInt($(this).data("index"))];
-                        var options = table.bootstrapTable('getOptions');
-                        //改变的值和改变的ID集合
-                        var ids = $.map($("tbody tr:visible", table), function (tr) {
-                            return data[parseInt($(tr).data("index"))][options.pk];
-                        });
-                        var changeid = current[options.pk];
-                        var pid = typeof current.pid != 'undefined' ? current.pid : '';
-                        var params = {
-                            url: table.bootstrapTable('getOptions').extend.dragsort_url,
-                            data: {
-                                ids: ids.join(','),
-                                changeid: changeid,
-                                pid: pid,
-                                field: Table.config.dragsortfield,
-                                orderway: options.sortOrder,
-                                table: options.extend.table,
-                                pk: options.pk
+            $("tbody", table).dragsort({
+                itemSelector: 'tr:visible',
+                dragSelector: "a.btn-dragsort",
+                dragEnd: function (a, b) {
+                    var element = $("a.btn-dragsort", this);
+                    var data = table.bootstrapTable('getData');
+                    var current = data[parseInt($(this).data("index"))];
+                    var options = table.bootstrapTable('getOptions');
+                    //改变的值和改变的ID集合
+                    var ids = $.map($("tbody tr:visible", table), function (tr) {
+                        return data[parseInt($(tr).data("index"))][options.pk];
+                    });
+                    var changeid = current[options.pk];
+                    var pid = typeof current.pid != 'undefined' ? current.pid : '';
+                    var params = {
+                        url: table.bootstrapTable('getOptions').extend.dragsort_url,
+                        data: {
+                            ids: ids.join(','),
+                            changeid: changeid,
+                            pid: pid,
+                            field: Table.config.dragsortfield,
+                            orderway: options.sortOrder,
+                            table: options.extend.table,
+                            pk: options.pk
+                        }
+                    };
+                    Http.ajax(params, function (data, ret) {
+                        var success = $(element).data("success") || $.noop;
+                        if (typeof success === 'function') {
+                            if (false === success.call(element, data, ret)) {
+                                return false;
                             }
-                        };
-                        Http.ajax(params, function (data, ret) {
-                            var success = $(element).data("success") || $.noop;
-                            if (typeof success === 'function') {
-                                if (false === success.call(element, data, ret)) {
-                                    return false;
-                                }
+                        }
+                        table.bootstrapTable('refresh');
+                    }, function (data, ret) {
+                        var error = $(element).data("error") || $.noop;
+                        if (typeof error === 'function') {
+                            if (false === error.call(element, data, ret)) {
+                                return false;
                             }
-                            table.bootstrapTable('refresh');
-                        }, function (data, ret) {
-                            var error = $(element).data("error") || $.noop;
-                            if (typeof error === 'function') {
-                                if (false === error.call(element, data, ret)) {
-                                    return false;
-                                }
-                            }
-                            table.bootstrapTable('refresh');
-                        });
-                    },
-                    placeHolderTemplate: ""
-                });
-            }
+                        }
+                        table.bootstrapTable('refresh');
+                    });
+                },
+                placeHolderTemplate: ""
+            });
 
             $(table).on("click", "input[data-id][name='checkbox']", function (e) {
                 var ids = $(this).data("id");
@@ -464,9 +462,9 @@ var Table = {
                 return '<i class="' + value + '"></i> ' + value;
             },
             image: function (value, row, index) {
-                value = value ? value : '/assets/img/blank.gif';
+                value = value ? value : '/static/img/blank.png';
                 var classname = typeof this.classname !== 'undefined' ? this.classname : 'img-sm img-center';
-                return '<a href="javascript:"><img class="' + classname + '" src="' + cdnurl(value) + '" /></a>';
+                return '<a href="javascript:"><img class="' + classname + '" src="' + cdnurl(value) + '" onerror="this.src=\'https://tool.fastadmin.net/icon/'+value.split(".").pop()+'.png\';this.onerror=null;"/></a>';
             },
             images: function (value, row, index) {
                 value = value === null ? '' : value.toString();
@@ -474,8 +472,8 @@ var Table = {
                 var arr = value.split(',');
                 var html = [];
                 $.each(arr, function (i, value) {
-                    value = value ? value : '/assets/img/blank.gif';
-                    html.push('<a href="javascript:"><img class="' + classname + '" src="' + cdnurl(value) + '" /></a>');
+                    value = value ? value : '/static/img/blank.png';
+                    html.push('<a href="javascript:"><img class="' + classname + '" src="' + cdnurl(value) + '" onerror="this.src=\'https://tool.fastadmin.net/icon/'+value.split(".").pop()+'.png\';this.onerror=null;"/></a>');
                 });
                 return html.join(' ');
             },
