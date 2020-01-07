@@ -1,7 +1,7 @@
 <!-- sidebar  -->
 <section class="sidebar">
   <!-- Sidebar user panel -->
-  <div class="user-panel">
+  <div class="user-panel hidden">
     <div class="pull-left image">
       {if $admin.avatar}
       <img src="{$admin.avatar|cdnurl|htmlentities}" class="img-circle" alt="User Image">
@@ -28,7 +28,6 @@
 
   <!-- sidebar menu -->
   <ul class="sidebar-menu" data-widget="tree">
-    <li class="header">MAIN NAVIGATION</li>
     {$menulist|raw}
   </ul>
 </section>

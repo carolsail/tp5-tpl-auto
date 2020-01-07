@@ -629,9 +629,9 @@ var Table = {
                 dropdown, link;
             var fieldIndex = column.fieldIndex;
             var dropdowns = {};
-
             $.each(buttons, function (i, j) {
                 if (type === 'operate') {
+                    // 若服务器数据中传过来数据存在weigh字段, 则添加dragsort按钮
                     if (j.name === 'dragsort' && typeof row[Table.config.dragsortfield] === 'undefined') {
                         return true;
                     }

@@ -99,6 +99,10 @@ class Ajax extends Backend
                 'sha1'        => $sha1,
                 'extparam'    => json_encode($extparam),
             );
+            
+            // 记录admin log
+            \app\admin\model\AdminLog::setTitle(__('Attachment Upload'));
+
             $attachment = model("attachment");
             $attachment->data(array_filter($params));
             $attachment->save();
