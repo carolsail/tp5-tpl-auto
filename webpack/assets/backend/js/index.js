@@ -39,6 +39,18 @@ export function index(){
       })
     }
 
+    //全屏事件
+    $(document).on('click', "[data-toggle='fullscreen']", function () {
+      var doc = document.documentElement;
+      if ($(document.body).hasClass("full-screen")) {
+          $(document.body).removeClass("full-screen");
+          document.exitFullscreen ? document.exitFullscreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.webkitExitFullscreen && document.webkitExitFullscreen();
+      } else {
+          $(document.body).addClass("full-screen");
+          doc.requestFullscreen ? doc.requestFullscreen() : doc.mozRequestFullScreen ? doc.mozRequestFullScreen() : doc.webkitRequestFullscreen ? doc.webkitRequestFullscreen() : doc.msRequestFullscreen && doc.msRequestFullscreen();
+      }
+    });
+
     //切换左侧sidebar显示隐藏
     $(document).on("click fa.event.toggleitem", ".sidebar-menu li > a", function (e) {
       if($(this).parent('li').hasClass('treeview')){
