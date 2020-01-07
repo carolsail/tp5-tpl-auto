@@ -18,15 +18,19 @@ if (! function_exists('mix')) {
             $path = "/{$path}";
         }
 
-        if ($manifestDirectory && ! starts_with($manifestDirectory, '/')) {
-            $manifestDirectory = "/static/dist/{$manifestDirectory}";
+        if ($manifestDirectory) {
+            if(!starts_with($manifestDirectory, '/')){
+                $manifestFile = "public/static/dist/{$manifestDirectory}/mix-manifest.json";
+                $manifestDirectory = "static/dist/{$manifestDirectory}";
+            }else{
+                $manifestFile = "{$manifestDirectory}/mix-manifest.json";
+            }
+        }else{
+            $manifestFile = "public/static/dist/backend/mix-manifest.json";
+            $manifestDirectory = "static/dist/backend";
         }
  
-        if (file_exists(public_folder($manifestDirectory.'/hot'))) {
-            return "//localhost:8080{$path}";
-        }
-
-        $manifestPath = public_folder($manifestDirectory.'/mix-manifest.json');
+        $manifestPath = path_disk($manifestFile);
 
         if (! isset($manifests[$manifestPath])) {
             if (! file_exists($manifestPath)) {
@@ -44,7 +48,6 @@ if (! function_exists('mix')) {
             // );
             return false;
         }
-        
         return public_path($manifestDirectory.$manifest[$path]);
     }
 }
@@ -69,20 +72,16 @@ if (! function_exists('starts_with')) {
     }
 }
 
-if (! function_exists('public_folder')) {
+if (! function_exists('path_disk')) {
     /**
-     * Get the path to the public folder.
+     * 查看文件在磁盘中的具体路径
      *
      * @param  string  $path
      * @return string
      */
-    function public_folder($path = '')
+    function path_disk($path = '')
     {
-        if ($path) {
-            $path = \think\facade\Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
-        } else {
-            $path = \think\facade\Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR;
-        }
+        $path = \think\facade\Env::get('root_path') . ltrim($path, DIRECTORY_SEPARATOR);
         return $path;
     }
 }
@@ -97,7 +96,7 @@ if (! function_exists('public_path')) {
     {
         //去index.php
         $path = '/' . ltrim($path, '/');
-        return str_replace('/index.php', '', request()->root()) . $path;
+        return preg_replace("/\/(\w+)\.php$/i", '', request()->root()) . $path;
     }
 }
 

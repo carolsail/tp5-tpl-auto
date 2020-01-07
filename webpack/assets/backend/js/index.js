@@ -69,6 +69,13 @@ export function index(){
     //绑定tabs事件,如果需要点击强制刷新iframe,则请将iframeForceRefresh置为true
     nav.addtabs({iframeHeight: "100%", iframeForceRefresh: false, nav: nav});
 
+    //让初始链接带上ref=addtabs
+    if ($("ul.sidebar-menu li.active a").length > 0) {
+      $("ul.sidebar-menu li.active a").trigger("click");
+    } else {
+      $("ul.sidebar-menu li a[url!='javascript:;']:first").trigger("click");
+    }
+
     //如果是刷新操作则直接返回刷新前的页面
     if (Config.referer) {
         if (Config.referer === $(addtabs).attr("url")) {

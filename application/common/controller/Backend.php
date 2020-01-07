@@ -165,6 +165,9 @@ class Backend extends Controller
         $breadcrumb = $this->auth->getBreadCrumb($path);
         array_pop($breadcrumb);
         
+        // 语言检测
+        $lang = strip_tags($this->request->langset());
+
         $upload = config('upload.');
         $config = [
             'site' => config('site.'),
@@ -173,6 +176,7 @@ class Backend extends Controller
             'action_name' => $action_name,
             'module_url' => rtrim(url("/{$module_name}", '', false), '/'),
             'upload' => $upload,
+            'language' => $lang,
             'referer' => session('referer') //当前选项卡
         ];
         
