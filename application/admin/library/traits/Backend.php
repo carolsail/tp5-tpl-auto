@@ -11,6 +11,7 @@ use think\Db;
 use think\Exception;
 use think\exception\PDOException;
 use think\exception\ValidateException;
+use think\facade\Hook;
 
 trait Backend
 {
@@ -60,10 +61,12 @@ trait Backend
                 ->limit($offset, $limit)
                 ->select();
 
+            Hook::listen('trait_backend_ajax_index', $list);
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);
         }
+        Hook::listen('trait_backend_assign_index');
         return view();
     }
 
@@ -118,6 +121,7 @@ trait Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
                         $this->model->validateFailException(true)->validate($validate);
                     }
+                    Hook::listen('trait_backend_ajax_add', $params);
                     $result = $this->model->allowField(true)->save($params);
                     Db::commit();
                 } catch (ValidateException $e) {
@@ -138,6 +142,7 @@ trait Backend
             }
             $this->error(__('Parameter %s can not be empty', ''));
         }
+        Hook::listen('trait_backend_assign_add');
         return view();
     }
 
@@ -169,6 +174,7 @@ trait Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
                         $row->validateFailException(true)->validate($validate);
                     }
+                    Hook::listen('trait_backend_ajax_edit', $params);
                     $result = $row->allowField(true)->save($params);
                     Db::commit();
                 } catch (ValidateException $e) {
@@ -190,6 +196,7 @@ trait Backend
             $this->error(__('Parameter %s can not be empty', ''));
         }
         $this->view->assign("row", $row);
+        Hook::listen('trait_backend_assign_edit', $row);
         return view();
     }
 
@@ -209,6 +216,7 @@ trait Backend
             $count = 0;
             Db::startTrans();
             try {
+                Hook::listen('trait_backend_ajax_del', $list);
                 foreach ($list as $k => $v) {
                     $count += $v->delete();
                 }

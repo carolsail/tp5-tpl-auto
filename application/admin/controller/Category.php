@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use app\common\controller\Backend;
 use app\common\model\Category as CategoryModel;
 use libs\Tree;
+use think\facade\Hook;
 
 /**
  * 分类管理
@@ -76,6 +77,12 @@ class Category extends Backend
             return json($result);
         }
         return $this->view->fetch();
+    }
+
+    public function indexExtend(){
+        Hook::add('trait_backend_ajax_index', function($list){});
+        Hook::add('trait_backend_assign_index', function(){});
+        return $this->index();
     }
 
     /**

@@ -7,6 +7,7 @@ class Index extends Frontend
 {
     public function index()
     {
+        dump($this->view->config);
     	return 'index page';
     }
 

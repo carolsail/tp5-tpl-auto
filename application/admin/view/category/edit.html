@@ -14,7 +14,7 @@
         <div class="col-xs-12 col-sm-8">
             <select id="c-pid" data-rule="required" class="form-control select2 hidden" name="row[pid]">
                 {foreach name="parentList" item="vo"}
-                <option data-type="{$vo.type}" class="{:$vo.type==$row.type||$vo.type=='all'?'':'hide'}" value="{$key}" {in name="key" value="$row.pid"}selected{/in}>{$vo.name|raw}</option>
+                <option data-type="{$vo.type}" class="{:$vo.type==$row.type||$vo.type=='all'?'':'hidden'}" value="{$key}" {in name="key" value="$row.pid"}selected{/in}>{$vo.name|raw}</option>
                 {/foreach}
             </select>
         </div>

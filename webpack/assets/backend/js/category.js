@@ -5,7 +5,7 @@ import {fixurl, lang as __} from '@common/util'
 const api = {
     bindevent() {
         $(document).on("change", "#c-type", function () {
-            $("#c-pid option[data-type='all']").prop("selected", true);
+            // $("#c-pid option[data-type='all']").prop("selected", true);
             $("#c-pid option").removeClass("hidden");
             $("#c-pid option[data-type!='" + $(this).val() + "'][data-type!='all']").addClass("hidden");
         })

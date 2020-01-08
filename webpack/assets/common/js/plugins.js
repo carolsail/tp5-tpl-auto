@@ -93,7 +93,7 @@ function select2(element, options){
   options = $.extend({
       width: '100%',
       templateResult: function(item){
-        var theOption = $("#c-pid").find('option[value="' + item.id + '"]')
+        var theOption = $(element).find('option[value="' + item.id + '"]')
         if(!theOption.hasClass('hidden')) {
             return item.text
         }
