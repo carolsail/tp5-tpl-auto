@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{:mix('/css/app.css', 'frontend')}" rel="stylesheet">
+  <script type="text/javascript">;window.Config = {$config|json_encode|raw};</script>
+</head>
+<body>
+  <div class='content'>{__CONTENT__}</div>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+  <script src="{:mix('/js/app.js', 'frontend')}" charset="utf-8"></script>
+</body>
+</html>
