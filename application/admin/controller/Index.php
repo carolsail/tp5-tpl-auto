@@ -16,14 +16,19 @@ class Index extends Backend
 
     public function index()
     {
-        list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], config('site.fixedpage'));
-        $action = $this->request->request('action');
-
         // 刷新左侧sidebar-menu
         if ($this->request->isPost()) {
+            $action = $this->request->request('action');
             if ($action == 'refreshmenu') {
+                AdminLog::setTitle(__('Refresh Menu'));
+                // 拖动修改weigh的时候需要重新获取menulist
+                cache('__menu__', null);
+                cache('__menu_index__', null);
+                list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], config('site.fixedpage'));
                 $this->success('', null, ['menulist' => $menulist, 'navlist' => $navlist]);
             }
+        }else {
+            list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], config('site.fixedpage'));
         }
         $this->view->assign('menulist', $menulist);
         $this->view->assign('navlist', $navlist);

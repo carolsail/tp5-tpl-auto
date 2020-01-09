@@ -159,6 +159,8 @@ class Ajax extends Backend
         $sour_id = $changeid;
         $weighids = array();
         $temp = array_values(array_diff_assoc($ids, $sour));
+        // 记录admin log
+        \app\admin\model\AdminLog::setTitle(__('Weigh Change'));
         foreach ($temp as $m => $n) {
             if ($n == $sour_id) {
                 $offset = $desc_id;
