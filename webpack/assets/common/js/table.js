@@ -51,7 +51,7 @@ var Table = {
             del_url: '',
             import_url: '',
             multi_url: '',
-            dragsort_url: 'ajax/weigh',
+            dragsort_url: fixurl('ajax/weigh'),
         }
     },
     // Bootstrap-table 列配置

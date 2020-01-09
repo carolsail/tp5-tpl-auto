@@ -10,5 +10,7 @@ return [
   //是否开启IP变动检测
   'loginip_check'      => true,
   //tabs默认页
-  'fixedpage' => 'dashboard'
+  'fixedpage' => 'dashboard',
+  //项目根路径
+  'rooturl' => preg_replace("/\/public\/$/", '', preg_replace("/\/(\w+)\.php$/i", '', request()->root()) . '/')
 ];

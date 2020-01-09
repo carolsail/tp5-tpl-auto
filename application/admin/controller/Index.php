@@ -18,6 +18,8 @@ class Index extends Backend
     {
         list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar(['index' => 'hot'], config('site.fixedpage'));
         $action = $this->request->request('action');
+
+        // 刷新左侧sidebar-menu
         if ($this->request->isPost()) {
             if ($action == 'refreshmenu') {
                 $this->success('', null, ['menulist' => $menulist, 'navlist' => $navlist]);

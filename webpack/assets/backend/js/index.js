@@ -1,4 +1,5 @@
 import Form from '@common/form'
+import Http from '@common/http'
 import {fixurl, lang as __} from '@common/util';
 
 export function index(){
@@ -76,6 +77,22 @@ export function index(){
     });
 
     var nav = $('#navbar-tabs .nav-addtabs')
+
+    //刷新菜单事件
+    $(document).on('refresh', '.sidebar-menu', function () {
+      Http.ajax({
+          url: fixurl('index/index'),
+          data: {action: 'refreshmenu'}
+      }, function (data) {
+          $(".sidebar-menu li:not([data-rel='external'])").remove();
+          $(".sidebar-menu").prepend(data.menulist);
+          $("li[role='presentation'].active a", nav).trigger('click');
+          return false;
+      }, function () {
+          return false;
+      });
+    });
+
     //这一行需要放在点击左侧链接事件之前
     var addtabs = Config.referer ? localStorage.getItem("addtabs") : null;
     //绑定tabs事件,如果需要点击强制刷新iframe,则请将iframeForceRefresh置为true
