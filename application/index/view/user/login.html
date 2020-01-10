@@ -1,0 +1,92 @@
+<div class="col-md-6 col-md-offset-3">
+  <form id="login-form" method="POST">
+    <input type="hidden" name="url" value="{$url}" />
+    {:token()}
+    <div class="form-group">
+        <label class="control-label" for="account">{:__('Account')}</label>
+        <div class="controls">
+            <input class="form-control" id="account" type="text" name="account" data-rule="required" placeholder="{:__('Email/Mobile/Username')}" autocomplete="off">
+            <div class="help-block"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="password">{:__('Password')}</label>
+        <div class="controls">
+            <input class="form-control" id="password" type="password" name="password" data-rule="required;password" placeholder="{:__('Password')}" autocomplete="off">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls">
+            <input type="checkbox" name="keeplogin" checked="checked" value="1"> {:__('Keep login')} 
+            <div class="pull-right">
+              <a href="javascript:;" class="btn-forgot">{:__('Forgot password')}</a>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">{:__('Sign in')}</button>
+    </div>
+  </form>
+</div>
+
+<script type="text/html" id="resetpwdtpl">
+  <div class="container-fluid">
+    <form id="resetpwd-form" method="POST" action="{:url('api/user/resetpwd')}">
+      <input type="hidden" name="action" value="resetpwd" />
+
+      <div class="form-group">
+        <label class="control-label">{:__('Type')}</label>
+        <div class="controls">
+          <div class="radio">
+            <label for="type-email"><input id="type-email" checked="checked" name="type" data-send-url="{:url('api/ems/send')}" data-check-url="{:url('api/validate/check_ems_correct')}" type="radio" value="email"> {:__('Reset password by email')}</label>
+            <label for="type-mobile"><input id="type-mobile" name="type" type="radio" data-send-url="{:url('api/sms/send')}" data-check-url="{:url('api/validate/check_sms_correct')}" value="mobile"> {:__('Reset password by mobile')}</label>
+          </div>    
+        </div>
+      </div>
+
+      <div class="form-group" data-type="email">
+          <label class="control-label">{:__('Email')}</label>
+          <div class="controls">
+              <input type="text" class="form-control" name="email" data-rule="required(#type-email:checked);email;remote({:url('api/validate/check_email_exist')}, event=resetpwd, id={$user.id})" placeholder="">
+              <span class="msg-box"></span>
+          </div>
+      </div>
+
+      <div class="form-group hidden" data-type="mobile">
+        <label class="control-label">{:__('Mobile')}</label>
+        <div class="controls">
+            <input type="text" class="form-control" name="mobile" data-rule="required(#type-mobile:checked);mobile;remote({:url('api/validate/check_mobile_exist')}, event=resetpwd, id={$user.id})" placeholder="">
+            <span class="msg-box"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label">{:__('Captcha')}</label>
+        <div class="controls">
+            <div class="input-group">
+                <input type="text" name="captcha" class="form-control" data-rule="required;length(4);integer[+];remote({:url('api/validate/check_ems_correct')}, event=resetpwd, email:#email)" />
+                <span class="input-group-btn" style="padding:0;border:none;">
+                    <a href="javascript:;" class="btn btn-info btn-captcha" data-url="{:url('api/ems/send')}" data-type="email" data-event="resetpwd">{:__('Send verification code')}</a>
+                </span>
+            </div>
+            <span class="msg-box"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label class="control-label">{:__('New password')}</label>
+          <div class="controls">
+              <input type="password" class="form-control" name="newpassword" data-rule="required;password" placeholder="">
+              <span class="msg-box"></span>
+          </div>
+      </div>
+
+      <div class="form-group form-footer">
+        <label class="control-label"></label>
+        <div class="controls">
+            <button type="submit" class="btn btn-md btn-info">{:__('Ok')}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</script>

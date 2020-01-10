@@ -100,6 +100,19 @@ if (! function_exists('public_path')) {
     }
 }
 
+if (! function_exists('root_path')) {
+    /**
+     * 项目根路径
+     * @param  string  $path
+     * @return string
+     */
+    function root_path($path = '')
+    {
+        $path = '/' . ltrim($path, '/');
+        return preg_replace("/\/public\/$/", '', preg_replace("/\/(\w+)\.php$/i", '', request()->root()) . '/') . $path;
+    }
+}
+
 if (!function_exists('__')) {
 
     /**

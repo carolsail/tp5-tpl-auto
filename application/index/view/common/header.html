@@ -1,0 +1,12 @@
+<div>
+  <a href="{:url('/')}" class="btn btn-sm btn-default">{:__('Index')}</a>
+  {if $user}
+  <a href="{:url('user/index')}" class="btn btn-sm btn-info">{:__('User center')}</a>
+  <a href="{:url('user/profile')}" class="btn btn-sm btn-info">{:__('Profile')}</a>
+  <a href="{:url('user/changepwd')}" class="btn btn-sm btn-info">{:__('Change password')}</a>
+  <a href="{:url('user/logout')}" class="btn btn-sm btn-danger">{:__('Sign out')}</a>
+  {else /}
+  <a href="{:url('user/login')}" class='btn btn-sm btn-success'>{:__('Sign in')}</a>
+  <a href="{:url('user/register')}" class='btn btn-sm btn-warning'>{:__('Sign up')}</a>
+  {/if}
+</div>

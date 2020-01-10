@@ -4,16 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <title>{$title|default=''}</title>
+  <link href="{:root_path('webpack/node_modules/bootstrap/dist/css/bootstrap.min.css')}" rel="stylesheet">
+  <link href="{:root_path('webpack/node_modules/toastr/build/toastr.min.css')}" rel="stylesheet">
   <link href="{:mix('/css/app.css', 'frontend')}" rel="stylesheet">
   <script type="text/javascript">;window.Config = {$config|json_encode|raw};</script>
 </head>
 <body>
+  <div class='header'>{include file="common/header"}</div>
   <div class='content'>{__CONTENT__}</div>
-  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+  <script src="{:root_path('webpack/node_modules/jquery/dist/jquery.min.js')}"></script>
+  <link href="{:root_path('webpack/node_modules/bootstrap/dist/js/bootstrap.min.js')}" rel="stylesheet">
+  <script src="{:root_path('webpack/node_modules/layerui/dist/layer.js')}"></script>
+  <script src="{:root_path('webpack/node_modules/toastr/build/toastr.min.js')}"></script>
+  <script src="{:root_path('webpack/node_modules/nice-validator/dist/jquery.validator.min.js')}"></script>
+  <script src="{:root_path('webpack/node_modules/art-template/dist/template-native.js')}"></script>
+  <script src="{:root_path('webpack/node_modules/plupload/js/plupload.full.min.js')}"></script>
   <script src="{:mix('/js/app.js', 'frontend')}" charset="utf-8"></script>
 </body>
 </html>

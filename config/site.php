@@ -12,5 +12,5 @@ return [
   //tabs默认页
   'fixedpage' => 'dashboard',
   //项目根路径
-  'rooturl' => preg_replace("/\/public\/$/", '', preg_replace("/\/(\w+)\.php$/i", '', request()->root()) . '/')
+  'rooturl' => root_path()
 ];

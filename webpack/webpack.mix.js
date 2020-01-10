@@ -21,6 +21,11 @@ mix.webpackConfig({
   output: {
     publicPath: `${output}/frontend/`, // 设置默认打包目录
     chunkFilename: `js/[name].${mix.inProduction() ? '[chunkhash].' : ''}js`, // 路由懒加载的时候打包出来的js文件
+  },
+  resolve: {
+    alias: {
+      '@common': path.resolve('assets/common/js')
+    }
   }
 });
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2020-01-07 11:17:20
+Date: 2020-01-10 18:01:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', 'Admin', '404c33ec01847ce5d2c8e98bf3d291e5', '718a27', '/uploads/20200107/61bd26f9dc41c42885b6d048eb3c0f57.png', 'admin@admin.com', '0', '1578365545', '192.168.1.192', '1492186163', '1577322436', '', 'normal');
+INSERT INTO `admin` VALUES ('1', 'admin', 'Admin', '404c33ec01847ce5d2c8e98bf3d291e5', '718a27', '/uploads/20200107/61bd26f9dc41c42885b6d048eb3c0f57.png', 'admin@admin.com', '0', '1578388563', '192.168.1.165', '1492186163', '1577322436', '', 'normal');
 INSERT INTO `admin` VALUES ('10', 'sail', 'sail', '23b3ada75f5524782191c73b04a28b65', 'FwTfBr', '/static/img/avatar.png', 'sail@qq.com', '0', '1577085859', '192.168.1.192', '1576745026', '1577085877', '', 'normal');
 
 -- ----------------------------
@@ -3932,13 +3932,13 @@ CREATE TABLE `auth_rule` (
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `pid` (`pid`) USING BTREE,
   KEY `weigh` (`weigh`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='节点表';
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='节点表';
 
 -- ----------------------------
 -- Records of auth_rule
 -- ----------------------------
 INSERT INTO `auth_rule` VALUES ('1', 'file', '0', 'dashboard', 'Dashboard', 'fa fa-dashboard', '', 'Dashboard tips', '1', '0', '0', '143', 'normal');
-INSERT INTO `auth_rule` VALUES ('2', 'file', '0', 'general', 'General', 'fa fa-cogs', '', '', '1', '0', '0', '137', 'normal');
+INSERT INTO `auth_rule` VALUES ('2', 'file', '0', 'general', 'General', 'fa fa-cogs', '', '', '1', '0', '0', '136', 'normal');
 INSERT INTO `auth_rule` VALUES ('3', 'file', '2', 'general/attachment', 'Attachment', 'fa fa-file-image-o', '', 'Attachment tips', '1', '0', '0', '53', 'normal');
 INSERT INTO `auth_rule` VALUES ('4', 'file', '2', 'general/profile', 'Profile', 'fa fa-user', '', '', '1', '0', '0', '34', 'normal');
 INSERT INTO `auth_rule` VALUES ('5', 'file', '1', 'dashboard/index', 'View', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
@@ -3964,12 +3964,12 @@ INSERT INTO `auth_rule` VALUES ('24', 'file', '15', 'example/colorbadge', '彩�
 INSERT INTO `auth_rule` VALUES ('25', 'file', '15', 'example/cxselect', '多级联动', 'fa fa-table', '', '', '1', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('26', 'file', '15', 'example/customform', '自定义表单', 'fa fa-table', '', '', '1', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('27', 'file', '15', 'example/modalform', 'Modal Form', 'fa fa-table', '', '', '1', '0', '0', '0', 'normal');
-INSERT INTO `auth_rule` VALUES ('28', 'file', '0', 'category', 'Category', 'fa fa-list', '', '', '1', '0', '0', '136', 'normal');
-INSERT INTO `auth_rule` VALUES ('29', 'file', '28', 'category/index', '查看', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
-INSERT INTO `auth_rule` VALUES ('30', 'file', '28', 'category/add', '添加', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
-INSERT INTO `auth_rule` VALUES ('31', 'file', '28', 'category/edit', '编辑', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
-INSERT INTO `auth_rule` VALUES ('32', 'file', '28', 'category/del', '删除', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
-INSERT INTO `auth_rule` VALUES ('33', 'file', '28', 'category/multi', '批量更新', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('28', 'file', '0', 'category', 'Category', 'fa fa-list', '', '', '1', '0', '0', '137', 'normal');
+INSERT INTO `auth_rule` VALUES ('29', 'file', '28', 'category/index', 'View', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('30', 'file', '28', 'category/add', 'Add', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('31', 'file', '28', 'category/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('32', 'file', '28', 'category/del', 'Delete', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('33', 'file', '28', 'category/multi', 'Multi', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('34', 'file', '3', 'general/attachment/select', 'Select', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('35', 'file', '3', 'general/attachment/add', 'Add', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('36', 'file', '3', 'general/attachment/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
@@ -3979,6 +3979,30 @@ INSERT INTO `auth_rule` VALUES ('39', 'file', '8', 'auth/admin/add', 'Add', 'fa 
 INSERT INTO `auth_rule` VALUES ('40', 'file', '8', 'auth/admin/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('41', 'file', '8', 'auth/admin/del', 'Delete', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
 INSERT INTO `auth_rule` VALUES ('42', 'file', '9', 'auth/group/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('43', 'file', '7', 'auth/rule', 'Rule', 'fa fa-bars', '', '', '1', '0', '0', '104', 'normal');
+INSERT INTO `auth_rule` VALUES ('44', 'file', '43', 'auth/rule/index', 'View', 'fa fa-circle-o', '', '', '0', '0', '0', '103', 'normal');
+INSERT INTO `auth_rule` VALUES ('45', 'file', '43', 'auth/rule/add', 'Add', 'fa fa-circle-o', '', '', '0', '0', '0', '102', 'normal');
+INSERT INTO `auth_rule` VALUES ('46', 'file', '43', 'auth/rule/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '101', 'normal');
+INSERT INTO `auth_rule` VALUES ('47', 'file', '43', 'auth/rule/del', 'Delete', 'fa fa-circle-o', '', '', '0', '0', '0', '100', 'normal');
+INSERT INTO `auth_rule` VALUES ('54', 'file', '0', 'user', 'User', 'fa fa-list', '', '', '1', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('55', 'file', '54', 'user/user', 'User', 'fa fa-user', '', '', '1', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('56', 'file', '55', 'user/user/index', 'View', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('57', 'file', '55', 'user/user/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('58', 'file', '55', 'user/user/add', 'Add', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('59', 'file', '55', 'user/user/del', 'Delete', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('60', 'file', '55', 'user/user/multi', 'Multi', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('61', 'file', '54', 'user/group', 'User group', 'fa fa-users', '', '', '1', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('62', 'file', '61', 'user/group/index', 'View', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('63', 'file', '61', 'user/group/add', 'Add', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('64', 'file', '61', 'user/group/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('65', 'file', '61', 'user/group/del', 'Delete', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('67', 'file', '61', 'user/group/multi', 'Multi', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('68', 'file', '54', 'user/rule', 'User rule', 'fa fa-bars', '', '', '1', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('69', 'file', '68', 'user/rule/index', 'View', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('70', 'file', '68', 'user/rule/add', 'Add', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('71', 'file', '68', 'user/rule/edit', 'Edit', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('72', 'file', '68', 'user/rule/del', 'Delete', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
+INSERT INTO `auth_rule` VALUES ('73', 'file', '68', 'user/rule/multi', 'Multi', 'fa fa-circle-o', '', '', '0', '0', '0', '0', 'normal');
 
 -- ----------------------------
 -- Table structure for `category`
@@ -4002,7 +4026,7 @@ CREATE TABLE `category` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `weigh` (`weigh`,`id`) USING BTREE,
   KEY `pid` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分类表';
 
 -- ----------------------------
 -- Records of category
@@ -4011,16 +4035,17 @@ INSERT INTO `category` VALUES ('1', '0', 'page', '官方新闻', 'news', 'recomm
 INSERT INTO `category` VALUES ('2', '0', 'page', '移动应用', 'mobileapp', 'hot', '/assets/img/qrcode.png', '', '', 'mobileapp', '1495262244', '1495262244', '2', 'normal');
 INSERT INTO `category` VALUES ('3', '2', 'page', '微信公众号', 'wechatpublic', 'index', '/assets/img/qrcode.png', '', '', 'wechatpublic', '1495262288', '1495262288', '3', 'normal');
 INSERT INTO `category` VALUES ('4', '2', 'page', 'Android开发', 'android', 'recommend', '/assets/img/qrcode.png', '', '', 'android', '1495262317', '1495262317', '4', 'normal');
-INSERT INTO `category` VALUES ('5', '0', 'page', '软件产品', 'software', 'recommend', '/assets/img/qrcode.png', '', '', 'software', '1495262336', '1499681850', '12', 'normal');
+INSERT INTO `category` VALUES ('5', '0', 'page', '软件产品', 'software', 'recommend', '/assets/img/qrcode.png', '', '', 'software', '1495262336', '1499681850', '14', 'normal');
 INSERT INTO `category` VALUES ('6', '5', 'page', '网站建站', 'website', 'recommend', '/assets/img/qrcode.png', '', '', 'website', '1495262357', '1495262357', '6', 'normal');
 INSERT INTO `category` VALUES ('7', '5', 'page', '企业管理软件', 'company', 'index', '/assets/img/qrcode.png', '', '', 'company', '1495262391', '1495262391', '7', 'normal');
 INSERT INTO `category` VALUES ('8', '6', 'page', 'PC端', 'website-pc', 'recommend', '/assets/img/qrcode.png', '', '', 'website-pc', '1495262424', '1495262424', '8', 'normal');
 INSERT INTO `category` VALUES ('9', '6', 'page', '移动端', 'website-mobile', 'recommend', '/assets/img/qrcode.png', '', '', 'website-mobile', '1495262456', '1495262456', '9', 'normal');
 INSERT INTO `category` VALUES ('10', '7', 'page', 'CRM系统 ', 'company-crm', 'recommend', '/assets/img/qrcode.png', '', '', 'company-crm', '1495262487', '1495262487', '10', 'normal');
 INSERT INTO `category` VALUES ('11', '7', 'page', 'SASS平台软件', 'company-sass', 'recommend', '/assets/img/qrcode.png', '', '', 'company-sass', '1495262515', '1495262515', '11', 'normal');
-INSERT INTO `category` VALUES ('12', '0', 'test', '测试1', 'test1', 'hot,recommend', '/uploads/20200106/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '', '', 'test1', '1497015727', '1575375224', '14', 'normal');
+INSERT INTO `category` VALUES ('12', '0', 'test', '测试1', 'test1', 'hot,recommend', '/uploads/20200106/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '', '', 'test1', '1497015727', '1575375224', '12', 'normal');
 INSERT INTO `category` VALUES ('13', '13', 'test', '测试2123', 'test2', 'index,recommend', '/assets/img/qrcode.png', '', '', 'test2', '1497015738', '1575375201', '13', 'normal');
 INSERT INTO `category` VALUES ('14', '0', 'default', '143', '123', '', '', '', '', '', '1575379374', '1575381528', '5', 'normal');
+INSERT INTO `category` VALUES ('15', '14', 'default', 'default1-1111', 'gg111', 'hot', '', '', '', '', null, null, '15', 'normal');
 
 -- ----------------------------
 -- Table structure for `test`
@@ -4064,3 +4089,116 @@ CREATE TABLE `test` (
 -- ----------------------------
 INSERT INTO `test` VALUES ('1', '0', '12', '13', 'monday', 'hot,index', 'male', 'music,reading', '1234gg', '<p>我是测试内容</p>', '/assets/img/avatar.png', '/assets/img/avatar.png,/assets/img/qrcode.png', '/assets/img/avatar.png', '关键字', '描述', '广西壮族自治区/百色市/平果县', '0.00', '0', '2017-07-10', '2017-07-10 18:24:45', '2017', '18:24:45', '1499682285', '1499682526', '1575949458', '0', '1', 'normal', '1');
 INSERT INTO `test` VALUES ('2', '0', '12', '13', 'monday', 'index', 'female', 'music', '123gg', '<p>123<img src=\"/fastadmin/public/uploads/20191209/2b28fb3cd663ef7917ab57cb6f4feec1.jpg\" data-filename=\"filename\" style=\"width: 25%;\"></p>', '/assets/img/avatar.png', '/assets/img/avatar.png', '/assets/img/avatar.png', '关键字', '描述', '广西壮族自治区/百色市/平果县', '0.00', '0', '0000-00-00', '0000-00-00 00:00:00', '0000', '00:00:00', '0', '0', '1575857631', '0', '0', 'normal', '1');
+
+-- ----------------------------
+-- Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '组别ID',
+  `username` varchar(32) NOT NULL DEFAULT '' COMMENT '用户名',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
+  `password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
+  `salt` varchar(30) NOT NULL DEFAULT '' COMMENT '密码盐',
+  `email` varchar(100) NOT NULL DEFAULT '' COMMENT '电子邮箱',
+  `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
+  `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '头像',
+  `level` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '等级',
+  `gender` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
+  `birthday` date DEFAULT NULL COMMENT '生日',
+  `bio` varchar(100) NOT NULL DEFAULT '' COMMENT '格言',
+  `score` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '积分',
+  `successions` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '连续登录天数',
+  `maxsuccessions` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '最大连续登录天数',
+  `prevtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上次登录时间',
+  `logintime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录时间',
+  `loginip` varchar(50) NOT NULL DEFAULT '' COMMENT '登录IP',
+  `loginfailure` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '失败次数',
+  `joinip` varchar(50) NOT NULL DEFAULT '' COMMENT '加入IP',
+  `jointime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '加入时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `token` varchar(50) NOT NULL DEFAULT '' COMMENT 'Token',
+  `status` varchar(30) NOT NULL DEFAULT '' COMMENT '状态',
+  `verification` varchar(255) NOT NULL DEFAULT '' COMMENT '验证',
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`),
+  KEY `email` (`email`),
+  KEY `mobile` (`mobile`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='会员表';
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('1', '1', 'admin', 'admin', '96dad49792a468e15937d8017f399906', 'RTWfkS', 'admin@qq.com', '13888888888', '/static/img/avatar.png', '0', '0', '2017-04-15', '', '0', '2', '2', '1578650313', '1578650326', '192.168.1.192', '0', '127.0.0.1', '1491461418', '0', '1578551274', '', 'normal', '');
+
+-- ----------------------------
+-- Table structure for `user_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_group`;
+CREATE TABLE `user_group` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT '' COMMENT '组名',
+  `rules` text COMMENT '权限节点',
+  `create_time` int(10) DEFAULT NULL COMMENT '添加时间',
+  `update_time` int(10) DEFAULT NULL COMMENT '更新时间',
+  `status` enum('normal','hidden') DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='会员组表';
+
+-- ----------------------------
+-- Records of user_group
+-- ----------------------------
+INSERT INTO `user_group` VALUES ('1', '默认组', '1,2,3,4,5,6,7,8,9,10,11,12', '1515386468', '1516168298', 'normal');
+
+-- ----------------------------
+-- Table structure for `user_rule`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_rule`;
+CREATE TABLE `user_rule` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pid` int(10) DEFAULT NULL COMMENT '父ID',
+  `name` varchar(50) DEFAULT NULL COMMENT '名称',
+  `title` varchar(50) DEFAULT '' COMMENT '标题',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `ismenu` tinyint(1) DEFAULT NULL COMMENT '是否菜单',
+  `create_time` int(10) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(10) DEFAULT NULL COMMENT '更新时间',
+  `weigh` int(10) DEFAULT '0' COMMENT '权重',
+  `status` enum('normal','hidden') DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='会员规则表';
+
+-- ----------------------------
+-- Records of user_rule
+-- ----------------------------
+INSERT INTO `user_rule` VALUES ('1', '0', 'index', '前台', '', '1', '1516168079', '1516168079', '1', 'normal');
+INSERT INTO `user_rule` VALUES ('2', '0', 'api', 'API接口', '', '1', '1516168062', '1516168062', '2', 'normal');
+INSERT INTO `user_rule` VALUES ('3', '1', 'user', '会员模块', '', '1', '1515386221', '1516168103', '12', 'normal');
+INSERT INTO `user_rule` VALUES ('4', '2', 'user', '会员模块', '', '1', '1515386221', '1516168092', '11', 'normal');
+INSERT INTO `user_rule` VALUES ('5', '3', 'index/user/login', '登录', '', '0', '1515386247', '1515386247', '5', 'normal');
+INSERT INTO `user_rule` VALUES ('6', '3', 'index/user/register', '注册', '', '0', '1515386262', '1516015236', '7', 'normal');
+INSERT INTO `user_rule` VALUES ('7', '3', 'index/user/index', '会员中心', '', '0', '1516015012', '1516015012', '9', 'normal');
+INSERT INTO `user_rule` VALUES ('8', '3', 'index/user/profile', '个人资料', '', '0', '1516015012', '1516015012', '4', 'normal');
+INSERT INTO `user_rule` VALUES ('9', '4', 'api/user/login', '登录', '', '0', '1515386247', '1515386247', '6', 'normal');
+INSERT INTO `user_rule` VALUES ('10', '4', 'api/user/register', '注册', '', '0', '1515386262', '1516015236', '8', 'normal');
+INSERT INTO `user_rule` VALUES ('11', '4', 'api/user/index', '会员中心', '', '0', '1516015012', '1541382543', '10', 'normal');
+INSERT INTO `user_rule` VALUES ('12', '4', 'api/user/profile', '个人资料', '', '0', '1516015012', '1516015012', '3', 'normal');
+
+-- ----------------------------
+-- Table structure for `user_token`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_token`;
+CREATE TABLE `user_token` (
+  `token` varchar(50) NOT NULL COMMENT 'Token',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '会员ID',
+  `expiretime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '过期时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='会员Token表';
+
+-- ----------------------------
+-- Records of user_token
+-- ----------------------------
+INSERT INTO `user_token` VALUES ('769cb3688ab1e69301eeec6f864ac727ffb1c960', '1', '1581242326', '1578650326');
