@@ -84,7 +84,6 @@ export function profile(){
     });
     Form.api.bindevent($("#profile-form"));
     $(document).on("click", ".btn-change", function () {
-        var that = this;
         var id = $(this).data("type") + "tpl";
         var content = Template(id, {});
         Layer.open({

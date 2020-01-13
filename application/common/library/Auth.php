@@ -13,11 +13,10 @@ use think\Db;
 
 class Auth
 {
-
     protected static $instance = null;
     protected $_error = '';
-    protected $_logined = FALSE;
-    protected $_user = NULL;
+    protected $_logined = false;
+    protected $_user = null;
     protected $_token = '';
     //Token默认有效时长
     protected $keeptime = 2592000;
@@ -34,14 +33,13 @@ class Auth
     }
 
     /**
-     * 
+     *
      * @param array $options 参数
      * @return Auth
      */
     public static function instance($options = [])
     {
-        if (is_null(self::$instance))
-        {
+        if (is_null(self::$instance)) {
             self::$instance = new static($options);
         }
 
@@ -59,13 +57,13 @@ class Auth
 
     /**
      * 兼容调用user模型的属性
-     * 
+     *
      * @param string $name
      * @return mixed
      */
     public function __get($name)
     {
-        return $this->_user ? $this->_user->$name : NULL;
+        return $this->_user ? $this->_user->$name : null;
     }
 
     /**
@@ -76,44 +74,38 @@ class Auth
      */
     public function init($token)
     {
-        if ($this->_logined)
-        {
-            return TRUE;
+        if ($this->_logined) {
+            return true;
         }
-        if ($this->_error)
-            return FALSE;
+        if ($this->_error) {
+            return false;
+        }
         $data = Token::get($token);
-        if (!$data)
-        {
-            return FALSE;
+        if (!$data) {
+            return false;
         }
         $user_id = intval($data['user_id']);
-        if ($user_id > 0)
-        {
+        if ($user_id > 0) {
             $user = User::get($user_id);
-            if (!$user)
-            {
+            if (!$user) {
                 $this->setError('Account not exist');
-                return FALSE;
+                return false;
             }
-            if ($user['status'] != 'normal')
-            {
+            if ($user['status'] != 'normal') {
                 $this->setError('Account is locked');
-                return FALSE;
+                return false;
             }
             $this->_user = $user;
-            $this->_logined = TRUE;
+            $this->_logined = true;
             $this->_token = $token;
 
             //初始化成功的事件
             Hook::listen("user_init_successed", $this->_user);
 
-            return TRUE;
-        }
-        else
-        {
+            return true;
+        } else {
             $this->setError('You are not logged in');
-            return FALSE;
+            return false;
         }
     }
 
@@ -130,20 +122,17 @@ class Auth
     public function register($username, $password, $email = '', $mobile = '', $extend = [])
     {
         // 检测用户名或邮箱、手机号是否存在
-        if (User::getByUsername($username))
-        {
+        if (User::getByUsername($username)) {
             $this->setError('Username already exist');
-            return FALSE;
+            return false;
         }
-        if ($email && User::getByEmail($email))
-        {
+        if ($email && User::getByEmail($email)) {
             $this->setError('Email already exist');
-            return FALSE;
+            return false;
         }
-        if ($mobile && User::getByMobile($mobile))
-        {
+        if ($mobile && User::getByMobile($mobile)) {
             $this->setError('Mobile already exist');
-            return FALSE;
+            return false;
         }
 
         $ip = request()->ip();
@@ -173,8 +162,7 @@ class Auth
 
         //账号注册时需要开启事务,避免出现垃圾数据
         Db::startTrans();
-        try
-        {
+        try {
             $user = User::create($params);
             Db::commit();
 
@@ -188,13 +176,11 @@ class Auth
             //注册成功的事件
             Hook::listen("user_register_successed", $this->_user);
 
-            return TRUE;
-        }
-        catch (Exception $e)
-        {
+            return true;
+        } catch (Exception $e) {
             $this->setError($e->getMessage());
             Db::rollback();
-            return FALSE;
+            return false;
         }
     }
 
@@ -209,48 +195,44 @@ class Auth
     {
         $field = Validate::is($account, 'email') ? 'email' : (Validate::regex($account, '/^1\d{10}$/') ? 'mobile' : 'username');
         $user = User::get([$field => $account]);
-        if (!$user)
-        {
+        if (!$user) {
             $this->setError('Account is incorrect');
-            return FALSE;
+            return false;
         }
 
-        if ($user->status != 'normal')
-        {
+        if ($user->status != 'normal') {
             $this->setError('Account is locked');
-            return FALSE;
+            return false;
         }
-        if ($user->password != $this->getEncryptPassword($password, $user->salt))
-        {
+        if ($user->password != $this->getEncryptPassword($password, $user->salt)) {
             $this->setError('Password is incorrect');
-            return FALSE;
+            return false;
         }
 
         //直接登录会员
         $this->direct($user->id);
 
-        return TRUE;
+        return true;
     }
 
     /**
      * 注销
-     * 
+     *
      * @return boolean
      */
     public function logout()
     {
-        if (!$this->_logined)
-        {
+        if (!$this->_logined) {
             $this->setError('You are not logged in');
             return false;
         }
         //设置登录标识
-        $this->_logined = FALSE;
+        $this->_logined = false;
         //删除Token
         Token::delete($this->_token);
         //注销成功的事件
         Hook::listen("user_logout_successed", $this->_user);
-        return TRUE;
+        return true;
     }
 
     /**
@@ -262,14 +244,12 @@ class Auth
      */
     public function changepwd($newpassword, $oldpassword = '', $ignoreoldpassword = false)
     {
-        if (!$this->_logined)
-        {
+        if (!$this->_logined) {
             $this->setError('You are not logged in');
             return false;
         }
         //判断旧密码是否正确
-        if ($this->_user->password == $this->getEncryptPassword($oldpassword, $this->_user->salt) || $ignoreoldpassword)
-        {
+        if ($this->_user->password == $this->getEncryptPassword($oldpassword, $this->_user->salt) || $ignoreoldpassword) {
             $salt = Random::alnum();
             $newpassword = $this->getEncryptPassword($newpassword, $salt);
             $this->_user->save(['password' => $newpassword, 'salt' => $salt]);
@@ -278,9 +258,7 @@ class Auth
             //修改密码成功的事件
             Hook::listen("user_changepwd_successed", $this->_user);
             return true;
-        }
-        else
-        {
+        } else {
             $this->setError('Password is incorrect');
             return false;
         }
@@ -294,14 +272,12 @@ class Auth
     public function direct($user_id)
     {
         $user = User::get($user_id);
-        if ($user)
-        {
+        if ($user) {
             $ip = request()->ip();
             $time = time();
 
             //判断连续登录和最大连续登录
-            if ($user->logintime < Date::unixtime('day'))
-            {
+            if ($user->logintime < Date::unixtime('day')) {
                 $user->successions = $user->logintime < Date::unixtime('day', -1) ? 1 : $user->successions + 1;
                 $user->maxsuccessions = max($user->successions, $user->maxsuccessions);
             }
@@ -318,15 +294,13 @@ class Auth
             $this->_token = Random::uuid();
             Token::set($this->_token, $user->id, $this->keeptime);
 
-            $this->_logined = TRUE;
+            $this->_logined = true;
 
             //登录成功的事件
             Hook::listen("user_login_successed", $this->_user);
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -336,20 +310,20 @@ class Auth
      * @param string $module    模块 默认为当前模块
      * @return boolean
      */
-    public function check($path = NULL, $module = NULL)
+    public function check($path = null, $module = null)
     {
-        if (!$this->_logined)
+        if (!$this->_logined) {
             return false;
+        }
 
         $ruleList = $this->getRuleList();
         $rules = [];
-        foreach ($ruleList as $k => $v)
-        {
+        foreach ($ruleList as $k => $v) {
             $rules[] = $v['name'];
         }
         $url = ($module ? $module : request()->module()) . '/' . (is_null($path) ? $this->getRequestUri() : $path);
         $url = strtolower(str_replace('.', '/', $url));
-        return in_array($url, $rules) ? TRUE : FALSE;
+        return in_array($url, $rules) ? true : false;
     }
 
     /**
@@ -358,8 +332,7 @@ class Auth
      */
     public function isLogin()
     {
-        if ($this->_logined)
-        {
+        if ($this->_logined) {
             return true;
         }
         return false;
@@ -392,15 +365,22 @@ class Auth
      */
     public function getRuleList()
     {
-        if ($this->rules)
+        if ($this->rules) {
             return $this->rules;
+        }
         $group = $this->_user->group;
-        if (!$group)
-        {
+        if (!$group) {
             return [];
         }
-        $rules = explode(',', $group->rules);
-        $this->rules = UserRule::where('status', 'normal')->where('id', 'in', $rules)->field('id,pid,name,title,ismenu')->select();
+
+        $where = new \think\db\Where;
+        $where['status'] = ['=', 'normal'];
+        // *为所有权限
+        if ($group->rules !== '*') {
+            $rules = explode(',', $group->rules);
+            $where['id'] = ['in', $rules];
+        }
+        $this->rules = UserRule::where($where)->field('id,pid,name,title,ismenu')->select();
         return $this->rules;
     }
 
@@ -448,23 +428,21 @@ class Auth
     public function delete($user_id)
     {
         $user = User::get($user_id);
-        if (!$user)
-        {
-            return FALSE;
+        if (!$user) {
+            return false;
         }
         // 调用事务删除账号
-        $result = Db::transaction(function($db) use($user_id) {
-                    // 删除会员
-                    User::destroy($user_id);
-                    // 删除会员指定的所有Token
-                    Token::clear($user_id);
-                    return TRUE;
-                });
-        if ($result)
-        {
+        $result = Db::transaction(function ($db) use ($user_id) {
+            // 删除会员
+            User::destroy($user_id);
+            // 删除会员指定的所有Token
+            Token::clear($user_id);
+            return true;
+        });
+        if ($result) {
             Hook::listen("user_delete_successed", $user);
         }
-        return $result ? TRUE : FALSE;
+        return $result ? true : false;
     }
 
     /**
@@ -487,19 +465,17 @@ class Auth
     public function match($arr = [])
     {
         $arr = is_array($arr) ? $arr : explode(',', $arr);
-        if (!$arr)
-        {
-            return FALSE;
+        if (!$arr) {
+            return false;
         }
         $arr = array_map('strtolower', $arr);
         // 是否存在
-        if (in_array(strtolower(request()->action()), $arr) || in_array('*', $arr))
-        {
-            return TRUE;
+        if (in_array(strtolower(request()->action()), $arr) || in_array('*', $arr)) {
+            return true;
         }
 
         // 没找到匹配
-        return FALSE;
+        return false;
     }
 
     /**
@@ -523,29 +499,25 @@ class Auth
     {
         $fields = !$fields ? ['id', 'nickname', 'level', 'avatar'] : (is_array($fields) ? $fields : explode(',', $fields));
         $ids = [];
-        foreach ($datalist as $k => $v)
-        {
-            if (!isset($v[$fieldkey]))
+        foreach ($datalist as $k => $v) {
+            if (!isset($v[$fieldkey])) {
                 continue;
+            }
             $ids[] = $v[$fieldkey];
         }
         $list = [];
-        if ($ids)
-        {
-            if (!in_array('id', $fields))
-            {
+        if ($ids) {
+            if (!in_array('id', $fields)) {
                 $fields[] = 'id';
             }
             $ids = array_unique($ids);
             $selectlist = User::where('id', 'in', $ids)->column($fields);
-            foreach ($selectlist as $k => $v)
-            {
+            foreach ($selectlist as $k => $v) {
                 $list[$v['id']] = $v;
             }
         }
-        foreach ($datalist as $k => &$v)
-        {
-            $v[$renderkey] = isset($list[$v[$fieldkey]]) ? $list[$v[$fieldkey]] : NULL;
+        foreach ($datalist as $k => &$v) {
+            $v[$renderkey] = isset($list[$v[$fieldkey]]) ? $list[$v[$fieldkey]] : null;
         }
         unset($v);
         return $datalist;
@@ -571,5 +543,4 @@ class Auth
     {
         return $this->_error ? __($this->_error) : '';
     }
-
 }

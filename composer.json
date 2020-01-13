@@ -20,6 +20,7 @@
         "topthink/framework": "5.1.*",
         "topthink/think-captcha": "2.*",
         "overtrue/pinyin": "~3.0",
+        "phpmailer/phpmailer": "^5.2",
         "phpoffice/phpspreadsheet": "^1.2"
     },
     "autoload": {
