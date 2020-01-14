@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2020-01-10 18:01:35
+Date: 2020-01-14 15:10:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,12 +36,12 @@ CREATE TABLE `admin` (
   `status` varchar(30) NOT NULL DEFAULT 'normal' COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员表';
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', 'Admin', '404c33ec01847ce5d2c8e98bf3d291e5', '718a27', '/uploads/20200107/61bd26f9dc41c42885b6d048eb3c0f57.png', 'admin@admin.com', '0', '1578388563', '192.168.1.165', '1492186163', '1577322436', '', 'normal');
+INSERT INTO `admin` VALUES ('1', 'admin', 'Admin', '404c33ec01847ce5d2c8e98bf3d291e5', '718a27', '/uploads/20200107/61bd26f9dc41c42885b6d048eb3c0f57.png', 'admin@admin.com', '0', '1578899036', '192.168.1.192', '1492186163', '1577322436', 'd3078b0e-dc9b-4713-9c00-54904431faa1', 'normal');
 INSERT INTO `admin` VALUES ('10', 'sail', 'sail', '23b3ada75f5524782191c73b04a28b65', 'FwTfBr', '/static/img/avatar.png', 'sail@qq.com', '0', '1577085859', '192.168.1.192', '1576745026', '1577085877', '', 'normal');
 
 -- ----------------------------
@@ -60,11 +60,17 @@ CREATE TABLE `admin_log` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `name` (`username`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员日志表';
 
 -- ----------------------------
 -- Records of admin_log
 -- ----------------------------
+INSERT INTO `admin_log` VALUES ('1', '0', 'Unknown', '/tp5/tp5-tpl-auto/public/admin/index/login.html', '', '{\"__token__\":\"2b775fcb8db1c998bd67c4d3634b5cf0\",\"username\":\"admin\"}', '192.168.1.192', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36', '1578899032');
+INSERT INTO `admin_log` VALUES ('2', '1', 'admin', '/tp5/tp5-tpl-auto/public/admin/index/login.html', 'Login', '{\"__token__\":\"535a92e2c6876dc6dc28ee2101597852\",\"username\":\"admin\"}', '192.168.1.192', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36', '1578899036');
+INSERT INTO `admin_log` VALUES ('3', '1', 'admin', '/tp5/tp5-tpl-auto/public/admin/user/user/edit/ids/3?dialog=1', 'User User Edit', '{\"dialog\":\"1\",\"row\":{\"group_id\":\"1\",\"username\":\"test\",\"nickname\":\"test12\",\"password\":\"\",\"email\":\"test@qq.com\",\"mobile\":\"13411111111\",\"avatar\":\"\\/uploads\\/20200113\\/2b28fb3cd663ef7917ab57cb6f4feec1.jpg\",\"level\":\"1\",\"gender\":\"0\",\"birthday\":\"\",\"bio\":\"\",\"score\":\"0\",\"successions\":\"2\",\"maxsuccessions\":\"2\",\"prevtime\":\"2020-01-14 11:21:00\",\"logintime\":\"2020-01-14 11:47:31\",\"loginip\":\"192.168.1.192\",\"loginfailure\":\"0\",\"joinip\":\"192.168.1.192\",\"jointime\":\"2020-01-13 15:11:43\",\"status\":\"normal\"},\"ids\":\"3\"}', '192.168.1.192', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36', '1578984229');
+INSERT INTO `admin_log` VALUES ('4', '1', 'admin', '/tp5/tp5-tpl-auto/public/admin/user/group/edit/ids/1?dialog=1', 'User User group Edit', '{\"dialog\":\"1\",\"row\":{\"rules\":\"11,10,9,12,7,6,5,8,4,2,3,1\",\"name\":\"\\u9ed8\\u8ba4\\u7ec4\",\"status\":\"normal\"},\"ids\":\"1\"}', '192.168.1.192', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36', '1578985143');
+INSERT INTO `admin_log` VALUES ('5', '1', 'admin', '/tp5/tp5-tpl-auto/public/admin/user/rule/multi/ids/2', 'User User rule Multi', '{\"action\":\"\",\"ids\":\"2\",\"params\":\"ismenu=0\"}', '192.168.1.192', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36', '1578985340');
+INSERT INTO `admin_log` VALUES ('6', '1', 'admin', '/tp5/tp5-tpl-auto/public/admin/user/rule/multi/ids/2', 'User User rule Multi', '{\"action\":\"\",\"ids\":\"2\",\"params\":\"ismenu=1\"}', '192.168.1.192', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36', '1578985342');
 
 -- ----------------------------
 -- Table structure for `area`
@@ -3861,7 +3867,7 @@ CREATE TABLE `attachment` (
   `storage` varchar(100) NOT NULL DEFAULT 'local' COMMENT '存储位置',
   `sha1` varchar(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='附件表';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='附件表';
 
 -- ----------------------------
 -- Records of attachment
@@ -3870,6 +3876,8 @@ INSERT INTO `attachment` VALUES ('10', '1', '0', '/uploads/20191230/61bd26f9dc41
 INSERT INTO `attachment` VALUES ('12', '1', '0', '/uploads/20191230/166f43218b7a6a01ea23b276614554dd.png', '1920', '934', 'png', '0', '1879180', 'image/png', '{\"name\":\"image_2019_09_30T06_45_36_328Z.png\"}', '0', '0', '1577691961', 'local', 'a865ad5382fbaad955860828691c6455cfd4a9e7');
 INSERT INTO `attachment` VALUES ('13', '1', '0', '/uploads/20200102/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '390', '429', 'jpg', '0', '62173', 'image/jpeg', '{\"name\":\"123.jpg\"}', '0', '0', '1577948252', 'local', '8599f519783bcbe0a39adffe877d0a8ec7c77c1a');
 INSERT INTO `attachment` VALUES ('15', '1', '0', '/uploads/20200107/61bd26f9dc41c42885b6d048eb3c0f57.png', '588', '361', 'png', '0', '142114', 'image/png', '{\"name\":\"QQ\\u622a\\u56fe20191014153212.png\"}', '0', '0', '1578364213', 'local', '02f6624bdc29274c1b7e6fcfb2aafa775384a7d3');
+INSERT INTO `attachment` VALUES ('16', '0', '3', '/uploads/20200113/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '390', '429', 'jpg', '0', '62173', 'image/jpeg', '{\"name\":\"123.jpg\"}', '1578903326', '1578903326', '1578903326', 'local', '8599f519783bcbe0a39adffe877d0a8ec7c77c1a');
+INSERT INTO `attachment` VALUES ('17', '0', '3', '/uploads/20200113/166f43218b7a6a01ea23b276614554dd.png', '1920', '934', 'png', '0', '1879180', 'image/png', '{\"name\":\"image_2019_09_30T06_45_36_328Z.png\"}', '1578903475', '1578903475', '1578903475', 'local', 'a865ad5382fbaad955860828691c6455cfd4a9e7');
 
 -- ----------------------------
 -- Table structure for `auth_group`
@@ -3884,7 +3892,7 @@ CREATE TABLE `auth_group` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` varchar(30) NOT NULL DEFAULT '' COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分组表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分组表';
 
 -- ----------------------------
 -- Records of auth_group
@@ -4048,6 +4056,44 @@ INSERT INTO `category` VALUES ('14', '0', 'default', '143', '123', '', '', '', '
 INSERT INTO `category` VALUES ('15', '14', 'default', 'default1-1111', 'gg111', 'hot', '', '', '', '', null, null, '15', 'normal');
 
 -- ----------------------------
+-- Table structure for `ems`
+-- ----------------------------
+DROP TABLE IF EXISTS `ems`;
+CREATE TABLE `ems` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `event` varchar(30) NOT NULL DEFAULT '' COMMENT '事件',
+  `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `code` varchar(10) NOT NULL DEFAULT '' COMMENT '验证码',
+  `times` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '验证次数',
+  `ip` varchar(30) NOT NULL DEFAULT '' COMMENT 'IP',
+  `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='邮箱验证码表';
+
+-- ----------------------------
+-- Records of ems
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `sms`
+-- ----------------------------
+DROP TABLE IF EXISTS `sms`;
+CREATE TABLE `sms` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `event` varchar(30) NOT NULL DEFAULT '' COMMENT '事件',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
+  `code` varchar(10) NOT NULL DEFAULT '' COMMENT '验证码',
+  `times` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '验证次数',
+  `ip` varchar(30) NOT NULL DEFAULT '' COMMENT 'IP',
+  `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='短信验证码表';
+
+-- ----------------------------
+-- Records of sms
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `test`
 -- ----------------------------
 DROP TABLE IF EXISTS `test`;
@@ -4126,12 +4172,14 @@ CREATE TABLE `user` (
   KEY `username` (`username`),
   KEY `email` (`email`),
   KEY `mobile` (`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='会员表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='会员表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '1', 'admin', 'admin', '96dad49792a468e15937d8017f399906', 'RTWfkS', 'admin@qq.com', '13888888888', '/static/img/avatar.png', '0', '0', '2017-04-15', '', '0', '2', '2', '1578650313', '1578650326', '192.168.1.192', '0', '127.0.0.1', '1491461418', '0', '1578551274', '', 'normal', '');
+INSERT INTO `user` VALUES ('1', '1', 'admin', 'admin', 'f28650cfc4a88da256328e1c3d786086', 'YPay4F', 'admin@qq.com', '13888888888', '/static/img/avatar.png', '0', '0', '2017-04-15', '', '0', '1', '2', '1578650326', '1578898731', '192.168.1.192', '0', '127.0.0.1', '1491461418', '0', '1578551274', '', 'normal', '');
+INSERT INTO `user` VALUES ('2', '0', 'carolsail', 'carolsail', 'd89afb59ff48fd6215f188b6fd928583', 'JvpPoU', 'carolsail2013@gmail.com', '13412345678', '', '1', '0', null, '', '0', '1', '1', '1578899004', '1578899004', '192.168.1.192', '0', '192.168.1.192', '1578899004', '0', '0', '', 'normal', '');
+INSERT INTO `user` VALUES ('3', '1', 'test', 'test12', '0b056ee787d4db307df8a0319b86a139', 'Hki9zA', 'test@qq.com', '13411111111', '/uploads/20200113/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '1', '0', '0000-00-00', '', '0', '2', '2', '1578972060', '1578973651', '192.168.1.192', '0', '192.168.1.192', '1578899503', '1578899503', '1578984229', '', 'normal', '{\"email\":1,\"mobile\":1}');
 
 -- ----------------------------
 -- Table structure for `user_group`
@@ -4150,7 +4198,7 @@ CREATE TABLE `user_group` (
 -- ----------------------------
 -- Records of user_group
 -- ----------------------------
-INSERT INTO `user_group` VALUES ('1', '默认组', '1,2,3,4,5,6,7,8,9,10,11,12', '1515386468', '1516168298', 'normal');
+INSERT INTO `user_group` VALUES ('1', '默认组', '11,10,9,12,7,6,5,8,4,2,3,1', '1515386468', '1578985143', 'normal');
 
 -- ----------------------------
 -- Table structure for `user_rule`
@@ -4174,7 +4222,7 @@ CREATE TABLE `user_rule` (
 -- Records of user_rule
 -- ----------------------------
 INSERT INTO `user_rule` VALUES ('1', '0', 'index', '前台', '', '1', '1516168079', '1516168079', '1', 'normal');
-INSERT INTO `user_rule` VALUES ('2', '0', 'api', 'API接口', '', '1', '1516168062', '1516168062', '2', 'normal');
+INSERT INTO `user_rule` VALUES ('2', '0', 'api', 'API接口', '', '1', '1516168062', '1578985342', '2', 'normal');
 INSERT INTO `user_rule` VALUES ('3', '1', 'user', '会员模块', '', '1', '1515386221', '1516168103', '12', 'normal');
 INSERT INTO `user_rule` VALUES ('4', '2', 'user', '会员模块', '', '1', '1515386221', '1516168092', '11', 'normal');
 INSERT INTO `user_rule` VALUES ('5', '3', 'index/user/login', '登录', '', '0', '1515386247', '1515386247', '5', 'normal');
@@ -4201,4 +4249,4 @@ CREATE TABLE `user_token` (
 -- ----------------------------
 -- Records of user_token
 -- ----------------------------
-INSERT INTO `user_token` VALUES ('769cb3688ab1e69301eeec6f864ac727ffb1c960', '1', '1581242326', '1578650326');
+INSERT INTO `user_token` VALUES ('341051483f7d3bb4b62ce0f6a8a5f24a078cd088', '3', '1581565652', '1578973652');
