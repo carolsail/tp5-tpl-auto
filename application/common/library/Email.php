@@ -57,7 +57,8 @@ class Email
             $this->options = array_merge($this->options, $config);
         }
         $this->options = array_merge($this->options, $options);
-        vendor('phpmailer.phpmailer.PHPMailerAutoload');
+        // vendor('phpmailer.phpmailer.PHPMailerAutoload');
+        require_once '../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
         $securArr = [1 => 'tls', 2 => 'ssl'];
 
         $this->mail = new \PHPMailer(true);

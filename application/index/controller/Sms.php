@@ -5,6 +5,7 @@ namespace app\index\controller;
 use app\common\controller\Frontend;
 use app\common\library\Sms as Smslib;
 use app\common\model\User;
+use think\facade\Hook;
 
 /**
  * 手机短信接口
@@ -18,6 +19,9 @@ class Sms extends Frontend
     public function initialize()
     {
         parent::initialize();
+        Hook::add('sms_send', function($params) {
+            // 这里实现短信发送功能...
+        });
     }
 
     /**
@@ -32,14 +36,14 @@ class Sms extends Frontend
         $event = $this->request->request("event");
         $event = $event ? $event : 'register';
 
-        if (!$mobile || !\think\Validate::regex($mobile, "^1\d{10}$")) {
+        if (!$mobile || !\think\facade\Validate::regex($mobile, "^1\d{10}$")) {
             $this->error(__('手机号不正确'));
         }
         $last = Smslib::get($mobile, $event);
-        if ($last && time() - $last['createtime'] < 60) {
+        if ($last && time() - $last['create_time'] < 60) {
             $this->error(__('发送频繁'));
         }
-        $ipSendTotal = \app\common\model\Sms::where(['ip' => $this->request->ip()])->whereTime('createtime', '-1 hours')->count();
+        $ipSendTotal = \app\common\model\Sms::where(['ip' => $this->request->ip()])->whereTime('create_time', '-1 hours')->count();
         if ($ipSendTotal >= 5) {
             $this->error(__('发送频繁'));
         }
@@ -78,7 +82,7 @@ class Sms extends Frontend
         $event = $event ? $event : 'register';
         $captcha = $this->request->request("captcha");
 
-        if (!$mobile || !\think\Validate::regex($mobile, "^1\d{10}$")) {
+        if (!$mobile || !\think\facade\Validate::regex($mobile, "^1\d{10}$")) {
             $this->error(__('手机号不正确'));
         }
         if ($event) {

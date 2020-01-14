@@ -109,7 +109,7 @@ class Sms
                 else
                 {
                     $result = Hook::listen('sms_check', $sms, null, true);
-                    return $result;
+                    return TRUE;
                 }
             }
             else

@@ -4,7 +4,6 @@ namespace app\index\controller;
 use app\common\controller\Frontend;
 use think\facade\Hook;
 use think\facade\Cookie;
-use think\Validate;
 use app\common\library\Ems;
 use app\common\library\Sms;
 use libs\Random;
@@ -92,7 +91,7 @@ class User extends Frontend
                 'captcha'   => $captcha,
                 '__token__' => $token,
             ];
-            $validate = new Validate($rule, $msg);
+            $validate = new \think\Validate($rule, $msg);
             $result = $validate->check($data);
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
@@ -145,7 +144,7 @@ class User extends Frontend
                 'password'  => $password,
                 '__token__' => $token,
             ];
-            $validate = new Validate($rule, $msg);
+            $validate = new \think\Validate($rule, $msg);
             $result = $validate->check($data);
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
@@ -236,7 +235,7 @@ class User extends Frontend
                 'newpassword'   => __('New password'),
                 'renewpassword' => __('Renew password')
             ];
-            $validate = new Validate($rule, $msg, $field);
+            $validate = new \think\Validate($rule, $msg, $field);
             $result = $validate->check($data);
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
@@ -268,7 +267,7 @@ class User extends Frontend
         {
             $this->error(__('Invalid parameters'));
         }
-        if (!Validate::regex($mobile, "^1\d{10}$"))
+        if (!\think\facade\Validate::regex($mobile, "^1\d{10}$"))
         {
             $this->error(__('Mobile is incorrect'));
         }
@@ -313,7 +312,7 @@ class User extends Frontend
         {
             $this->error(__('Invalid parameters'));
         }
-        if (!Validate::is($email, "email"))
+        if (!\think\facade\Validate::is($email, "email"))
         {
             $this->error(__('Email is incorrect'));
         }
@@ -351,7 +350,7 @@ class User extends Frontend
         {
             $this->error(__('Invalid parameters'));
         }
-        if (!Validate::regex($mobile, "^1\d{10}$"))
+        if (!\think\facade\Validate::regex($mobile, "^1\d{10}$"))
         {
             $this->error(__('Mobile is incorrect'));
         }
@@ -428,7 +427,7 @@ class User extends Frontend
         }
         if ($type == 'mobile')
         {
-            if (!Validate::regex($mobile, "^1\d{10}$"))
+            if (!\think\facade\Validate::regex($mobile, "^1\d{10}$"))
             {
                 $this->error(__('Mobile is incorrect'));
             }
@@ -446,7 +445,7 @@ class User extends Frontend
         }
         else
         {
-            if (!Validate::is($email, "email"))
+            if (!\think\facade\Validate::is($email, "email"))
             {
                 $this->error(__('Email is incorrect'));
             }
