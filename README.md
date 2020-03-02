@@ -48,3 +48,18 @@ php think menu -c test -d 1
 //一键全部重新所有控制器的权限菜单
 php think menu -c all-controller
 ```
+
+## 多語言bug
+* thinkphp/library/think/Lang.php detect()
+```
+ elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    // 自动侦测浏览器语言
+    preg_match('/^([a-z\d\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
+    $langSet = strtolower($matches[1]);
+    if (isset($this->acceptLanguage[$langSet])) {
+        $langSet = $this->acceptLanguage[$langSet];
+    }
+    //======加入=============不檢查瀏覽器accept-language, 直接用配置中的默認語言
+    $langSet = config('app.lang_default');
+}
+```

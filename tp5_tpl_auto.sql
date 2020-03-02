@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2020-01-14 15:10:57
+Date: 2020-03-02 15:53:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4068,7 +4068,7 @@ CREATE TABLE `ems` (
   `ip` varchar(30) NOT NULL DEFAULT '' COMMENT 'IP',
   `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='邮箱验证码表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='邮箱验证码表';
 
 -- ----------------------------
 -- Records of ems
@@ -4087,7 +4087,7 @@ CREATE TABLE `sms` (
   `ip` varchar(30) NOT NULL DEFAULT '' COMMENT 'IP',
   `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='短信验证码表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='短信验证码表';
 
 -- ----------------------------
 -- Records of sms
@@ -4179,7 +4179,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '1', 'admin', 'admin', 'f28650cfc4a88da256328e1c3d786086', 'YPay4F', 'admin@qq.com', '13888888888', '/static/img/avatar.png', '0', '0', '2017-04-15', '', '0', '1', '2', '1578650326', '1578898731', '192.168.1.192', '0', '127.0.0.1', '1491461418', '0', '1578551274', '', 'normal', '');
 INSERT INTO `user` VALUES ('2', '0', 'carolsail', 'carolsail', 'd89afb59ff48fd6215f188b6fd928583', 'JvpPoU', 'carolsail2013@gmail.com', '13412345678', '', '1', '0', null, '', '0', '1', '1', '1578899004', '1578899004', '192.168.1.192', '0', '192.168.1.192', '1578899004', '0', '0', '', 'normal', '');
-INSERT INTO `user` VALUES ('3', '1', 'test', 'test12', '0b056ee787d4db307df8a0319b86a139', 'Hki9zA', 'test@qq.com', '13411111111', '/uploads/20200113/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '1', '0', '0000-00-00', '', '0', '2', '2', '1578972060', '1578973651', '192.168.1.192', '0', '192.168.1.192', '1578899503', '1578899503', '1578984229', '', 'normal', '{\"email\":1,\"mobile\":1}');
+INSERT INTO `user` VALUES ('3', '1', 'test', 'test12', '0b056ee787d4db307df8a0319b86a139', 'Hki9zA', 'test@qq.com', '13411111111', '/uploads/20200113/2b28fb3cd663ef7917ab57cb6f4feec1.jpg', '1', '0', '0000-00-00', '', '0', '2', '2', '1578992320', '1578992474', '192.168.1.192', '0', '192.168.1.192', '1578899503', '1578899503', '1578992474', '', 'normal', '{\"email\":1,\"mobile\":1}');
 
 -- ----------------------------
 -- Table structure for `user_group`
@@ -4249,4 +4249,4 @@ CREATE TABLE `user_token` (
 -- ----------------------------
 -- Records of user_token
 -- ----------------------------
-INSERT INTO `user_token` VALUES ('341051483f7d3bb4b62ce0f6a8a5f24a078cd088', '3', '1581565652', '1578973652');
+INSERT INTO `user_token` VALUES ('119a7877826e6bd851597cb8f3fce06e711cc045', '3', '1581584474', '1578992474');
